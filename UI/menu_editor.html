@@ -29,9 +29,9 @@
           <span class="tooltiptext">Book Your Meal</span>
         </a>
         <a href="sign_in.html" class="tooltip">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="tooltiptext">Log Out</span>
-          </a>
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="tooltiptext">Log Out</span>
+        </a>
       </div>
     </nav>
   </header>
@@ -60,40 +60,88 @@
                 <option value="Jollof Rice">
           </datalist>
         </div>
-
+        <input type="number" name="quantity" placeholder="No of units">
         <button type="submit">Save to Menu</button>
       </form>
     </div>
     <div class="title flexbox">
-        <h3>
-          Your Menu for Fri 20th April
-        </h3>
+      <h3>
+        Your Menu for Fri 20th April
+      </h3>
 
+    </div>
+    <div class="gallery">
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
-    <div>
-      <div class="title-element flexbox">
-        <h3 class="element-name modal-trigger">
-          Some random meal
-        </h3>
-        <button class="title-button">
-          <i class="fas fa-times"></i>
-        </button>
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
-      <div class="title-element flexbox">
-        <h3 class="element-name modal-trigger">
-          Some random meal
-        </h3>
-        <button class="title-button">
-          <i class="fas fa-times"></i>
-        </button>
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
-      <div class="title-element flexbox">
-        <h3 class="element-name modal-trigger">
-          Some random meal
-        </h3>
-        <button class="title-button">
-          <i class="fas fa-times"></i>
-        </button>
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+        <div class="title-element flexbox wrap">
+          <h4 class="shrink">
+            <b class="modal-trigger ">Some random meal</b>
+          </h4>
+          <button class="title-button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -109,27 +157,20 @@
           Meal Viewer
         </h3>
         <div class="flexbox">
-            <button class="title-button close">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
+          <button class="title-button close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
       <div class="form-box">
         <form id="form_menu" action="">
-          <input  type="hidden" name="menuId" placeholder="123456">
-          <input  type="hidden" name="mealId" placeholder="123456">
-          <input disabled type="text" name="mealName" placeholder="Meal Name">
-          <input disabled type="text" name="price" placeholder="Price">
-          <input type="text" name="quantity" placeholder="No of meals">
-          <textarea disabled name="password" placeholder="Description"></textarea>
-          <input class="hide" disabled type="file" name="image">
+          <input type="hidden" name="mealId" placeholder="123456">
+          <input type="text" name="quantity" placeholder="No of units">
         </form>
       </div>
-      <div id="meal_image">
-        <img src="assets/Food.jpg" alt="Picture of meal" class="fluid-img">
-      </div>
+
       <button class="title-button" form="form_menu" type="submit">
-        <p>Edit Meal</p>
+        <p>Save to Menu</p>
       </button>
     </div>
 

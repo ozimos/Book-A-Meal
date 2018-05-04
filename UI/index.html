@@ -10,38 +10,42 @@
   <title>Book A Meal</title>
 </head>
 <body>
-    <header class="header">
-        <h1>Book A Meal</h1>
-</header>
-<main class="container">
+<div class="container2">
+  <header class="header">
+    <h1 class="heading">Book A Meal</h1>
+  </header>
+<main>
+    <div class="welcome">
+        <h1 class="welcome-text">
+          Welcome!
+        </h1>
+        <h4>
+            Register by entering the information below
+        </h4>
+      </div>
+      <div class="form-box">
+        <form  action="">
 
-  <div class="welcome">
-    <h1 class="welcome-text">
-      Hello there!
-    </h1>
-    <h3 class="welcome-text">
-      Welcome to the home of fine food. Just sign in/ sign up to get started
-    </h3>
-  </div>
-  <div class="form-box">
-    <form  action="">
-      <select name="category" id="user_category">
-          <option value="" disabled selected>Select your User Category</option>
-          <option value="Caterer">Caterer</option>
-          <option value="Customer">Customer</option>
-      </select>
-      <input type="text" name="username" placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input type="password" name="confirmPassword" placeholder="Confirm Password">
-      <a href="meal_list.html" class="btn">
-            Sign Up
-        </a>
-    </form>
-    <div class="stacked-text">
-      <p>Already  signed up?    <a  href="sign_in.html">Click here</a>  </p>
-      <p>to sign in </p>
-    </div>
-  </div>
+          <input type="text" name="email" placeholder="Email">
+          <input type="text" name="firstName" placeholder="First Name">
+          <input type="text" name="lastName" placeholder="Last Name">
+          <input type="password" name="password" placeholder="Password">
+          <input type="password" name="confirmPassword" placeholder="Confirm Password">
+          <div>
+            <input type="checkbox" name="isCaterer" id="isCaterer" value="true">
+            <label for="isCaterer">Caterer</label>
+          </div>
+
+          <a href="meal_list.html" class="btn">
+                Continue
+            </a>
+        </form>
+        <div class="stacked-text">
+          <a  href="sign_in.html"><p>Already have an account? Click here to sign in</p></a>
+        </div>
+      </div>
 </main>
+
+</div>
 </body>
 </html>

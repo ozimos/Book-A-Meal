@@ -12,109 +12,119 @@
 </head>
 
 <body>
-  <header class="header">
-    <nav class="container flexbox">
-      <h2 class="shrink">Book A Meal</h2>
-      <div class="flexbox nowrap">
-        <a href="meal_list.html" class="tooltip">
-          <i class="fas fa-archive"></i>
-          <span class="tooltiptext">Manage Meal Lists</span>
-        </a>
+  <div class="container">
 
-        <a href="menu_editor.html" class="tooltip">
-          <i class="far fa-list-alt fa-lg clr"></i>
-          <span class="tooltiptext">Edit Meal Menu</span>
-        </a>
+    <header class="header">
+      <nav class="flexbox">
+        <h2 class="shrink heading">Book A Meal</h2>
+        <div class="flexbox nowrap">
+          <a href="meal_list.html">
+            Meals
 
-        <a href="meal_booking.html" class="tooltip">
-          <i class="fas fa-utensils fa-lg"></i>
-          <span class="tooltiptext">Book Your Meal</span>
-        </a>
-        <a href="sign_in.html" class="tooltip">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="tooltiptext">Log Out</span>
-        </a>
-      </div>
-    </nav>
-  </header>
-  <main class="container">
-    <div>
-      <h3>Welcome Caterer Sanni</h3>
-    </div>
-    <div class="title flexbox">
-      <h3>
-        Order Report
-      </h3>
+          </a>
 
-    </div>
+          <a href="menu_editor.html">
+            Menu
 
-    <div class="form-box">
-      <form action="" id="form_date">
-        <label for="dateSearch">Enter the date for your order</label>
-        <input id="dateSearch" type="date" name="date">
-      </form>
-      <div class="summary">
-        <h3>Summary</h3>
-        <div class="summary_info">
-          <h4>Orders <span class="bg-blue">100</span> </h4>
-          <h4>Customers <span class="bg-blue">50</span></h4>
-          <h4>Inventory Sold <span class="bg-blue">90%</span></h4>
-          <h4>Total <span class="bg-blue">&#8358;100000</span></h4>
+          </a>
+
+          <a href="meal_booking.html">
+            Meal Booking
+
+          </a>
+          <a href="sign_in.html">
+            Log Out
+
+          </a>
         </div>
-
+      </nav>
+    </header>
+    <main>
+      <div>
+        <h3>Welcome Caterer Sanni</h3>
       </div>
-      <form action="">
-        <input id="mealSelector" list="meals" placeholder="Enter search term">
-        <div>
-          <datalist id="meals">
-            <option value="1">
-              <option value="2">
-                <option value="3">
-          </datalist>
-        </div>
-
-      </form>
-    </div>
-    <div class="title flexbox">
-      <h3>
-        Click Order To View Details
-      </h3>
-
-    </div>
-
-    <!-- element list -->
-    <div>
-      <div class="title-element flexbox wrap">
-        <h3 class="modal-trigger">
-          Order 1
+      <div class="title flexbox">
+        <h3>
+          Order Report
         </h3>
-        <div class="flexbox">
-          <p>&#8358;1000</p>
+
+      </div>
+
+      <div class="form-box">
+        <form action="" id="form_date">
+          <label for="dateSearch">Enter the date for your order</label>
+          <input id="dateSearch" type="date" name="date">
+        </form>
+        <div class="summary">
+          <h3>Summary</h3>
+          <div class="summary_info">
+            <h4>Orders
+              <span class="bg-blue">100</span>
+            </h4>
+            <h4>Customers
+              <span class="bg-blue">50</span>
+            </h4>
+            <h4>Inventory Sold
+              <span class="bg-blue">90%</span>
+            </h4>
+            <h4>Total
+              <span class="bg-blue">&#8358;100000</span>
+            </h4>
+          </div>
 
         </div>
+        <form action="">
+          <input id="mealSelector" list="meals" placeholder="Enter search term">
+          <div>
+            <datalist id="meals">
+              <option value="1">
+                <option value="2">
+                  <option value="3">
+            </datalist>
+          </div>
+
+        </form>
       </div>
-      <div class="title-element flexbox wrap">
-        <h3 class="modal-trigger">
-          Order 2
+      <div class="title flexbox">
+        <h3>
+          Click Order To View Details
         </h3>
-        <div class="flexbox">
-          <p>&#8358;1000</p>
 
+      </div>
+
+      <!-- element list -->
+      <div>
+        <div class="title-element flexbox wrap">
+          <h3 class="modal-trigger">
+            Order 1
+          </h3>
+          <div class="flexbox">
+            <p>&#8358;1000</p>
+
+          </div>
+        </div>
+        <div class="title-element flexbox wrap">
+          <h3 class="modal-trigger">
+            Order 2
+          </h3>
+          <div class="flexbox">
+            <p>&#8358;1000</p>
+
+          </div>
+        </div>
+        <div class="title-element flexbox wrap">
+          <h3 class="modal-trigger">
+            Order 3
+          </h3>
+          <div class="flexbox">
+            <p>&#8358;1000</p>
+
+          </div>
         </div>
       </div>
-      <div class="title-element flexbox wrap">
-        <h3 class="modal-trigger">
-          Order 3
-        </h3>
-        <div class="flexbox">
-          <p>&#8358;1000</p>
 
-        </div>
-      </div>
-    </div>
-
-  </main>
-
+    </main>
+  </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">

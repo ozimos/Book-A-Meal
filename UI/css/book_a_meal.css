@@ -7,25 +7,49 @@ body {
 
 body {
   text-align: center;
-  background-color: #fafafa;
+  background: #fafafa url('../assets/pastries2.jpg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 50% 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.header {
-  border-bottom: solid 1px #b8abab;
-  background-color: white;
+
+.heading{
+  color:maroon
 }
 
 .container {
-  max-width: 736px;
-  min-width: 100px;
+  box-sizing: border-box;
+  height: 100vh;
   margin: 0;
+  background-color: #fafafa;
 }
 
+.container2 {
+  box-sizing: border-box;
+  max-width: 736px;
+  height: 100vh;
+  margin: 0;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  padding-left: 10%;
+  padding-right: 20%;
+  background-color: #fafafa;
+}
+.absolute{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
 a {
   text-decoration: none;
   padding: 0.5em;
+  color: #2f80ed;
 }
+
 
 .text-blue {
   color: #2f80ed;
@@ -38,13 +62,15 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .title-element>.flexbox{
   max-width: 80%;
 }
 .title-element>.flexbox>*:first-child {
-  /* flex-grow: 1; */
   justify-items: flex-start;
+  margin-right: 20px;
 }
 .wrap {
   flex-wrap: wrap;
@@ -92,16 +118,7 @@ button,
   text-align: center;
 }
 
-.title {
-  background-color: #f2984a;
-}
-
-.flexbox p {
-  margin-right: 10px;
-}
-
 .title-element {
-  margin: 1em 0;
   border-radius: 10px;
   line-height: 2;
 }
@@ -114,7 +131,6 @@ button,
 
 .title-element>* {
   margin: 0;
-  margin-left: 10px;
   font-weight: lighter;
 }
 
@@ -148,6 +164,7 @@ button,
 
 .stacked-text>* {
   margin: 0;
+  color: lightblue;
 }
 
 form>* {
@@ -160,17 +177,24 @@ form>* {
 }
 form>input, form>p {
   text-align: left;
-
+background-color: #fafafa
 }
 form>label {
   font-size: 16px;
   text-align: left;
   margin: 0;
 }
+form>div{
+  text-align: left;
+padding-right: auto;
+}
 
 #meal_image {
   width: 60%;
   margin: 10px auto;
+}
+.rotate{
+  transform: rotate(90deg)
 }
 
 .fluid-img {
@@ -179,30 +203,25 @@ form>label {
   object-fit: cover;
 }
 
-a {
-  text-decoration: none;
-  color: #2f80ed;
-  margin-left: 10px;
-}
-
 .welcome {
-  min-height: calc(100vh / 3);
-  background: #fafafa url(../assets/Food.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  box-sizing: border-box;
+  min-height: 6em;
+  margin-top: 2em;
+  margin-bottom: 3em;
 }
 
 .welcome-text {
   padding: 0 50px;
-  color: #f2994a;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-weight: 900;
+
 }
 
 .modal-trigger {
   cursor: pointer;
 }
-
+.shrink.modal-trigger, h3.modal-trigger{
+  color: #2f80ed;
+}
 .modal {
   border-radius: 10px;
   display: none;
@@ -220,7 +239,7 @@ a {
 /* Modal Content/Box */
 
 .modal-content {
-  background-color: #f2b94a;
+  background-color: white;
   border-radius: 10px;
   padding: 10px 0;
   border: 1px solid #888;
@@ -245,7 +264,15 @@ a {
     margin: 40px auto;
   }
   .container {
-    margin: 0 auto;
+  max-width: 80%;
+    margin: 0;
+    margin-right: auto;
+  }
+  .container2 {
+    max-width: 50% !important;
+    padding-left: 2%;
+    padding-right: 4%;
+    margin-left: 0;
   }
   .shrink {
     min-width: unset;
@@ -255,6 +282,9 @@ a {
 @media screen and (min-width: 600px) {
   .gallery {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .container2 {
+    max-width: 70%;
   }
 }
 @media screen and (min-width: 450px) and (max-width: 600px){
@@ -272,39 +302,4 @@ a {
 /* On mouse-over, add a deeper shadow */
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #2f80ed;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  width: 150px;
-  top: 80%;
-  left: 50%;
-  margin-left: -75px;
-}
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent  #2f80ed transparent;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
 }

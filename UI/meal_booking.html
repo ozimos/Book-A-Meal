@@ -12,120 +12,67 @@
 </head>
 
 <body>
-  <header class="header">
-    <nav class="container flexbox">
-      <h2 class="shrink">Book A Meal</h2>
-      <div class="flexbox nowrap">
-        <a href="meal_list.html" class="tooltip">
-          <i class="fas fa-archive"></i>
-          <span class="tooltiptext">Manage Meal Lists</span>
-        </a>
-        <a href="menu_editor.html" class="tooltip">
-          <i class="far fa-list-alt fa-lg clr"></i>
-          <span class="tooltiptext">Edit Meal Menu</span>
-        </a>
-        <a href="order_report.html" class="tooltip">
-          <i class="fas fa-chart-line fa-lg"></i>
-          <span class="tooltiptext">View Order Reports</span>
-        </a>
-        <a href="sign_in.html" class="tooltip">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="tooltiptext">Log Out</span>
-        </a>
-      </div>
-    </nav>
-  </header>
-  <main class="container">
-    <div>
-      <h3>Welcome Customer Sanni</h3>
-    </div>
-    <div class="title flexbox">
-      <h3>
-        Meal Booking
-      </h3>
+  <div class="container">
 
-    </div>
-    <div class="form-box">
-      <form action="" id="form_date">
-        <label for="dateSearch">Enter the date for your order</label>
-        <input id="dateSearch" type="date" name="date">
-      </form>
+    <header class="header">
+      <nav class="flexbox">
+        <h2 class="shrink heading">Book A Meal</h2>
+        <div class="flexbox nowrap">
+          <a href="meal_list.html">
+            Meals
 
-      <form action="">
-        <input id="mealSelector" list="meals" placeholder="Enter meal search then select an option">
-        <div>
-          <datalist id="meals">
-            <option value="Fried Rice">
-              <option value="Eba and Soup">
-                <option value="Jollof Rice">
-          </datalist>
+          </a>
+          <a href="menu_editor.html">
+            Menu
+
+          </a>
+          <a href="order_report.html">
+            Orders
+
+          </a>
+          <a href="sign_in.html">
+            Log Out
+
+          </a>
         </div>
+      </nav>
+    </header>
+    <main>
+      <div>
+        <h3>Welcome Customer Sanni</h3>
+      </div>
+      <div class="title flexbox">
+        <h3>
+          Meal Booking
+        </h3>
+        <button class="title-button">
+            <p>Meal Cart</p>
+          </button>
+      </div>
+      <div class="form-box">
 
-        <button type="submit">Place Order</button>
-      </form>
-    </div>
-    <div class="title flexbox">
-      <h3>
-        Click Meal Title To View Details
-      </h3>
-
-    </div>
-    <div class="gallery">
-
-      <div class="card">
-        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
-
-        <div class="title-element flexbox wrap">
-          <h4>
-            <b class="modal-trigger shrink">Some random meal</b>
-          </h4>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
-
-            <button class="title-button modal-trigger2">
-              <p>Place Order</p>
-            </button>
+        <form action="">
+          <input id="mealSelector" list="meals" placeholder="Search Meals">
+          <div>
+            <datalist id="meals">
+              <option value="Fried Rice">
+                <option value="Eba and Soup">
+                  <option value="Jollof Rice">
+            </datalist>
           </div>
 
-
-        </div>
+          <button type="submit">Place Order</button>
+        </form>
       </div>
-      <div class="card">
-        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+      <div class="title flexbox">
+        <h3>
+          Click Meal Title To View Details
+        </h3>
 
-        <div class="title-element flexbox wrap">
-          <h4>
-            <b class="modal-trigger shrink">Some random meal</b>
-          </h4>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
-
-            <button class="title-button modal-trigger2">
-              <p>Place Order</p>
-            </button>
-          </div>
-
-        </div>
       </div>
-      <div class="card">
-        <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+      <div class="gallery">
 
-        <div class="title-element flexbox wrap">
-          <h4>
-            <b class="modal-trigger shrink">Some random meal</b>
-          </h4>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
-
-            <button class="title-button modal-trigger2">
-              <p>Place Order</p>
-            </button>
-          </div>
-
-
-        </div>
-      </div>
-      <div class="card">
+        <div class="card">
           <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
 
           <div class="title-element flexbox wrap">
@@ -178,10 +125,63 @@
 
           </div>
         </div>
-    </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
 
-  </main>
+          <div class="title-element flexbox wrap">
+            <h4>
+              <b class="modal-trigger shrink">Some random meal</b>
+            </h4>
+            <div class="flexbox">
+              <p>&#8358;1000</p>
 
+              <button class="title-button modal-trigger2">
+                <p>Place Order</p>
+              </button>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+          <div class="title-element flexbox wrap">
+            <h4>
+              <b class="modal-trigger shrink">Some random meal</b>
+            </h4>
+            <div class="flexbox">
+              <p>&#8358;1000</p>
+
+              <button class="title-button modal-trigger2">
+                <p>Place Order</p>
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+          <div class="title-element flexbox wrap">
+            <h4>
+              <b class="modal-trigger shrink">Some random meal</b>
+            </h4>
+            <div class="flexbox">
+              <p>&#8358;1000</p>
+
+              <button class="title-button modal-trigger2">
+                <p>Place Order</p>
+              </button>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">

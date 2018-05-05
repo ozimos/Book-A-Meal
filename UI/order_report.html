@@ -7,12 +7,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/book_a_meal.css">
+  <link rel="stylesheet" href="css/book_a_meal2.css">
   <title>Book A Meal</title>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container2">
 
     <header class="header">
       <nav class="flexbox">
@@ -49,32 +49,37 @@
         </h3>
 
       </div>
+      <div class="summary">
+        <h3>Summary</h3>
+        <div class="flexbox">
+          <h4>Orders
+            <span class="bg-blue">100</span>
+          </h4>
+          <h4>Customers
+            <span class="bg-blue">50</span>
+          </h4>
+          <h4>Inventory Sold
+            <span class="bg-blue">90%</span>
+          </h4>
+          <h4>Total Sales
+            <span class="bg-blue">&#8358;100000</span>
+          </h4>
+        </div>
 
-      <div class="form-box">
-        <form action="" id="form_date">
-          <label for="dateSearch">Enter the date for your order</label>
-          <input id="dateSearch" type="date" name="date">
-        </form>
-        <div class="summary">
-          <h3>Summary</h3>
-          <div class="summary_info">
-            <h4>Orders
-              <span class="bg-blue">100</span>
-            </h4>
-            <h4>Customers
-              <span class="bg-blue">50</span>
-            </h4>
-            <h4>Inventory Sold
-              <span class="bg-blue">90%</span>
-            </h4>
-            <h4>Total
-              <span class="bg-blue">&#8358;100000</span>
-            </h4>
-          </div>
+      </div>
+
+      <div class="title flexbox">
+        <h3>
+          Order List
+        </h3>
+        <p class="shrink">
+          Click Order Id To View Details
+        </p>
+        <div class="flexbox">
 
         </div>
-        <form action="">
-          <input id="mealSelector" list="meals" placeholder="Enter search term">
+        <form class="form2" action="">
+          <input id="mealSelector" list="meals" placeholder="search">
           <div>
             <datalist id="meals">
               <option value="1">
@@ -82,55 +87,82 @@
                   <option value="3">
             </datalist>
           </div>
-
+          <i class="fas fa-search"></i>
         </form>
-      </div>
-      <div class="title flexbox">
-        <h3>
-          Click Order To View Details
-        </h3>
-
       </div>
 
       <!-- element list -->
       <div>
-        <div class="title-element flexbox wrap">
-          <h3 class="modal-trigger">
-            Order 1
-          </h3>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>
+                <h4>
+                  Id
+                </h4>
+              </td>
+              <td>
+                <h4>Status</h4>
+              </td>
+              <td>
+                <h4>Total Amount</h4>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <p class="modal-trigger">
+                  112345-1
+                </p>
+              </td>
+              <td>
+                <p>Delivered</p>
+              </td>
+              <td>
+                <p>&#8358;1000</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="modal-trigger">
+                  112345-2
+                </p>
+              </td>
+              <td>
+                <p>Delivered</p>
+              </td>
+              <td>
+                <p>&#8358;1000</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="modal-trigger">
+                  112345-3
+                </p>
+              </td>
+              <td>
+                <p>Delivered</p>
+              </td>
+              <td>
+                <p>&#8358;1000</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-          </div>
-        </div>
-        <div class="title-element flexbox wrap">
-          <h3 class="modal-trigger">
-            Order 2
-          </h3>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
-
-          </div>
-        </div>
-        <div class="title-element flexbox wrap">
-          <h3 class="modal-trigger">
-            Order 3
-          </h3>
-          <div class="flexbox">
-            <p>&#8358;1000</p>
-
-          </div>
-        </div>
       </div>
+  </div>
 
-    </main>
+  </main>
   </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content container">
+    <div class=" modal-content">
       <div class="title flexbox">
         <h3>
           Order Details

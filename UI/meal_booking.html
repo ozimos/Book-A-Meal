@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/book_a_meal.css">
+  <link rel="stylesheet" href="css/book_a_meal1.css">
   <title>Book A Meal</title>
 </head>
 
@@ -46,29 +46,61 @@
           Meal Booking
         </h3>
         <button class="title-button">
-            <p>Meal Cart</p>
-          </button>
+          <p>Meal Cart</p>
+        </button>
       </div>
-      <div class="form-box">
+      <div class="flexbox wrap">
 
-        <form action="">
-          <input id="mealSelector" list="meals" placeholder="Search Meals">
-          <div>
-            <datalist id="meals">
-              <option value="Fried Rice">
-                <option value="Eba and Soup">
-                  <option value="Jollof Rice">
-            </datalist>
+        <div class="form-box flex">
+          <form class="form"action="">
+            <input id="mealSelector" list="meals" placeholder="Search Meals">
+            <div>
+              <datalist id="meals">
+                <option value="Fried Rice">
+                  <option value="Eba and Soup">
+                    <option value="Jollof Rice">
+              </datalist>
+            </div>
+
+            <button type="submit">Add</button>
+          </form>
+        </div>
+        <div class="flexbox">
+          <div class="card card-form">
+            <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+            <div class="title-element flexbox wrap">
+              <h4 class="shrink modal-trigger">
+                Some random meal
+              </h4>
+<input class="card-input" type="number" name="units" placeholder="1">
+              <button class="title-button">
+                <p>Add</p>
+              </button>
+            </div>
           </div>
+          <div class="card card-form">
+            <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
 
-          <button type="submit">Place Order</button>
-        </form>
+            <div class="title-element flexbox wrap">
+              <h4 class="shrink modal-trigger">
+                Some random meal
+              </h4>
+<input class="card-input" type="number" name="units" placeholder="1">
+              <button class="title-button">
+                <p>Add</p>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="title flexbox">
         <h3>
-          Click Meal Title To View Details
+          Today's Menu
         </h3>
-
+        <p>
+          Click Meal Title To View Details
+        </p>
       </div>
       <div class="gallery">
 
@@ -79,11 +111,11 @@
             <h4>
               <b class="modal-trigger shrink">Some random meal</b>
             </h4>
-            <div class="flexbox">
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
               <p>&#8358;1000</p>
 
               <button class="title-button modal-trigger2">
-                <p>Place Order</p>
+                <p>Add</p>
               </button>
             </div>
 
@@ -97,11 +129,11 @@
             <h4>
               <b class="modal-trigger shrink">Some random meal</b>
             </h4>
-            <div class="flexbox">
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
               <p>&#8358;1000</p>
 
               <button class="title-button modal-trigger2">
-                <p>Place Order</p>
+                <p>Add</p>
               </button>
             </div>
 
@@ -114,29 +146,11 @@
             <h4>
               <b class="modal-trigger shrink">Some random meal</b>
             </h4>
-            <div class="flexbox">
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
               <p>&#8358;1000</p>
 
               <button class="title-button modal-trigger2">
-                <p>Place Order</p>
-              </button>
-            </div>
-
-
-          </div>
-        </div>
-        <div class="card">
-          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
-
-          <div class="title-element flexbox wrap">
-            <h4>
-              <b class="modal-trigger shrink">Some random meal</b>
-            </h4>
-            <div class="flexbox">
-              <p>&#8358;1000</p>
-
-              <button class="title-button modal-trigger2">
-                <p>Place Order</p>
+                <p>Add</p>
               </button>
             </div>
 
@@ -150,11 +164,29 @@
             <h4>
               <b class="modal-trigger shrink">Some random meal</b>
             </h4>
-            <div class="flexbox">
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
               <p>&#8358;1000</p>
 
               <button class="title-button modal-trigger2">
-                <p>Place Order</p>
+                <p>Add</p>
+              </button>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+          <div class="title-element flexbox wrap">
+            <h4>
+              <b class="modal-trigger shrink">Some random meal</b>
+            </h4>
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
+              <p>&#8358;1000</p>
+
+              <button class="title-button modal-trigger2">
+                <p>Add</p>
               </button>
             </div>
 
@@ -167,11 +199,11 @@
             <h4>
               <b class="modal-trigger shrink">Some random meal</b>
             </h4>
-            <div class="flexbox">
+           <input class="card-input" type="number" name="units" placeholder="1"> <div class="flexbox">
               <p>&#8358;1000</p>
 
               <button class="title-button modal-trigger2">
-                <p>Place Order</p>
+                <p>Add</p>
               </button>
             </div>
 
@@ -187,7 +219,7 @@
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content container">
+    <div class="modal-content">
       <div class="title flexbox">
         <h3>
           Meal Viewer
@@ -199,12 +231,11 @@
         </div>
       </div>
       <div class="form-box">
-        <form id="form_menu" action="">
+        <form class="form"id="form_menu" action="">
 
           <input disabled type="text" name="mealName" placeholder="Meal Name">
           <input disabled type="text" name="price" placeholder="Price">
-          <textarea disabled name="password" placeholder="Description"></textarea>
-          <input class="hide" disabled type="file" name="image">
+          <textarea disabled name="password" placeholder="Description"></textarea
         </form>
       </div>
 
@@ -217,7 +248,7 @@
   <div id="myModal2" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content container">
+    <div class="modal-content">
       <div class="title flexbox">
         <h3 class="shrink">
           Your Order has been saved

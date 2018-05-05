@@ -15,16 +15,8 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-.heading{
-  color:maroon
-}
-
-.container {
-  box-sizing: border-box;
-  height: 100vh;
-  margin: 0;
-  background-color: #fafafa;
+.heading {
+  color: maroon
 }
 
 .container2 {
@@ -37,72 +29,23 @@ body {
   padding-left: 10%;
   padding-right: 20%;
   background-color: #fafafa;
+  background-attachment: scroll;
+  background-attachment: scroll;
 }
-.absolute{
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: -1;
-}
+
 a {
   text-decoration: none;
   padding: 0.5em;
   color: #2f80ed;
 }
 
-
 .text-blue {
   color: #2f80ed;
 }
+
 .bg-blue {
   border-radius: 5px;
   background-color: #2f80ed;
-}
-.flexbox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-.title-element>.flexbox{
-  max-width: 80%;
-}
-.title-element>.flexbox>*:first-child {
-  justify-items: flex-start;
-  margin-right: 20px;
-}
-.wrap {
-  flex-wrap: wrap;
-}
-
-.clr {
-  border: none;
-  background-color: transparent;
-  height: 1.6rem;
-  margin: 0;
-}
-
-a>.svg-inline--fa {
-  font-size: 1.5rem;
-  margin: 0.6em;
-  font-weight: 0;
-  vertical-align: middle;
-}
-
-button>.svg-inline--fa {
-  font-size: 1rem;
-  margin: 0.6em;
-  font-weight: 0;
-  vertical-align: middle;
-}
-
-.shrink {
-  min-width: 1rem;
-  flex: 0 1 auto;
-  overflow-x: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
 }
 
 button,
@@ -118,23 +61,6 @@ button,
   text-align: center;
 }
 
-.title-element {
-  border-radius: 10px;
-  line-height: 2;
-}
-
-.title-button {
-  padding: 0;
-  margin: 1em 0;
-  min-width: 6em;
-}
-
-.title-element>* {
-  margin: 0;
-  font-weight: lighter;
-}
-
-
 .form-box {
   width: 100%;
   margin: 10px 0;
@@ -148,26 +74,12 @@ button,
   margin-top: 20px;
 }
 
-.summary {
-  text-align: left;
-}
-
-.summary * {
-  margin: 0;
-  padding: 0;
-}
-
-.summary_info {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 .stacked-text>* {
   margin: 0;
   color: lightblue;
 }
 
-form>* {
+.form>* {
   display: block;
   width: 100%;
   font-size: 20px;
@@ -175,25 +87,30 @@ form>* {
   border-color: #000;
   margin-top: 20px;
 }
-form>input, form>p {
+
+.form>input,
+.form>p {
   text-align: left;
-background-color: #fafafa
+  background-color: #fafafa
 }
-form>label {
+
+.form>label {
   font-size: 16px;
   text-align: left;
   margin: 0;
 }
-form>div{
+
+.form>div {
   text-align: left;
-padding-right: auto;
+  padding-right: auto;
 }
 
 #meal_image {
   width: 60%;
   margin: 10px auto;
 }
-.rotate{
+
+.rotate {
   transform: rotate(90deg)
 }
 
@@ -213,41 +130,6 @@ padding-right: auto;
 .welcome-text {
   padding: 0 50px;
   font-weight: 900;
-
-}
-
-.modal-trigger {
-  cursor: pointer;
-}
-.shrink.modal-trigger, h3.modal-trigger{
-  color: #2f80ed;
-}
-.modal {
-  border-radius: 10px;
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  margin: 20px auto;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: #fafafa60;
-}
-
-/* Modal Content/Box */
-
-.modal-content {
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px 0;
-  border: 1px solid #888;
-}
-.gallery {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 10px;
 }
 
 @media screen and (min-width: 736px) {
@@ -264,7 +146,7 @@ padding-right: auto;
     margin: 40px auto;
   }
   .container {
-  max-width: 80%;
+    max-width: 80%;
     margin: 0;
     margin-right: auto;
   }
@@ -274,32 +156,10 @@ padding-right: auto;
     padding-right: 4%;
     margin-left: 0;
   }
-  .shrink {
-    min-width: unset;
-  }
-
 }
+
 @media screen and (min-width: 600px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-  }
   .container2 {
     max-width: 70%;
   }
-}
-@media screen and (min-width: 450px) and (max-width: 600px){
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.card {
-  border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-}
-
-/* On mouse-over, add a deeper shadow */
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }

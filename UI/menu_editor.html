@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/book_a_meal.css">
+  <link rel="stylesheet" href="css/book_a_meal1.css">
   <title>Book A Meal</title>
 </head>
 
@@ -46,29 +46,60 @@
           Menu Editor
         </h3>
         <button class="title-button">
-            <p>Post Menu</p>
-          </button>
+          <p>Post Menu</p>
+        </button>
       </div>
-      <div class="form-box">
+      <div class="flexbox wrap">
+        <div class="form-box flex">
 
-        <form action="">
-          <input id="mealSelector" list="meals" placeholder="Search meals">
-          <div id="meals_datalist">
-            <datalist id="meals">
-              <option value="Fried Rice">
-                <option value="Eba and Soup">
-                  <option value="Jollof Rice">
-            </datalist>
+          <form class="form"action="">
+            <input id="mealSelector" list="meals" placeholder="Search meals">
+            <div id="meals_datalist">
+              <datalist id="meals">
+                <option value="Fried Rice">
+                  <option value="Eba and Soup">
+                    <option value="Jollof Rice">
+              </datalist>
+            </div>
+
+            <button type="submit">Add to Menu</button>
+          </form>
+        </div>
+        <div class="flexbox">
+          <div class="card card-form">
+            <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+
+            <div class="title-element flexbox wrap">
+              <h4 class="shrink modal-trigger">
+                Some random meal
+              </h4>
+              <button class="title-button">
+                <i class="fas fa-check"></i>
+              </button>
+            </div>
           </div>
+          <div class="card card-form">
+            <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
 
-          <button type="submit">Add to Menu</button>
-        </form>
+            <div class="title-element flexbox wrap">
+              <h4 class="shrink modal-trigger">
+                Some random meal
+              </h4>
+              <button class="title-button">
+                <i class="fas fa-check"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="title flexbox">
         <h3>
           Your Menu for Fri 20th April
         </h3>
-
+        <button class="title-button">
+          <p>Clear Menu</p>
+        </button>
       </div>
       <div class="gallery">
         <div class="card">
@@ -151,7 +182,7 @@
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content container">
+    <div class=" modal-content">
       <div class="title flexbox">
         <h3>
           Meal Viewer
@@ -163,14 +194,14 @@
         </div>
       </div>
       <div class="form-box">
-        <form id="form_menu" action="">
+        <form class="form"id="form_menu" action="">
           <input type="hidden" name="mealId" placeholder="123456">
           <input type="text" name="quantity" placeholder="No of units">
         </form>
       </div>
 
       <button class="title-button" form="form_menu" type="submit">
-        <p>Save to Menu</p>
+        <p>Continue</p>
       </button>
     </div>
 

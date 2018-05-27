@@ -7,156 +7,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/book_a_meal2.css">
+  <link rel="stylesheet" href="css/book_a_meal.css">
   <title>Book A Meal</title>
 </head>
 
 <body>
-  <div class="container2">
+  <div class="canvas">
+    <div class="container3">
 
-    <header class="header">
-      <nav class="flexbox">
-        <h2 class="shrink heading">Book A Meal</h2>
-        <div class="flexbox nowrap">
-          <a href="meal_list.html">
-            Meals
+      <header class="header">
+        <nav class="flexbox">
+          <h2 class="shrink heading">Book A Meal</h2>
+          <div class="flexbox nowrap">
+            <a href="meal_list.html">
+              Meals
 
-          </a>
+            </a>
 
-          <a href="menu_editor.html">
-            Menu
+            <a href="menu_editor.html">
+              Menu
 
-          </a>
+            </a>
 
-          <a href="meal_booking.html">
-            Meal Booking
+            <a href="meal_booking.html">
+              Meal Booking
 
-          </a>
-          <a href="sign_in.html">
-            Log Out
+            </a>
+            <a href="sign_in.html">
+              Log Out
 
-          </a>
-        </div>
-      </nav>
-    </header>
-    <main>
-      <div>
-        <h3>Welcome Caterer Sanni</h3>
-      </div>
-      <div class="title flexbox">
-        <h3>
-          Order Report
-        </h3>
-
-      </div>
-      <div class="summary">
-        <h3>Summary</h3>
-        <div class="flexbox">
-          <h4>Orders
-            <span class="bg-blue">100</span>
-          </h4>
-          <h4>Customers
-            <span class="bg-blue">50</span>
-          </h4>
-          <h4>Inventory Sold
-            <span class="bg-blue">90%</span>
-          </h4>
-          <h4>Total Sales
-            <span class="bg-blue">&#8358;100000</span>
-          </h4>
-        </div>
-
-      </div>
-
-      <div class="title flexbox">
-        <h3>
-          Order List
-        </h3>
-        <p class="shrink">
-          Click Order Id To View Details
-        </p>
-        <div class="flexbox">
-
-        </div>
-        <form class="form2" action="">
-          <input id="mealSelector" list="meals" placeholder="search">
-          <div>
-            <datalist id="meals">
-              <option value="1">
-                <option value="2">
-                  <option value="3">
-            </datalist>
+            </a>
           </div>
-          <i class="fas fa-search"></i>
-        </form>
-      </div>
+        </nav>
+      </header>
+      <main>
+        <div>
+          <h3>Welcome Caterer Sanni</h3>
+        </div>
+        <div class="summary">
+          <h3>Summary</h3>
+          <div class="flexbox">
+            <h4>Orders
+              <span class="bg-blue">100</span>
+            </h4>
+            <h4>Customers
+              <span class="bg-blue">50</span>
+            </h4>
+            <h4>Inventory Sold
+              <span class="bg-blue">90%</span>
+            </h4>
+            <h4>Total Sales
+              <span class="bg-blue">&#8358;100000</span>
+            </h4>
+          </div>
 
-      <!-- element list -->
-      <div>
-        <table class="table">
-          <thead>
-            <tr>
-              <td>
-                <h4>
-                  Id
-                </h4>
-              </td>
-              <td>
-                <h4>Status</h4>
-              </td>
-              <td>
-                <h4>Total Amount</h4>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <p class="modal-trigger">
-                  112345-1
-                </p>
-              </td>
-              <td>
-                <p>Delivered</p>
-              </td>
-              <td>
-                <p>&#8358;1000</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p class="modal-trigger">
-                  112345-2
-                </p>
-              </td>
-              <td>
-                <p>Delivered</p>
-              </td>
-              <td>
-                <p>&#8358;1000</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p class="modal-trigger">
-                  112345-3
-                </p>
-              </td>
-              <td>
-                <p>Delivered</p>
-              </td>
-              <td>
-                <p>&#8358;1000</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        </div>
 
-      </div>
+        <div class="title flexbox">
+          <h3>
+            Order List
+          </h3>
+          <p class="shrink">
+            Click Order Id To View Details
+          </p>
+          <div class="flexbox">
+
+          </div>
+          <form class="form2" action="">
+            <input id="mealSelector" list="meals" placeholder="search">
+            <div>
+              <datalist id="meals">
+                <option value="1">
+                  <option value="2">
+                    <option value="3">
+              </datalist>
+            </div>
+            <i class="fas fa-search"></i>
+          </form>
+        </div>
+
+        <!-- element list -->
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <td>
+                  <h4>
+                    Id
+                  </h4>
+                </td>
+                <td>
+                  <h4>Status</h4>
+                </td>
+                <td>
+                  <h4>Total Amount</h4>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <p class="modal-trigger">
+                    112345-1
+                  </p>
+                </td>
+                <td>
+                  <p>Delivered</p>
+                </td>
+                <td>
+                  <p>&#8358;1000</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="modal-trigger">
+                    112345-2
+                  </p>
+                </td>
+                <td>
+                  <p>Delivered</p>
+                </td>
+                <td>
+                  <p>&#8358;1000</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="modal-trigger">
+                    112345-3
+                  </p>
+                </td>
+                <td>
+                  <p>Delivered</p>
+                </td>
+                <td>
+                  <p>&#8358;1000</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+    </div>
   </div>
 
-  </main>
-  </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
@@ -169,7 +163,7 @@
         </h3>
         <div class="flexbox">
           <button class="title-button close">
-            <i class="fas fa-times"></i>
+            &#10006;
           </button>
         </div>
       </div>

@@ -9,11 +9,11 @@ export default (sequelize, DataTypes) => {
     },
     {
       scopes: {
-        includeMealsUsers() {
+        forNonCaterers() {
           return {
             include: [{
               association: 'Meals',
-              required: false,
+              required: true,
               paranoid: false,
               attributes: ['id', 'userId', 'title', 'description', 'price'],
               through: {
@@ -31,7 +31,7 @@ export default (sequelize, DataTypes) => {
             include: [{
               association: 'Meals',
               where: { userId },
-              required: false,
+              required: true,
               paranoid: false,
               attributes: ['id', 'userId', 'title', 'description', 'price'],
               through: {

@@ -1,3 +1,4 @@
+
 /**
  *
  *
@@ -85,19 +86,35 @@ class Controller {
   /**
    *
    *
-   * @param {any} req
-   * @param {any} res
+   * @param {any} req express object
+   * @param {any} res express object
+   * @param {any} scope sequelize scope object
+   * @param {any} options sequelize options object
+   * @param {string} message error message
+   * @param {function} acceptCallback error decision callback
+   * @param {boolean} raw return raw results
    * @returns {obj} Model
    * @memberof Controller
    */
-  getAllRecords(req, scope = 'defaultScope', options = {}) {
+  getAllRecords(
+    req, scope = 'defaultScope', options = {},
+    { message = 'no records available', acceptCallback = () => true,
+      raw = false } = {}
+  ) {
+    const { page = 1, limit = 10 } = req.query;
+    const offset = limit * (page - 1);
+    options.limit = limit;
+    options.offset = offset;
     return this.Model.scope(scope)
-      .findAll(options)
-      .then((result) => {
-        if (result && result.length > 0) {
-          return Controller.defaultResponse(result);
+      .findAndCountAll(options)
+      .then((data) => {
+        const { count, rows } = data;
+        const pages = Math.ceil(count / limit);
+        if (raw) return { pages, count, rows };
+        if (rows && rows.length > 0 && acceptCallback(rows)) {
+          return Controller.defaultResponse({ pages, count, rows });
         }
-        return Controller.errorResponse('no records available', 404);
+        return Controller.errorResponse(message, 404);
       })
       .catch(error => Controller.errorResponse(error.message));
   }

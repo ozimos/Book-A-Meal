@@ -22,7 +22,7 @@ class UserController extends Controller {
         where: {
           email: req.body.email
         },
-        attributes: { exclude: ['createdAt', 'updatedAt'] }
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
       }).then((response) => {
         if (!response) {
           return UserController.errorResponse({

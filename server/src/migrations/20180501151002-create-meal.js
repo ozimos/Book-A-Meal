@@ -47,10 +47,13 @@ export default {
         type: Sequelize.DATE,
       }
     });
-    await queryInterface.addConstraint('Meals', ['title', 'userId', 'deletedAt'], {
-      type: 'unique',
-      name: 'userTitle'
-    });
+    await queryInterface.addConstraint(
+      'Meals', ['title', 'userId', 'deletedAt'],
+      {
+        type: 'unique',
+        name: 'userTitle'
+      }
+    );
   },
 
   down: queryInterface => queryInterface.dropTable('Meals')

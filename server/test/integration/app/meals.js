@@ -11,6 +11,7 @@ import {
 import app from '../../../src/app';
 
 const mealsUrl = `${rootURL}/meals`;
+const getMealsUrl = `${rootURL}/meals?page=1`;
 const mealIdUrl = `${rootURL}/meals/${defaultMeal.id}`;
 const mealIdUrl2 = `${rootURL}/meals/${deleteMeal.id}`;
 
@@ -18,13 +19,13 @@ context('meals integration test', () => {
 
   // Get All Meals
   describe('GET /meals', () => {
-    it('should return all meals', () => request(app).get(mealsUrl)
+    it('should return all meals', () => request(app).get(getMealsUrl)
       .set('authorization', `JWT ${token}`)
       .then((res) => {
-        expect(res.body.data[0].id).to.equal(defaultMeal.id);
-        expect(res.body.data[0].price).to.equal(defaultMeal.price);
+        expect(res.body.data.rows[0].id).to.equal(defaultMeal.id);
+        expect(res.body.data.rows[0].price).to.equal(defaultMeal.price);
       }));
-    templateTest('Get All Meals', 'get', mealsUrl, null, '0', 'array');
+    templateTest('Get All Meals', 'get', getMealsUrl, null, 'rows', 'object');
   });
 
   // Get One Meal
@@ -52,7 +53,10 @@ context('meals integration test', () => {
         expect(res.body.data.title).to.equal(updatedMeal.title);
         expect(res.body.data.price).to.equal(updatedMeal.price);
       }));
-    templateTest('Modify Meal', 'put', mealIdUrl, updatedMeal, 'price', 'object');
+    templateTest(
+      'Modify Meal', 'put',
+      mealIdUrl, updatedMeal, 'price', 'object'
+    );
   });
 
   // Create A Meal
@@ -60,6 +64,7 @@ context('meals integration test', () => {
     const newMeal = {
       title: 'Beef with Rice',
       description: 'plain rice with ground beef',
+      // eslint-disable-next-line max-len
       imageUrl: 'https://cdn.pixabay.com/photo/2017/11/23/13/50/pumpkin-soup-2972858_960_720.jpg',
       price: 1500,
     };
@@ -69,7 +74,10 @@ context('meals integration test', () => {
         expect(res.body.data.title).to.equal(newMeal.title);
         expect(res.body.data.description).to.equal(newMeal.description);
       }));
-    templateTest('Add Meal', 'post', mealsUrl, newMeal, 'price', 'object', '201');
+    templateTest(
+      'Add Meal', 'post',
+      mealsUrl, newMeal, 'price', 'object', '201'
+    );
   });
 
   // Delete A Meal

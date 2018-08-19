@@ -36,12 +36,16 @@ orderRouter
     OrderController.orderClose,
     OrderController.select(orderController, 'updateOrder')
   );
-
+orderRouter
+  .route('/meals/:id')
+  .get(
+    Authenticate.isUser,
+    OrderController.select(orderController, 'getOrderMeals')
+  );
 orderRouter
   .route('/user/:date?')
   .get(
     Authenticate.isUser,
-    validator.body(orderSchema),
     OrderController.select(orderController, 'getUserOrdersByDate')
   );
 
@@ -49,7 +53,6 @@ orderRouter
   .route('/all/:date?')
   .get(
     Authenticate.isUser,
-    validator.body(orderSchema),
     OrderController.select(orderController, 'getOrdersByDate')
   );
 

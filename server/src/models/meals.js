@@ -27,7 +27,7 @@ export default (sequelize, DataTypes) => {
     indexes: [{
       unique: true,
       fields: ['title', 'userId', 'deletedAt']
-    }]
+    }],
   });
 
   // Relations

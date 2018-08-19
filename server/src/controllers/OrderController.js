@@ -1,9 +1,11 @@
-import Sequelize from 'sequelize';
+import { Op } from 'sequelize';
 import format from 'date-fns/format';
 import isToday from 'date-fns/is_today';
 import addDays from 'date-fns/add_days';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 import Controller from './Controller';
+
+const currentDate = format(new Date(), 'YYYY-MM-DD');
 
 export default class OrderController extends Controller {
 
@@ -29,46 +31,90 @@ export default class OrderController extends Controller {
     }
     return next();
   }
-  static canEdit(date) {
+  static isOrderEditable(date) {
     const hasEditMinutes = (parseInt(process.env.ORDER_EDIT_MINUTES, 10) || 15)
      - differenceInMinutes(new Date(), date) > 0;
     return (isToday(date) && hasEditMinutes);
   }
-  getAllOrders(req) {
-    return super.getAllRecords(req, 'includeMealsUsers');
+  getOrdersWithMealLinks(req, options = {}) {
+    const { userId, isCaterer } = req.decoded;
+    options.include
+    = [{ association: 'Meals', attributes: [], required: true }];
+    if (isCaterer) {
+      options.where['$Meals.userId$'] = userId;
+    } else {
+      options.where.userId = userId;
+    }
+    return this.getAllRecords(req, null, options, { raw: true })
+      .then(({ pages, count, rows }) => {
+        const newRows = rows.map((row) => {
+          row.dataValues.Meals = `/api/v1/orders/meals/${row.id}`;
+          return row.dataValues;
+        });
+        return OrderController.defaultResponse({ pages, count, newRows });
+      })
+      .catch(error => OrderController.errorResponse(error.message));
   }
-  getAllUserOrders(req) {
+  /**
+   * Gets meals in an order id
+   * for caterers, gets only the meals created by caterer
+   * for users, gets the meals only if the order belongs to user
+   * @param {obj} req express request object
+   */
+  getMealsInOrder(req, options = {}) {
+    options.where.id = req.params.id;
+    const { userId, isCaterer } = req.decoded;
+    let message, acceptCallback = null;
+    let scope;
+    if (isCaterer) {
+      scope = [{ method: ['forCaterers', userId] }];
+    } else {
+      message = 'This order does not belong to you';
+      acceptCallback = rows => rows[0].Meals.length > 0;
+      options.where.userId = userId;
+      scope = 'forNonCaterers';
+    }
+    return this.getAllRecords(req, scope, options, { message, acceptCallback })
+      .catch(error => OrderController.errorResponse(error.message));
+  }
+  /**
+   * show all your orders
+   * @param {obj} req express request object
+   */
+  getOrderMealsHistory(req) {
     const { userId } = req.decoded;
 
-    const options = {
-      where: { userId },
-    };
-    return super.getAllRecords(req, 'includeMealsUsers', options);
+    const options = {};
+    if (req.decoded.isCaterer) {
+      const scope = [{ method: ['forCaterers', userId] }];
+      return this.getAllRecords(req, scope, options);
+    }
+    options.where.userId = userId;
+    return this.getAllRecords(req, 'forNonCaterers', options)
+      .catch(error => OrderController.errorResponse(error.message));
   }
   getUserOrdersByDate(req) {
     const { userId } = req.decoded;
-    const currentDate = format(new Date(), 'YYYY-MM-DD');
     const date = req.params.date || currentDate;
     const nextDate = addDays(date, 1);
-    const { Op } = Sequelize;
 
     const options = {
       where: { userId,
-        createdAt: { [Op.gt]: date, [Op.lt]: nextDate } },
+        createdAt: { [Op.gte]: date, [Op.lt]: nextDate } },
     };
-    return super.getAllRecords(req, 'includeMealsUsers', options);
+    return super.getAllRecords(req, 'forNonCaterers', options)
+      .catch(error => OrderController.errorResponse(error.message));
   }
   getOrdersByDate(req) {
     const { userId } = req.decoded;
-    const currentDate = format(new Date(), 'YYYY-MM-DD');
     const date = req.params.date || currentDate;
     const nextDate = addDays(date, 1);
-    const { Op } = Sequelize;
     const options = {
       where: { createdAt: { [Op.gt]: date, [Op.lt]: nextDate } },
     };
     const scope = [{ method: ['forCaterers', userId] }];
-    return super.getAllRecords(req, scope, options);
+    return this.getAllRecords(req, scope, options)
+      .catch(error => OrderController.errorResponse(error.message));
   }
   postOrder(req) {
     const {
@@ -78,16 +124,16 @@ export default class OrderController extends Controller {
     return this.Model.create({
       userId
     })
-      .then(order => OrderController.orderProcess(order, req, 201))
+      .then(order => this.orderProcess(order, req, 201))
       .catch(err => OrderController.errorResponse(err.message));
   }
   updateOrder(req) {
     let orderRef;
     return this.Model.findById(req.params.id)
-      .then((order) => {
+      .then(async (order) => {
         orderRef = order;
-        if (OrderController.canEdit(order.createdAt)) {
-          return order.setMeals([]);
+        if (OrderController.isOrderEditable(order.createdAt)) {
+          await order.setMeals([]);
         }
         return Promise.reject(new Error('Order edit period has expired'));
       })
@@ -95,7 +141,7 @@ export default class OrderController extends Controller {
       .then(reloadedOrder => OrderController.orderProcess(reloadedOrder, req))
       .catch(err => OrderController.errorResponse(err.message));
   }
-  static async orderProcess(order, req, successCode = 200) {
+  async orderProcess(order, req, successCode = 200) {
     try {
       const promise = req.body.meals.map(meal =>
         order.addMeal(meal.id, {
@@ -104,16 +150,20 @@ export default class OrderController extends Controller {
           }
         }));
       await Promise.all(promise);
-      const reloadedOrder = await order.reload();
-      const postedOrder = reloadedOrder.dataValues;
-      const meals = await reloadedOrder.getMeals({ paranoid: false });
-      if (meals.length > 0) {
-        const mealList = meals.map(elem => elem.id);
-        const quantityList = meals.map(elem => elem.MealOrders.quantity);
-        postedOrder.Meals = meals;
-        postedOrder.mealList = mealList;
-        postedOrder.quantityList = quantityList;
-        return OrderController.defaultResponse(postedOrder, successCode);
+      const options = { where: { id: order.id } };
+      const { userId, isCaterer } = req.decoded;
+      let scope;
+      if (isCaterer) {
+        scope = [{ method: ['forCaterers', userId] }];
+      } else {
+        scope = 'forNonCaterers';
+      }
+      // call the get method
+      const { pages, count, rows }
+        = await this.getAllRecords(req, scope, options, { raw: true });
+      if (rows.length > 0) {
+        return OrderController
+          .defaultResponse({ pages, count, rows }, successCode);
       }
       return OrderController
         .errorResponse('Order was not processed. Try again', 404);

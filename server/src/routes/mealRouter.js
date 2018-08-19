@@ -27,7 +27,6 @@ mealRouter.route('/')
 mealRouter.route('/user')
   .get(
     Authenticate.isUser,
-    Authenticate.isAdmin,
     MealController.select(mealController, 'getAllUserRecords')
   );
 mealRouter.route('/:id')

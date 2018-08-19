@@ -5,7 +5,7 @@ export default {
     database: 'BookAMeal_development',
     host: '127.0.0.1',
     dialect: 'postgres',
-    logging: false
+    // logging: false
   },
   test: {
     username: 'travis',

@@ -40,9 +40,12 @@ header.extra.header{
       
       .order_detail{
         background-color: #CD9655;
+        height: 60px;
+        .search-input {
+          padding-top: 0px
+        }
       }
       .title-element {
-        // border-radius: 10px;
         line-height: 2;
         &>.flexbox {
             max-width: 80%;

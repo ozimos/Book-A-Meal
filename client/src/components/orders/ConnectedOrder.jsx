@@ -35,7 +35,7 @@ class Order extends React.Component {
       searchTerm: '',
       currentOrder: [],
       currentOrderId: '',
-      showModal: false,
+      showOrderModal: false,
     };
     this.openCartModal = this.openCartModal.bind(this);
     this.closeCartModal = this.closeCartModal.bind(this);
@@ -50,9 +50,9 @@ class Order extends React.Component {
     this.props.dispatch(orderActions.getUserOrdersByDate());
   }
   openCartModal() {
-    return this.setState({ showModal: true });
+    return this.setState({ showOrderModal: true });
   }
-  closeCartModal() { return this.setState({ showModal: false }); }
+  closeCartModal() { return this.setState({ showOrderModal: false }); }
   notify = message => toast(message, { className: 'toaster' });
   addMealToCart(meal) {
     if (this.state.currentOrderId) {
@@ -205,7 +205,7 @@ class Order extends React.Component {
             </Accordion>
           </main>
           <ReactModal
-            isOpen={this.state.showModal}
+            isOpen={this.state.showOrderModal}
             contentLabel="Input Modal"
             className="modal-content"
             onRequestClose={this.closeCartModal}

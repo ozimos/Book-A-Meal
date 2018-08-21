@@ -3,61 +3,44 @@ import addDays from 'date-fns/add_days';
 import Controller from './Controller';
 
 const today = new Date().setHours(0, 0, 0, 0, 0);
-const nextDate = addDays(today, 1);
 export default class MenuController extends Controller {
   getMenu(req, msg) {
+    let scope;
+    const date = (req.query && req.query.date) || today;
+    const nextDate = addDays(date, 1);
 
-    const options = {};
-    if (req.body.id) {
+    const options = { subQuery: false, distinct: false };
+    if (req.body && req.body.id) {
       options.where = { id: req.body.id };
     } else {
       options.where = {
-        menuDate: { [Op.gte]: today, [Op.lt]: nextDate }
+        menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
       };
     }
+    const acceptCallback = rows => rows[0].Meals.length > 0;
     const message = msg || 'menu for the day has not been set';
-    if (req.decoded.isCaterer) {
-      const { userId } = req.decoded;
-      const scope = [{ method: ['forCaterers2', userId] }];
-
-      return super
-        .getAllRecords(req, scope, options, { message });
+    const { userId, isCaterer } = req.decoded;
+    if (isCaterer) {
+      scope = [{ method: ['forCaterers', userId] }];
+    } else {
+      scope = 'forNonCaterers';
     }
-    return super
-      .getAllRecords(req, 'forNonCaterers', options, { message })
+    return this
+      .getAllRecords(req, scope, options, { message, acceptCallback })
       .catch(error => MenuController.errorResponse(error.message));
 
   }
-  getMenuMeals(req, msg) {
-    const options = {
-      where: {
-        menuDate: { [Op.gte]: today, [Op.lt]: nextDate }
-      }
-    };
-    const message = msg || 'menu for the day has not been set';
-    const acceptCallback = rows => rows[0].Meals[0];
-    if (req.decoded.isCaterer) {
-      const { userId } = req.decoded;
-      const scope = [{ method: ['forCaterers', userId] }];
 
-      return super
-        .getAllRecords(req, scope, options, { message, acceptCallback });
-    }
-    return super.getAllRecords(
-      req, 'forNonCaterers',
-      options, { message, acceptCallback }
-    )
-      .catch(error => MenuController.errorResponse(error.message));
-
-  }
   postMenu(req) {
     const { userId } = req.decoded;
+    const date = (req.query && req.query.date) || today;
+    const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {
-        menuDate: { [Op.gte]: today, [Op.lt]: nextDate }
+        menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
       },
       defaults: {
-        menuDate: new Date().setHours(0, 0, 0, 0, 0),
+        menuDate: date,
       }
     })
       .then(async ([menu]) => {
@@ -65,8 +48,8 @@ export default class MenuController extends Controller {
         req2.body.id = menu.id;
         try {
           await menu.setMeals(req.body.meals, { through: { userId } });
-        } catch (err) { return MenuController.errorResponse(err.message); }
-        return req2;
+          return req2;
+        } catch (err) { throw new Error(err); }
       })
       .then((req2) => {
         process.env.ORDER_START_HOUR = new Date().getHours();

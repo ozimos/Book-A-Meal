@@ -5,7 +5,13 @@ import {
 const initialState = {
   connecting: false,
   menuError: null,
-  menu: []
+  menu: [],
+  menuDetails: {},
+  pagination: {
+    limit: 10,
+    offset: 0,
+    count: 1,
+    pages: 1 }
 };
 
 export default (state = initialState, action) => {
@@ -18,7 +24,12 @@ export default (state = initialState, action) => {
       };
     case menuTypes.GET_MENU_SUCCESS:
       return {
+        ...state,
+        connecting: false,
         menu: action.menu,
+        menuDetails: action.menuDetails,
+        pagination: action.pagination
+
       };
     case menuTypes.MENU_FAILURE:
       return {
@@ -28,7 +39,11 @@ export default (state = initialState, action) => {
       };
     case menuTypes.POST_MENU_SUCCESS:
       return {
+        ...state,
+        connecting: false,
         menu: action.menu,
+        menuDetails: action.menuDetails,
+        pagination: action.pagination
       };
     default:
       return state;

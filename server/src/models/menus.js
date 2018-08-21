@@ -26,22 +26,11 @@ export default (sequelize, DataTypes) => {
             }]
           };
         },
-        forCaterers2(userId) {
-          return {
-            include: [{
-              association: 'Meals',
-              attributes: ['id'],
-              where: { userId },
-              through: {
-                attributes: []
-              }
-            }]
-          };
-        },
         forNonCaterers() {
           return {
             include: [{
               association: 'Meals',
+              required: true,
               through: {
                 attributes: []
               }

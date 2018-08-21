@@ -49,8 +49,7 @@
   .accordion__title{
     background-color: #CD9655;
     border-radius: 5px;    
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
     border-bottom: 1px solid #aaa;
     &:focus{
       outline: none
@@ -110,11 +109,10 @@
     margin: 0;
     padding: 0 20px;
     .gallery.scroll {
-      max-height: 55vh;    
+      max-height: 50vh;    
     }
     .navbar-fixed{
       margin-left: -20px;
-      // margin-right: -20px;
     }
   }
   #meal_image {

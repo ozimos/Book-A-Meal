@@ -74,22 +74,10 @@ class UserController extends Controller {
       .catch(error => UserController.errorResponse(error.message));
   }
 
-  static checkUser(req, res) {
-    const {
-      isCaterer
-    } = req.decoded;
-    res.status(200).json({
-      data: {
-        isCaterer
-      }
-    });
-  }
-
-
   /**
    *
    *
-   * @param {Sequelize<Model<Instance>>} data
+   * @param {Sequelize<Model<Instance>>} user
    * @param {String} extraMessage
    * @returns {obj} HTTP Response
    * @memberof UserController

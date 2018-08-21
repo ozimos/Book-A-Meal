@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone';
 import SearchInput, { createFilter } from 'react-search-input';
 import { push } from 'react-router-redux';
 import Formsy from 'formsy-react';
+import ReactPaginate from 'react-paginate';
 import MyFormsyInput from '../helpers/MyInput';
 import ConnectedMealOptionsCard from '../mealCard/ConnectedMealOptionsCard';
 import MyFormsyTextArea from '../helpers/MyTextArea';
@@ -38,7 +39,7 @@ export class MealManager extends React.Component {
     if (!this.props.authenticated) {
       this.props.dispatch(push('/login'));
     }
-    this.props.dispatch(mealActions.getAllUserMeals());
+    this.props.dispatch(mealActions.getAllMeals());
   }
   setUploadPercent(percentProgress) {
     this.setState({ uploadPercent: percentProgress });
@@ -59,10 +60,11 @@ export class MealManager extends React.Component {
     this.setState({ showNewMealModal: true });
   closeNewMealModal = () =>
     this.setState({ showNewMealModal: false, displayImage: '' });
-  handleSubmit = async (meal) => {
+  handleCreateMeal = async (meal) => {
     await this.props.dispatch(mealActions.createMeal(meal));
     this.setState({ displayImage: '' });
     this.closeNewMealModal();
+    await this.props.dispatch(mealActions.getAllMeals());
   }
   disableButton = () =>
     this.setState({ canSubmit: false });
@@ -73,18 +75,24 @@ export class MealManager extends React.Component {
   searchUpdated = (term) => {
     this.setState({ searchTerm: term });
   }
-
+  handlePaginationClick = (data) => {
+    const { limit } = this.props.pagination;
+    const nextOffset = (data.selected) * limit;
+    this.props.dispatch(mealActions.getAllMeals({ limit, offset: nextOffset }));
+  }
   render() {
     const KEYS_TO_FILTERS = ['id', 'title', 'description', 'price'];
     const filteredMeals = this.props.meals
       .filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
     const { isCaterer, firstName } = this.props.user;
+    const { pages } = this.props.pagination;
+
     return (
       <div className="contain">
         <header className="header">
           <ConnectedNav />
         </header>
-        <main>
+        <main className="min-height">
           <Greeting isCaterer={isCaterer} firstName={firstName} />
           <div className="title-element flexbox">
             <h5 className="shrink">
@@ -98,17 +106,41 @@ export class MealManager extends React.Component {
               <p>Add Meal</p>
             </button>
           </div>
-          <SearchInput
-            className="search-input input-field"
-            onChange={this.searchUpdated}
-          />
+          {
+          this.props.meals[0] ?
+            <React.Fragment>
+              <SearchInput
+                className="search-input input-field"
+                onChange={this.searchUpdated}
+              />
 
-          <MealCardContainer
-            meals={filteredMeals}
-            MealCard={ConnectedMealOptionsCard}
-            addClass="scroll2"
-            connecting={this.props.connecting}
-          />
+              <MealCardContainer
+                meals={filteredMeals}
+                MealCard={ConnectedMealOptionsCard}
+                addClass="scroll2"
+                connecting={this.props.connecting}
+              />
+              <ReactPaginate
+                previousLabel="previous"
+                nextLabel="next"
+                pageCount={pages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePaginationClick}
+                containerClassName="pagination"
+                subContainerClassName="pages pagination"
+                activeClassName="active"
+              />
+            </React.Fragment>
+          :
+            <div>
+              <h5>
+            You have not added any meals.
+             Get started by clicking the add a meal button
+              </h5>
+            </div>
+            }
+
         </main>
         <ReactModal
           isOpen={this.state.showNewMealModal}
@@ -132,7 +164,7 @@ export class MealManager extends React.Component {
             <div>
               <Formsy
                 className="form3"
-                onValidSubmit={this.handleSubmit}
+                onValidSubmit={this.handleCreateMeal}
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
                 ref={(form) => { this.formEl = form; }}
@@ -254,6 +286,11 @@ MealManager.propTypes = {
   dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool,
   connecting: PropTypes.bool,
+  pagination: PropTypes.shape({
+    pages: PropTypes.number,
+    count: PropTypes.number,
+    limit: PropTypes.number,
+  }).isRequired,
   user: PropTypes.shape({
     isCaterer: PropTypes.bool,
     firstName: PropTypes.string
@@ -264,6 +301,7 @@ const mapStateToProps = state =>
   ({ authenticated: state.loginReducer.authenticated,
     user: state.loginReducer.user.data,
     mealError: state.mealsReducer.mealError,
+    pagination: state.mealsReducer.pagination,
     connecting: state.mealsReducer.connecting,
     meals: state.mealsReducer.meals, });
 

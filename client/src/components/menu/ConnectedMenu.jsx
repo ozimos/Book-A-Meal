@@ -9,9 +9,12 @@ import {
   AccordionItemBody,
 } from 'react-accessible-accordion';
 import { ToastContainer, toast } from 'react-toastify';
+import ReactPaginate from 'react-paginate';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchInput, { createFilter } from 'react-search-input';
 import MealDisplayCard from '../mealCard/MealDisplayCard';
+import MealRow from '../orderCart/MealRow';
+import CartContainer from '../orderCart/CartContainer';
 import MealCardContainer from '../mealCard/MealCardContainer';
 import Greeting from '../greeting/Greeting';
 import { mealActions, menuActions } from '../../redux/actions';
@@ -26,6 +29,8 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showMenuModal: false,
+      currentMenu: [],
       searchTerm: '',
       menu: [],
       dbMenu: []
@@ -36,32 +41,26 @@ class Menu extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let incomingMenu = [];
     let prevMenu = [];
-    if (prevState.dbMenu) {
+    if (prevState.dbMenu[0]) {
       prevMenu = prevState.dbMenu.map(meal => meal.id);
     }
-    if (nextProps.menu) {
+    if (nextProps.menu[0]) {
       incomingMenu = nextProps.menu.map(meal => meal.id);
     }
     const incomingMenuSet = new Set(incomingMenu);
     const difference = prevMenu.filter(x => !incomingMenuSet.has(x));
     if (difference.length > 0) {
-      const newMenu = [...nextProps.menu];
-      newMenu
-        .forEach((meal) => { delete meal.MealMenus; });
       return {
         dbMenu: nextProps.menu,
-        menu: newMenu };
+        menu: nextProps.menu };
     }
     return null;
   }
   async componentDidMount() {
     this.props.dispatch(mealActions.getAllMeals());
     await this.props.dispatch(menuActions.getMenu());
-    const newMenu = [...this.props.menu];
-    newMenu
-      .forEach((meal) => { delete meal.MealMenus; });
     // eslint-disable-next-line
-     this.setState({ menu: newMenu, dbMenu: this.props.menu });
+     this.setState({ menu: this.props.menu, dbMenu: this.props.menu });
   }
 
   addToMenu(meal) {
@@ -73,7 +72,8 @@ class Menu extends React.Component {
       toast.error('Meal is already in menu', { className: 'toaster' });
     }
   }
-
+  openMenuModal = () => this.setState({ showMenuModal: true })
+  closeMenuModal= () => this.setState({ showMenuModal: false })
   removeFromMenu = id =>
     this.setState(prevState =>
       ({ menu: prevState.menu.filter(elem => elem.id !== id) }));
@@ -85,7 +85,16 @@ class Menu extends React.Component {
     this.props.dispatch(menuActions.postMenu({ meals: mealIdArray }));
     toast.success('Menu for the day has been posted', { className: 'toaster' });
   }
-
+  handleMealPaginationClick = (data) => {
+    const { limit } = this.props.mealsPagination;
+    const nextOffset = (data.selected) * limit;
+    this.props.dispatch(mealActions.getAllMeals({ limit, offset: nextOffset }));
+  }
+  handleMenuPaginationClick = (data) => {
+    const { limit } = this.props.menuPagination;
+    const nextOffset = (data.selected) * limit;
+    this.props.dispatch(menuActions.getMenu({ limit, offset: nextOffset }));
+  }
   render() {
     const KEYS_TO_FILTERS = ['id', 'title', 'description', 'price'];
 
@@ -93,6 +102,9 @@ class Menu extends React.Component {
       .filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
     const { isCaterer, firstName } = this.props.user;
     const isMenuSet = this.state.menu.length !== 0;
+    const mealPages = this.props.mealsPagination.pages;
+    const menuPages = this.props.menuPagination.pages;
+    const isMealSelected = this.state.currentMenu.length !== 0;
 
     return (
       <div className="contain">
@@ -101,8 +113,23 @@ class Menu extends React.Component {
         </header>
         <main>
           <ToastContainer autoClose={2000} />
-
-          <Greeting isCaterer={isCaterer} firstName={firstName} />
+          <div className="flexbox">
+            <Greeting isCaterer={isCaterer} firstName={firstName} />
+            <button
+              className="btn title-button"
+              onClick={this.openMenuModal}
+              disabled={!isMealSelected}
+            >
+              <p
+                className="cart-notification"
+              >
+                      Menu
+                <span className="badge">
+                  {this.state.currentMenu.length}
+                </span>
+              </p>
+            </button>
+          </div>
           <Accordion accordion>
             <AccordionItem expanded>
               <AccordionItemTitle>
@@ -127,6 +154,17 @@ class Menu extends React.Component {
                   collection="Menu"
                   addToCollection={this.addToMenu}
                   addClass="scroll"
+                />
+                <ReactPaginate
+                  previousLabel="previous"
+                  nextLabel="next"
+                  pageCount={mealPages}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={this.handleMealPaginationClick}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
                 />
               </AccordionItemBody>
             </AccordionItem>
@@ -158,17 +196,31 @@ class Menu extends React.Component {
 
                 {
                   isMenuSet ?
-                    <MealCardContainer
-                      meals={this.state.menu}
-                      MealCard={MealDisplayCard}
-                      collection="Menu"
-                      removeFremoveFromCollectionromMenu={this.removeFromMenu}
-                      addClass="scroll"
-                    /> :
+                    <div>
+                      <MealCardContainer
+                        meals={this.state.menu}
+                        MealCard={MealDisplayCard}
+                        collection="Menu"
+                        removeFromCollection={this.removeFromMenu}
+                        addClass="scroll"
+                      />
+                      <ReactPaginate
+                        previousLabel="previous"
+                        nextLabel="next"
+                        pageCount={menuPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handleMenuPaginationClick}
+                        containerClassName="pagination"
+                        subContainerClassName="pages pagination"
+                        activeClassName="active"
+                      />
+                    </div>
+                  :
                     <div className="menu-message">
-                  `You have not added meals to the menu.
+                  You have not added meals to the menu.
                    Select a meal from the meal section
-                   above to add meal to menu.`
+                   above to add meal to menu.
                     </div>
                  }
               </AccordionItemBody>
@@ -176,6 +228,33 @@ class Menu extends React.Component {
 
           </Accordion>
         </main>
+        <ReactModal
+          isOpen={this.state.showMenuModal}
+          contentLabel="Input Modal"
+          className="modal-content"
+          onRequestClose={this.openMenuModal}
+          shouldCloseOnOverlayClick
+        >
+          <aside className="col s12" >
+            {isMealSelected ? <CartContainer
+              order={this.state.currentMenu}
+              orderId={this.state.currentMenuId}
+              MealRow={MealRow}
+              removeFromCart={this.removeMealFromCart}
+              clearCart={this.clearOrder}
+              closeCart={this.closeMenuModal}
+              notify={this.notify}
+            /> :
+            <div>
+              <h3>Order Cart</h3>
+              <p>
+                  No orders here. Select a meal and click the Add to Cart button
+              </p>
+
+            </div>
+                }
+          </aside>
+        </ReactModal>
       </div>
     );
   }
@@ -187,6 +266,16 @@ Menu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   menu: PropTypes.arrayOf(PropTypes.object),
+  menuPagination: PropTypes.shape({
+    pages: PropTypes.number,
+    count: PropTypes.number,
+    limit: PropTypes.number,
+  }).isRequired,
+  mealsPagination: PropTypes.shape({
+    pages: PropTypes.number,
+    count: PropTypes.number,
+    limit: PropTypes.number,
+  }).isRequired,
   user: PropTypes.shape({
     isCaterer: PropTypes.bool,
     firstName: PropTypes.string
@@ -195,9 +284,10 @@ Menu.propTypes = {
 const mapStateToProps = state => ({
   mealError: state.mealsReducer.mealError,
   connecting: state.mealsReducer.connecting,
-  deleted: state.mealsReducer.deleted,
   meals: state.mealsReducer.meals,
-  menu: state.menuReducer.menu.Meals,
+  mealsPagination: state.mealsReducer.pagination,
+  menuPagination: state.menuReducer.pagination,
+  menu: state.menuReducer.menu,
   authenticated: state.loginReducer.authenticated,
   user: state.loginReducer.user.data
 });

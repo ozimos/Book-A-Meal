@@ -101,37 +101,30 @@ class Controller {
     { message = 'no records available', acceptCallback = () => true,
       raw = false } = {}
   ) {
-    const { page = 1, limit = 10 } = req.query;
-    const offset = limit * (page - 1);
-    options.limit = limit;
+    let { offset = 0, limit = 8 } = req.query;
+    limit = Number(limit);
+    offset = Number(offset);
+    options.limit = Number(limit);
     options.offset = offset;
     return this.Model.scope(scope)
       .findAndCountAll(options)
       .then((data) => {
         const { count, rows } = data;
         const pages = Math.ceil(count / limit);
-        if (raw) return { pages, count, rows };
+        if (raw) return { limit, offset, pages, count, rows };
         if (rows && rows.length > 0 && acceptCallback(rows)) {
-          return Controller.defaultResponse({ pages, count, rows });
+          return Controller.defaultResponse({
+            limit,
+            offset,
+            pages,
+            count,
+            rows });
         }
         return Controller.errorResponse(message, 404);
       })
       .catch(error => Controller.errorResponse(error.message));
   }
-  /**
-   *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns {obj} Model
-   * @memberof Controller
-   */
-  getAllUserRecords(req) {
-    const whereCondition = {
-      where: { userId: req.decoded.userId }
-    };
-    return this.getAllRecords(req, whereCondition);
-  }
+
   /**
    *
    *
@@ -184,7 +177,8 @@ class Controller {
     return this.Model
       .destroy({
         where: {
-          id: req.params.id
+          id: req.params.id,
+          deletedAt: new Date('2100')
         },
       })
       .then((result) => {

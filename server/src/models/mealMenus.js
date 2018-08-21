@@ -17,7 +17,8 @@ export default (sequelize, DataTypes) => {
               .find({ where: { id: this.mealId }, attributes: ['userId'] })
               .then((Meal) => {
                 if (this.userId !== Meal.userId) {
-                  throw new Error('You can only add your meals');
+                  throw new Error(`You can only add your meals to the menu.
+                   Meal id: ${this.mealId} does not belong to this user`);
                 }
               });
           }

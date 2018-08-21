@@ -1,33 +1,20 @@
 import axios from 'axios';
-import authHeader from '../authHeader';
+import authHeader from './authHeader';
 
-const send = (url, method, menuData) => {
-  const requestOptions = {
-    url,
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...authHeader()
-    },
-    data: menuData
-  };
-  return axios(requestOptions);
-};
-
-const noSend = (url, requestMethod) => {
+const requestServices = (url, requestMethod, data) => {
   const requestOptions = {
     url,
     method: requestMethod || 'get',
     headers: {
+      'Content-Type': 'application/json',
       Accept: 'application/json',
       ...authHeader()
-    },
+    }
   };
+  if (data) {
+    requestOptions.data = data;
+  }
   return axios(requestOptions);
 };
 
-export default {
-  send,
-  noSend
-};
+export default requestServices;

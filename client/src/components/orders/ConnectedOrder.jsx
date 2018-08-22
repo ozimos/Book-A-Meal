@@ -15,7 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MealDisplayCard from '../mealCard/MealDisplayCard';
 import MealRow from '../orderCart/MealRow';
-import CartContainer from '../orderCart/CartContainer';
+import ConnectedCartContainer from '../orderCart/ConnectedCartContainer';
 import OrderItem from '../orderCart/OrderItem';
 import MealCardContainer from '../mealCard/MealCardContainer';
 import OrderContainer from '../mealCard/OrderContainer';
@@ -47,7 +47,7 @@ class Order extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch(menuActions.getMenu());
-    this.props.dispatch(orderActions.getUserOrdersByDate());
+    this.props.dispatch(orderActions.getOrdersWithMealLinks());
   }
   openCartModal() {
     return this.setState({ showOrderModal: true });
@@ -212,7 +212,7 @@ class Order extends React.Component {
             shouldCloseOnOverlayClick
           >
             <aside className="col s12" >
-              {isMealSelected ? <CartContainer
+              {isMealSelected ? <ConnectedCartContainer
                 order={this.state.currentOrder}
                 orderId={this.state.currentOrderId}
                 MealRow={MealRow}

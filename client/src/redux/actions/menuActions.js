@@ -45,7 +45,6 @@ const postMenu = menu => (dispatch) => {
     );
 };
 
-
 export default {
   getMenu,
   postMenu,

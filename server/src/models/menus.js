@@ -19,6 +19,7 @@ export default (sequelize, DataTypes) => {
           return {
             include: [{
               association: 'Meals',
+              required: false,
               where: { userId },
               through: {
                 attributes: []
@@ -30,7 +31,7 @@ export default (sequelize, DataTypes) => {
           return {
             include: [{
               association: 'Meals',
-              required: true,
+              required: false,
               through: {
                 attributes: []
               }

@@ -8,7 +8,7 @@ const MealDisplayCard = ({
   price,
   description,
   ...props }) => {
-
+  // const checked = props.checkMeal(id);
   const meal = { id, title, imageUrl, price, description };
   return (
     <React.Fragment>
@@ -43,6 +43,16 @@ const MealDisplayCard = ({
           >
                 Remove
           </button>}
+        {/* {
+            checked &&
+            <input
+              className="card-checkbox card-btn"
+              type="checkbox"
+              name="mealcardcheck"
+              onChange={e => props.handleMealCheck(e, { id, title })}
+              checked={checked}
+            />
+          } */}
       </div>
     </React.Fragment>
   );
@@ -50,6 +60,8 @@ const MealDisplayCard = ({
 MealDisplayCard.defaultProps = {
   addToCollection: null,
   removeFromCollection: null,
+  // checkMeal: null,
+  // handleMealCheck: null,
 };
 MealDisplayCard.propTypes = {
   title: PropTypes.string.isRequired,
@@ -59,6 +71,8 @@ MealDisplayCard.propTypes = {
   id: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   addToCollection: PropTypes.func,
+  // checkMeal: PropTypes.func,
+  // handleMealCheck: PropTypes.func,
   removeFromCollection: PropTypes.func,
 };
 export default MealDisplayCard;

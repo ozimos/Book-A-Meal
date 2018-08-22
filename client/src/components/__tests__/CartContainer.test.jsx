@@ -1,12 +1,12 @@
 /* global React:false, shallow:false toJson:false */
 
-import { PlainCartContainer } from '../orderCart/CartContainer';
+import { CartContainer } from '../orderCart/ConnectedCartContainer';
 import { allOrders } from '../mocks/orderDataMock';
 
 describe('CartContainer Component', () => {
 
   it('should render without throwing an error', () => {
-    expect(shallow(<PlainCartContainer
+    expect(shallow(<CartContainer
       order={allOrders.data}
       MealRow={jest.fn()}
       clearCart={jest.fn()}
@@ -16,7 +16,7 @@ describe('CartContainer Component', () => {
       .exists(<table className="table" />)).toBe(true);
   });
   it('renders correctly', () => {
-    const wrapper = shallow(<PlainCartContainer
+    const wrapper = shallow(<CartContainer
       order={allOrders.data}
       MealRow={jest.fn()}
       clearCart={jest.fn()}

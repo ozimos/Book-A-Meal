@@ -17,7 +17,9 @@ export default class MenuController extends Controller {
         menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
       };
     }
-    const acceptCallback = rows => rows[0].Meals.length > 0;
+    const acceptCallback = rows =>
+      (req.body && !req.body.meals[0]) ||
+     rows[0].Meals.length > 0;
     const message = msg || 'menu for the day has not been set';
     const { userId, isCaterer } = req.decoded;
     if (isCaterer) {
@@ -47,7 +49,13 @@ export default class MenuController extends Controller {
         const req2 = { ...req };
         req2.body.id = menu.id;
         try {
-          await menu.setMeals(req.body.meals, { through: { userId } });
+          if (req.body.meals[0]) {
+            const promise = req.body.meals.map(id =>
+              menu.addMeal(id, { through: { userId } }));
+            await Promise.all(promise);
+          } else {
+            await menu.setMeals(req.body.meals, { through: { userId } });
+          }
           return req2;
         } catch (err) { throw new Error(err); }
       })
@@ -55,6 +63,31 @@ export default class MenuController extends Controller {
         process.env.ORDER_START_HOUR = new Date().getHours();
         process.env.ORDER_START_MINS = new Date().getMinutes();
         return this.getMenu(req2, 'Menu was not posted. Try again');
+      })
+      .catch(err => MenuController.errorResponse(err.message));
+  }
+  removeFromMenu(req) {
+    const { userId } = req.decoded;
+    return this.Model.find({
+      where: {
+        id: req.body.id
+      }
+    })
+      .then(async (menu) => {
+        try {
+          if (req.body.meals[0]) {
+            const promise = req.body.meals.map(id =>
+              menu.removeMeal(id));
+            await Promise.all(promise);
+          } else {
+            await menu.setMeals(req.body.meals, { through: { userId } });
+          }
+        } catch (err) { throw new Error(err); }
+      })
+      .then(() => {
+        process.env.ORDER_START_HOUR = new Date().getHours();
+        process.env.ORDER_START_MINS = new Date().getMinutes();
+        return this.getMenu(req, 'Menu was not modified. Try again');
       })
       .catch(err => MenuController.errorResponse(err.message));
   }

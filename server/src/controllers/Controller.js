@@ -112,7 +112,7 @@ class Controller {
         const { count, rows } = data;
         const pages = Math.ceil(count / limit);
         if (raw) return { limit, offset, pages, count, rows };
-        if (rows && rows.length > 0 && acceptCallback(rows)) {
+        if ((rows && rows.length > 0) && acceptCallback(rows)) {
           return Controller.defaultResponse({
             limit,
             offset,

@@ -13,8 +13,7 @@ import ReactPaginate from 'react-paginate';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchInput, { createFilter } from 'react-search-input';
 import MealDisplayCard from '../mealCard/MealDisplayCard';
-import MealRow from '../orderCart/MealRow';
-import CartContainer from '../orderCart/CartContainer';
+import ConnectedMenuContainer from '../orderCart/ConnectedMenuContainer';
 import MealCardContainer from '../mealCard/MealCardContainer';
 import Greeting from '../greeting/Greeting';
 import { mealActions, menuActions } from '../../redux/actions';
@@ -32,63 +31,87 @@ class Menu extends React.Component {
       showMenuModal: false,
       currentMenu: [],
       searchTerm: '',
-      menu: [],
-      dbMenu: []
     };
     this.addToMenu = this.addToMenu.bind(this);
     this.postMenu = this.postMenu.bind(this);
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let incomingMenu = [];
-    let prevMenu = [];
-    if (prevState.dbMenu[0]) {
-      prevMenu = prevState.dbMenu.map(meal => meal.id);
-    }
-    if (nextProps.menu[0]) {
-      incomingMenu = nextProps.menu.map(meal => meal.id);
-    }
-    const incomingMenuSet = new Set(incomingMenu);
-    const difference = prevMenu.filter(x => !incomingMenuSet.has(x));
-    if (difference.length > 0) {
-      return {
-        dbMenu: nextProps.menu,
-        menu: nextProps.menu };
-    }
-    return null;
-  }
-  async componentDidMount() {
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   let incomingMenu = [];
+  //   let prevMenu = [];
+  //   if (prevState.dbMenu[0]) {
+  //     prevMenu = prevState.dbMenu.map(meal => meal.id);
+  //   }
+  //   if (nextProps.menu[0]) {
+  //     incomingMenu = nextProps.menu.map(meal => meal.id);
+  //   }
+  //   const incomingMenuSet = new Set(incomingMenu);
+  //   const difference = prevMenu.filter(x => !incomingMenuSet.has(x));
+  //   if (difference.length > 0) {
+  //     return {
+  //       dbMenu: nextProps.menu,
+  //       menu: nextProps.menu };
+  //   }
+  //   return null;
+  // }
+  componentDidMount() {
     this.props.dispatch(mealActions.getAllMeals());
-    await this.props.dispatch(menuActions.getMenu());
-    // eslint-disable-next-line
-     this.setState({ menu: this.props.menu, dbMenu: this.props.menu });
+    this.props.dispatch(menuActions.getMenu());
   }
+handleMealCheck = (event, meal) => {
+  if (event.target.checked) {
+    this.addToMenu(meal);
+  } else {
+    this.removeFromMenu(meal.id);
+  }
+}
+notify = message => toast(message, { className: 'toaster' });
 
-  addToMenu(meal) {
-    const inMenu = this.state.menu.some(elem => elem.id === meal.id);
-    if (!inMenu) {
-      this.setState(prevState => ({ menu: [...prevState.menu, meal] }));
-      toast.success('Meal has been added to menu', { className: 'toaster' });
-    } else {
-      toast.error('Meal is already in menu', { className: 'toaster' });
-    }
+checkMeal = id => this.state.currentMenu.some(elem => elem.id === id)
+addToMenu(meal) {
+  if (this.state.currentMenu.length > 16) {
+    return toast(
+      'Menu holding is full. Post and clear meals before adding new',
+      { className: 'toaster' }
+    );
   }
+  const inMenu = this.state.currentMenu.some(elem => elem.id === meal.id);
+  if (!inMenu) {
+    this.setState(prevState =>
+      ({ currentMenu: [...prevState.currentMenu, meal] }));
+    toast.success('Meal has been added to menu cart', { className: 'toaster' });
+  } else {
+    toast.error('Meal is already in menu cart', { className: 'toaster' });
+  }
+}
   openMenuModal = () => this.setState({ showMenuModal: true })
   closeMenuModal= () => this.setState({ showMenuModal: false })
   removeFromMenu = id =>
     this.setState(prevState =>
-      ({ menu: prevState.menu.filter(elem => elem.id !== id) }));
+      ({ currentMenu: prevState.currentMenu.filter(elem => elem.id !== id) }));
   searchUpdated = (term) => {
     this.setState({ searchTerm: term });
   }
-  postMenu() {
-    const mealIdArray = this.state.menu.map(meal => meal.id);
-    this.props.dispatch(menuActions.postMenu({ meals: mealIdArray }));
-    toast.success('Menu for the day has been posted', { className: 'toaster' });
+  async postMenu(menu, meals, msg) {
+    const mealList = meals || this.state.currentMenu.map(meal => meal.id);
+    await this.props.dispatch(menuActions.postMenu({ meals: mealList }));
+    this.clearMenu();
+    if (this.props.menuError) {
+      toast.error(this.props.menuError, { className: 'toaster' });
+    } else {
+      toast.success(
+        msg || 'Menu for the day has been posted',
+        { className: 'toaster' }
+      );
+    }
   }
   handleMealPaginationClick = (data) => {
     const { limit } = this.props.mealsPagination;
     const nextOffset = (data.selected) * limit;
     this.props.dispatch(mealActions.getAllMeals({ limit, offset: nextOffset }));
+  }
+  clearMenu = () => {
+    this.setState({ currentMenu: [] });
+    this.closeMenuModal();
   }
   handleMenuPaginationClick = (data) => {
     const { limit } = this.props.menuPagination;
@@ -101,7 +124,7 @@ class Menu extends React.Component {
     const filteredMeals = this.props.meals
       .filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
     const { isCaterer, firstName } = this.props.user;
-    const isMenuSet = this.state.menu.length !== 0;
+    const isMenuSet = this.props.menu.length !== 0;
     const mealPages = this.props.mealsPagination.pages;
     const menuPages = this.props.menuPagination.pages;
     const isMealSelected = this.state.currentMenu.length !== 0;
@@ -150,10 +173,13 @@ class Menu extends React.Component {
                 />
                 <MealCardContainer
                   meals={filteredMeals}
+                  // handleMealCheck={this.handleMealCheck}
+                  // checkMeal={this.checkMeal}
                   MealCard={MealDisplayCard}
                   collection="Menu"
                   addToCollection={this.addToMenu}
                   addClass="scroll"
+
                 />
                 <ReactPaginate
                   previousLabel="previous"
@@ -187,7 +213,8 @@ class Menu extends React.Component {
                   </button>
                   <button
                     className="title-button btn"
-                    onClick={() => this.setState({ menu: [] })
+                    onClick={() =>
+                      this.postMenu(null, [], 'Menu has been cleared')
                   }
                   >
                     <p>Clear Menu</p>
@@ -198,7 +225,7 @@ class Menu extends React.Component {
                   isMenuSet ?
                     <div>
                       <MealCardContainer
-                        meals={this.state.menu}
+                        meals={this.props.menu}
                         MealCard={MealDisplayCard}
                         collection="Menu"
                         removeFromCollection={this.removeFromMenu}
@@ -236,19 +263,18 @@ class Menu extends React.Component {
           shouldCloseOnOverlayClick
         >
           <aside className="col s12" >
-            {isMealSelected ? <CartContainer
-              order={this.state.currentMenu}
-              orderId={this.state.currentMenuId}
-              MealRow={MealRow}
+            {isMealSelected ? <ConnectedMenuContainer
+              menu={this.state.currentMenu}
+              postMenu={this.postMenu}
               removeFromCart={this.removeMealFromCart}
-              clearCart={this.clearOrder}
-              closeCart={this.closeMenuModal}
+              clearMenu={this.clearMenu}
+              closeMenuModal={this.closeMenuModal}
               notify={this.notify}
             /> :
             <div>
-              <h3>Order Cart</h3>
+              <h3>Menu</h3>
               <p>
-                  No orders here. Select a meal and click the Add to Cart button
+                  No meals here. Select a meal and click the Add to Menu button
               </p>
 
             </div>
@@ -260,12 +286,14 @@ class Menu extends React.Component {
   }
 }
 Menu.defaultProps = {
-  menu: []
+  menu: [],
+  menuError: null
 };
 Menu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   menu: PropTypes.arrayOf(PropTypes.object),
+  menuError: PropTypes.string,
   menuPagination: PropTypes.shape({
     pages: PropTypes.number,
     count: PropTypes.number,
@@ -283,6 +311,7 @@ Menu.propTypes = {
 };
 const mapStateToProps = state => ({
   mealError: state.mealsReducer.mealError,
+  menuError: state.mealsReducer.menuError,
   connecting: state.mealsReducer.connecting,
   meals: state.mealsReducer.meals,
   mealsPagination: state.mealsReducer.pagination,

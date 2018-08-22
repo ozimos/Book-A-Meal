@@ -6,7 +6,7 @@ import { orderActions } from '../../redux/actions';
 import '../../../public/styles/cart_layout.scss';
 
 
-class PlainCartContainer extends React.Component {
+class CartContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -136,12 +136,12 @@ class PlainCartContainer extends React.Component {
  }
 }
 
-PlainCartContainer.defaultProps = {
+CartContainer.defaultProps = {
   addClass: '',
   orderError: '',
   orderId: ''
 };
-PlainCartContainer.propTypes = {
+CartContainer.propTypes = {
   order: PropTypes.arrayOf(PropTypes.object).isRequired,
   MealRow: PropTypes.func.isRequired,
   addClass: PropTypes.string,
@@ -155,6 +155,6 @@ const mapStateToProps = state => ({
   orderError: state.orderReducer.orderError,
   connecting: state.orderReducer.connecting,
 });
-export { PlainCartContainer };
-export default connect(mapStateToProps)(PlainCartContainer);
+export { CartContainer };
+export default connect(mapStateToProps)(CartContainer);
 

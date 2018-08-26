@@ -10,13 +10,11 @@ const initialState = {
   pagination: {
     limits: 10,
     offset: 0,
-    page: 1,
     count: 1,
     pages: 1 },
   mealPagination: {
     limits: 10,
     offset: 0,
-    page: 1,
     count: 1,
     pages: 1 },
 };
@@ -70,8 +68,6 @@ export default (state = initialState, action) => {
           return order;
         }),
         meals: action.order.Meals,
-        pagination: { ...state.pagination,
-          count: state.pagination.count + 1 },
         mealPagination: action.mealPagination,
       };
     default:

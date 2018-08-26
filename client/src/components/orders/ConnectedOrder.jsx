@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
@@ -16,7 +15,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import MealDisplayCard from '../mealCard/MealDisplayCard';
 import MealRow from '../orderCart/MealRow';
 import ConnectedCartContainer from '../orderCart/ConnectedCartContainer';
-import OrderItem from '../orderCart/OrderItem';
 import MealCardContainer from '../mealCard/MealCardContainer';
 import OrderContainer from '../mealCard/OrderContainer';
 import Greeting from '../greeting/Greeting';
@@ -48,6 +46,11 @@ class Order extends React.Component {
   componentDidMount() {
     this.props.dispatch(menuActions.getMenu());
     this.props.dispatch(orderActions.getOrdersWithMealLinks());
+  }
+  getNextPage = () => {
+    const { offset, limits } = this.props.pagination;
+    this.props.dispatch(orderActions
+      .getOrdersWithMealLinks({ limits, offset }));
   }
   openCartModal() {
     return this.setState({ showOrderModal: true });
@@ -177,7 +180,7 @@ class Order extends React.Component {
                 <AccordionItemTitle>
                   <div className="title-element flexbox">
                     <h4 className="long_string">
-                      Your Orders for Today
+                      Your Order History
                     </h4>
                     <div
                       className="accordion__arrow u-position-relative"
@@ -193,8 +196,10 @@ class Order extends React.Component {
                   </p>
                   { isTodayOrder ? <OrderContainer
                     orders={this.props.orders}
-                    OrderItem={OrderItem}
+                    loading={this.props.orderConnecting}
+                    pagination={this.props.pagination}
                     addOrderToCart={this.addOrderToCart}
+                    onFetchData={this.getNextPage}
                   /> :
                   <div>
                   You have not placed an order today
@@ -239,12 +244,19 @@ class Order extends React.Component {
 }
 Order.defaultProps = {
   menu: [],
-  orders: []
+  orders: [],
+  orderConnecting: false
 };
 Order.propTypes = {
   dispatch: PropTypes.func.isRequired,
   orders: PropTypes.arrayOf(PropTypes.object),
   menu: PropTypes.arrayOf(PropTypes.object),
+  pagination: PropTypes.shape({
+    pages: PropTypes.number,
+    limits: PropTypes.number,
+    offset: PropTypes.number
+  }).isRequired,
+  orderConnecting: PropTypes.bool,
   user: PropTypes.shape({
     isCaterer: PropTypes.bool,
     firstName: PropTypes.string,
@@ -253,11 +265,13 @@ Order.propTypes = {
 };
 const mapStateToProps = state => ({
   orderError: state.orderReducer.orderError,
-  connecting: state.orderReducer.connecting,
-  menu: state.menuReducer.menu.Meals,
+  pagination: state.orderReducer.pagination,
+  orderConnecting: state.orderReducer.connecting,
+  menuConnecting: state.menuReducer.connecting,
+  menu: state.menuReducer.menu,
   orders: state.orderReducer.orders,
   user: state.loginReducer.user.data
 });
 
 export { Order };
-export default connect(mapStateToProps)(hot(module)(Order));
+export default connect(mapStateToProps)(Order);

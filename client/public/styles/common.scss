@@ -177,12 +177,9 @@ a {
     
     .progression{
       position: absolute; 
-        bottom: 40%; 
+        bottom: 57%; 
         left: 5%;
-        background-color: red;
         width: 90%;
-        // padding-left: 10%;
-        // padding-right: 10%;
         height: 10px;
        
     }
@@ -213,10 +210,10 @@ a {
     .overlay.full{
       display: flex;
       align-items: center;
-      bottom: 0px; 
+      bottom: unset; 
       transition: .5s ease;
+      min-height: 200px;      
       opacity: 0;
-      height: 99%;      
       &:hover{
         opacity: 1;
       }

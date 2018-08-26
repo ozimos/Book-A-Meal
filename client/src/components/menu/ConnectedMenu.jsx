@@ -1,3 +1,4 @@
+/* global M:false */
 import React from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
@@ -31,32 +32,26 @@ class Menu extends React.Component {
       showMenuModal: false,
       currentMenu: [],
       searchTerm: '',
+      menuDate: ''
     };
     this.addToMenu = this.addToMenu.bind(this);
     this.postMenu = this.postMenu.bind(this);
   }
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   let incomingMenu = [];
-  //   let prevMenu = [];
-  //   if (prevState.dbMenu[0]) {
-  //     prevMenu = prevState.dbMenu.map(meal => meal.id);
-  //   }
-  //   if (nextProps.menu[0]) {
-  //     incomingMenu = nextProps.menu.map(meal => meal.id);
-  //   }
-  //   const incomingMenuSet = new Set(incomingMenu);
-  //   const difference = prevMenu.filter(x => !incomingMenuSet.has(x));
-  //   if (difference.length > 0) {
-  //     return {
-  //       dbMenu: nextProps.menu,
-  //       menu: nextProps.menu };
-  //   }
-  //   return null;
-  // }
   componentDidMount() {
     this.props.dispatch(mealActions.getAllMeals());
     this.props.dispatch(menuActions.getMenu());
+    document.addEventListener('DOMContentLoaded', () => {
+      const elems = document.querySelectorAll('.datepicker');
+      M.Datepicker.init(elems);
+    });
   }
+  componentWillUnmount() {
+    document.removeEventListener('DOMContentLoaded', () => {
+      const elems = document.querySelectorAll('.datepicker');
+      M.Datepicker.init(elems);
+    });
+  }
+
 handleMealCheck = (event, meal) => {
   if (event.target.checked) {
     this.addToMenu(meal);
@@ -68,12 +63,6 @@ notify = message => toast(message, { className: 'toaster' });
 
 checkMeal = id => this.state.currentMenu.some(elem => elem.id === id)
 addToMenu(meal) {
-  if (this.state.currentMenu.length > 16) {
-    return toast(
-      'Menu holding is full. Post and clear meals before adding new',
-      { className: 'toaster' }
-    );
-  }
   const inMenu = this.state.currentMenu.some(elem => elem.id === meal.id);
   if (!inMenu) {
     this.setState(prevState =>
@@ -85,9 +74,6 @@ addToMenu(meal) {
 }
   openMenuModal = () => this.setState({ showMenuModal: true })
   closeMenuModal= () => this.setState({ showMenuModal: false })
-  removeFromMenu = id =>
-    this.setState(prevState =>
-      ({ currentMenu: prevState.currentMenu.filter(elem => elem.id !== id) }));
   searchUpdated = (term) => {
     this.setState({ searchTerm: term });
   }
@@ -100,6 +86,26 @@ addToMenu(meal) {
     } else {
       toast.success(
         msg || 'Menu for the day has been posted',
+        { className: 'toaster' }
+      );
+    }
+  }
+  removeFromMenu = (id) => {
+    const inMenu = this.state.currentMenu.some(elem => elem.id === id);
+    if (inMenu) {
+      this.setState(prevState =>
+        ({ currentMenu: prevState
+          .currentMenu.filter(elem => elem.id !== id) }));
+      toast.success(
+        'Meal was sucessfully removed',
+        { className: 'toaster' }
+      );
+      if (this.state.currentMenu.length <= 1) {
+        this.closeMenuModal();
+      }
+    } else {
+      toast.error(
+        'Meal is not in menu',
         { className: 'toaster' }
       );
     }
@@ -208,9 +214,13 @@ addToMenu(meal) {
               </AccordionItemTitle>
               <AccordionItemBody>
                 <div className="title-element flexbox">
-                  <button className="btn title-button" onClick={this.postMenu}>
-                    <p>Post Menu</p>
-                  </button>
+                  <input
+                    name="menuDate"
+                    className="datepicker"
+                    type="date"
+                    onChange={(e) => { this.setState({ menuDate: e.target.value }); }}
+                  />
+
                   <button
                     className="title-button btn"
                     onClick={() =>
@@ -266,7 +276,7 @@ addToMenu(meal) {
             {isMealSelected ? <ConnectedMenuContainer
               menu={this.state.currentMenu}
               postMenu={this.postMenu}
-              removeFromCart={this.removeMealFromCart}
+              removeFromMenu={this.removeFromMenu}
               clearMenu={this.clearMenu}
               closeMenuModal={this.closeMenuModal}
               notify={this.notify}
@@ -311,8 +321,9 @@ Menu.propTypes = {
 };
 const mapStateToProps = state => ({
   mealError: state.mealsReducer.mealError,
-  menuError: state.mealsReducer.menuError,
-  connecting: state.mealsReducer.connecting,
+  menuError: state.menuReducer.menuError,
+  menuConnecting: state.menuReducer.connecting,
+  mealsConnecting: state.mealsReducer.connecting,
   meals: state.mealsReducer.meals,
   mealsPagination: state.mealsReducer.pagination,
   menuPagination: state.menuReducer.pagination,

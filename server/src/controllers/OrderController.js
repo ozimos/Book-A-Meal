@@ -59,28 +59,31 @@ export default class OrderController extends Controller {
     const { userId, isCaterer } = req.decoded;
     options.include = [{
       association: 'Meals',
-      attributes: ['price'],
+      attributes: ['id', 'title', 'price'],
       through: {
         attributes: ['quantity']
       },
       required: true,
       duplicating: false,
       paranoid: false }];
-    options.distinct = false;
-    options.subQuery = false;
+    // options.distinct = false;
+    // options.subQuery = false;
+    options.order = [['createdAt', 'DESC']];
+
     if (isCaterer) {
       options.include[0].where = { userId };
     } else {
       options.where = { userId };
     }
     return this.getAllRecords(req, scope, options, { raw: true })
-      .then(({ limit, page, pages, count, rows }) => {
+      .then(({ limit, offset, pages, count, rows }) => {
         const newRows = rows.map((row) => {
           row.dataValues.MealsURL = `/api/v1/orders/${row.id}/meals`;
           return row.dataValues;
         });
-        return OrderController.defaultResponse({ limit,
-          page,
+        return OrderController.defaultResponse({
+          limit,
+          offset,
           pages,
           count,
           rows: newRows });

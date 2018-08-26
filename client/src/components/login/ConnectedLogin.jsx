@@ -49,6 +49,7 @@ class Login extends React.Component {
   }
 
   handleSubmit(user) {
+    this.setState({ prevLoginError: {} });
     this.props.dispatch(userActions.logout(user));
     this.props.dispatch(userActions.login(user));
   }

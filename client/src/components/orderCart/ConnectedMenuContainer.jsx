@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import Input from '@material-ui/core/Input';
+
 import { connect } from 'react-redux';
 import { menuActions } from '../../redux/actions';
 
@@ -7,8 +9,12 @@ import '../../../public/styles/cart_layout.scss';
 
 
 class MenuContainer extends React.Component {
-
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuDate: new Date()
+    };
+  }
  placeOrder = async () => {
 
    if (this.props.postMenu) {
@@ -31,41 +37,58 @@ class MenuContainer extends React.Component {
 
    return (
      <div className={rest.addClass ? `${rest.addClass}` : ''}>
-       <div className="flexbox cart">
-         <h5>Meals List</h5>
+       <div className="flexbox">
+         <h5>Menu Editor</h5>
          <button className="btn title-button" onClick={rest.closeMenuModal}>
                 &#10006;
          </button>
        </div>
-       <div className="scroll">
-         <ul>
-           {menu.map(meal =>
-             (
-               <li
-                 className="text_left"
-                 key={meal.id}
-               >
-                 {meal.title}
-               </li>))
-        }
-         </ul>
-         <div className="flexbox">
+       <div className="flexbox">
+         <label htmlFor="menu-date">
+           <input
+             className="datepicker"
+             style={{ width: '20%' }}
+             name="menuDate"
+             id="menu-date"
+             type="date"
+             onChange={(e) => { this.setState({ menuDate: e.target.value }); }}
+           />
 
-
-           <div className="flexbox">
-             <button className="btn btn-cart" onClick={this.placeOrder}>
-               {this.props.postMenu ?
-                'Add meals to Menu' :
-                'Remove meals from Menu' }
-             </button>
-
-             <button className="btn btn-cart" onClick={rest.clearMenu}>
-                   Clear Menu
-             </button>
-           </div>
-         </div>
-
+         Select the Date for the menu
+         </label>
        </div>
+
+       <div className="scroll">
+         {menu.map(meal =>
+             (
+               <div key={meal.id} className="flexbox">
+                 <span
+                   className="text_left long_string"
+                   key={meal.id}
+                 >
+                   {meal.title}
+                 </span>
+                 <button
+                   className="btn title-button"
+                   onClick={() => rest.removeFromMenu(meal.id)}
+                 >
+               Remove
+                 </button>
+               </div>
+               ))
+        }
+       </div>
+
+       <div className="flexbox">
+         <button className="btn btn-cart" onClick={this.placeOrder}>
+              Post meals to Menu
+         </button>
+
+         <button className="btn btn-cart" onClick={rest.clearMenu}>
+                   Clear Menu
+         </button>
+       </div>
+
      </div>
    );
  }

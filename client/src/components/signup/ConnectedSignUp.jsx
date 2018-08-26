@@ -46,6 +46,7 @@ class SignUp extends React.Component {
     }
   }
   handleSubmit(user) {
+    this.setState({ prevSignupError: {} });
     this.props.dispatch(userActions.logout(user));
     this.props.dispatch(userActions.signUp(user));
   }
@@ -171,6 +172,9 @@ class SignUp extends React.Component {
                     minLength: 'Must have at least 8 characters',
                     maxLength: 'input must be shorter than 50 characters',
                   }}
+                />
+                <MyCheckBox
+                  name="isCaterer"
                 />
                 <div>
                   <label htmlFor="isCaterer">

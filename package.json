@@ -99,6 +99,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "@material-ui/core": "^1.5.1",
     "ajv": "^6.5.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
@@ -121,6 +122,7 @@
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.2.2",
     "lodash.isequal": "^4.5.0",
+    "materialize-css": "^1.0.0-rc.2",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "postcss-loader": "^2.1.5",
@@ -141,6 +143,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-search-input": "^0.11.3",
     "react-shopping-cart": "^1.8.1",
+    "react-table": "^6.8.6",
     "react-tabs": "^2.2.2",
     "react-toastify": "^4.1.0",
     "redux": "^4.0.0",

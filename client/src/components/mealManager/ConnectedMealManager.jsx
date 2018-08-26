@@ -251,7 +251,7 @@ export class MealManager extends React.Component {
                  />
               : !this.state.uploading &&
                 <div
-                  style={{ display: 'flex', 'align-items': 'center' }}
+                  style={{ display: 'flex', alignItems: 'center' }}
                   className="dropzone"
                 >
                   <button className="btn"> Select an Image</button>

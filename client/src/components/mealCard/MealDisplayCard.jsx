@@ -41,7 +41,7 @@ const MealDisplayCard = ({
             className="btn title-button"
             onClick={() => props.removeFromCollection(id)}
           >
-                Remove
+            {`Remove from ${props.collection}`}
           </button>}
         {/* {
             checked &&

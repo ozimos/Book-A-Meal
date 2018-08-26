@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Row, Col, ProgressBar } from 'react-materialize';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const ProgressLoader = props =>
   (
-    <div>
-      <Row>
-        <Col s={12}>
-          <ProgressBar className="progression" progress={props.upload} />
-        </Col>
-      </Row>
+    <div className="progression">
+      <LinearProgress
+        style={{ height: '10px' }}
+        variant="determinate"
+        value={props.upload}
+      />
     </div>
   );
 

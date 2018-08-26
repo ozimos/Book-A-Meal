@@ -7,24 +7,25 @@ import paginationExtract from '../../utils/paginationExtract';
 const baseUrl = '/api/v1/orders';
 
 
-const getOrdersWithMealLinks = () => (dispatch) => {
-  dispatch({ type: orderTypes.ORDER_REQUEST });
+const getOrdersWithMealLinks = ({ limit = 8, offset = 0 } = {}) =>
+  (dispatch) => {
+    dispatch({ type: orderTypes.ORDER_REQUEST });
 
-  return requestServices(baseUrl)
-    .then(
-      response =>
-        dispatch({
-          type: orderTypes.GET_ORDER_ALL_SUCCESS,
-          orders: response.data.data.rows,
-          pagination: paginationExtract(response.data.data)
-        }),
-      error =>
-        dispatch({
-          type: orderTypes.ORDER_FAILURE,
-          error: error.response.data.message
-        })
-    );
-};
+    return requestServices(`${baseUrl}?limit=${limit}&offset=${offset}`)
+      .then(
+        response =>
+          dispatch({
+            type: orderTypes.GET_ORDER_ALL_SUCCESS,
+            orders: response.data.data.rows,
+            pagination: paginationExtract(response.data.data)
+          }),
+        error =>
+          dispatch({
+            type: orderTypes.ORDER_FAILURE,
+            error: error.response.data.message
+          })
+      );
+  };
 
 const getOrdersWithMealLinksByDate = date => (dispatch) => {
   const url = date ? `${baseUrl}/date/${date}` : `${baseUrl}/date/`;
@@ -56,7 +57,6 @@ const getMealsInOrder = orderId => (dispatch) => {
           type: orderTypes.GET_ORDER_MEAL_SUCCESS,
           order: response.data.data.rows[0],
           mealPagination: paginationExtract(response.data.data)
-
         }),
       error =>
         dispatch({

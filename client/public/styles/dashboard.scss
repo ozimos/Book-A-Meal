@@ -42,8 +42,17 @@ header.extra.header{
         background-color: #CD9655;
         height: 60px;
         .search-input {
-          padding-top: 0px
+          padding-top: 0px;
+          & > input{
+    padding:0px 20px 0px 15px;            
+        height: 30px; 
+        width: 80%;
+          }
         }
+  .search-input::before {
+    top: 0;
+  }
+        
       }
       .title-element {
         line-height: 2;

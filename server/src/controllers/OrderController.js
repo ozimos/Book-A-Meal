@@ -57,17 +57,6 @@ export default class OrderController extends Controller {
   getOrdersWithMealLinks(req, options = {}) {
     let scope;
     const { userId, isCaterer } = req.decoded;
-    options.include = [{
-      association: 'Meals',
-      attributes: ['id', 'title', 'price'],
-      through: {
-        attributes: ['quantity']
-      },
-      required: true,
-      duplicating: false,
-      paranoid: false }];
-    // options.distinct = false;
-    // options.subQuery = false;
     options.order = [['createdAt', 'DESC']];
 
     if (isCaterer) {
@@ -161,12 +150,12 @@ export default class OrderController extends Controller {
       .then(async (order) => {
         orderRef = order;
         if (OrderController.isOrderEditable(order.createdAt)) {
-          await order.setMeals([]);
+          return order.setMeals([]);
         }
         return Promise.reject(new Error('Order edit period has expired'));
       })
       .then(() => orderRef.reload())
-      .then(reloadedOrder => OrderController.processOrder(reloadedOrder, req))
+      .then(reloadedOrder => this.processOrder(reloadedOrder, req))
       .catch(err => OrderController.errorResponse(err.message));
   }
 

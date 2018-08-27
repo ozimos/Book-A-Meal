@@ -34,6 +34,7 @@ class Order extends React.Component {
       currentOrder: [],
       currentOrderId: '',
       showOrderModal: false,
+      currentPage: 0
     };
     this.openCartModal = this.openCartModal.bind(this);
     this.closeCartModal = this.closeCartModal.bind(this);
@@ -47,10 +48,24 @@ class Order extends React.Component {
     this.props.dispatch(menuActions.getMenu());
     this.props.dispatch(orderActions.getOrdersWithMealLinks());
   }
-  getNextPage = () => {
-    const { offset, limits } = this.props.pagination;
+  onFetchData = (state) => {
+    const { page, pageSize } = state;
+    console.log(page);
+    console.log(pageSize);
+    const offset = state.pageSize * state.page;
+    console.log(offset);
     this.props.dispatch(orderActions
-      .getOrdersWithMealLinks({ limits, offset }));
+      .getOrdersWithMealLinks({ limit: pageSize, offset }));
+  }
+  getNextPage = (page) => {
+    console.log(page);
+    const { limit } = this.props.pagination;
+    console.log(limit);
+    const offset = limit * page;
+    console.log(offset);
+    this.props.dispatch(orderActions
+      .getOrdersWithMealLinks({ limit, offset }));
+    this.setState({ currentPage: page - 1 });
   }
   openCartModal() {
     return this.setState({ showOrderModal: true });
@@ -199,7 +214,9 @@ class Order extends React.Component {
                     loading={this.props.orderConnecting}
                     pagination={this.props.pagination}
                     addOrderToCart={this.addOrderToCart}
-                    onFetchData={this.getNextPage}
+                    getNextPage={this.getNextPage}
+                    onFetchData={this.onFetchData}
+                    defaultPage={this.state.currentPage}
                   /> :
                   <div>
                   You have not placed an order today
@@ -245,7 +262,12 @@ class Order extends React.Component {
 Order.defaultProps = {
   menu: [],
   orders: [],
-  orderConnecting: false
+  orderConnecting: false,
+  pagination: {
+    pages: 1,
+    limit: 10,
+    offset: 0
+  },
 };
 Order.propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -253,9 +275,9 @@ Order.propTypes = {
   menu: PropTypes.arrayOf(PropTypes.object),
   pagination: PropTypes.shape({
     pages: PropTypes.number,
-    limits: PropTypes.number,
+    limit: PropTypes.number,
     offset: PropTypes.number
-  }).isRequired,
+  }),
   orderConnecting: PropTypes.bool,
   user: PropTypes.shape({
     isCaterer: PropTypes.bool,

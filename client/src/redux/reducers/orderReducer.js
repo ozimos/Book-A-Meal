@@ -6,17 +6,11 @@ const initialState = {
   connecting: false,
   orderError: null,
   orders: [],
-  meals: [],
   pagination: {
     limits: 10,
     offset: 0,
     count: 1,
-    pages: 1 },
-  mealPagination: {
-    limits: 10,
-    offset: 0,
-    count: 1,
-    pages: 1 },
+    pages: 1 }
 };
 
 export default (state = initialState, action) => {
@@ -26,6 +20,27 @@ export default (state = initialState, action) => {
         ...state,
         connecting: true,
         orderError: null
+      };
+    case orderTypes.ORDER_MEALS_REQUEST:
+      return {
+        ...state,
+        orders: state.orders.map((order) => {
+          if (order.id === action.order.id) {
+            return { ...order, ...action.order };
+          }
+          return order;
+        }),
+      };
+    case orderTypes.GET_ORDER_MEAL_FAILURE:
+      return {
+        ...state,
+        connecting: false,
+        orders: state.orders.map((order) => {
+          if (order.id === action.order.id) {
+            return { ...order, ...action.order };
+          }
+          return order;
+        }),
       };
     case orderTypes.GET_ORDER_ALL_SUCCESS:
       return {
@@ -41,34 +56,30 @@ export default (state = initialState, action) => {
     case orderTypes.POST_ORDER_SUCCESS:
       return {
         orders: [...state.orders, action.order],
-        meals: action.order.Meals,
         pagination: { ...state.pagination,
           count: state.pagination.count + 1 },
-        mealPagination: action.mealPagination,
       };
     case orderTypes.UPDATE_ORDER_SUCCESS:
       return {
+        ...state,
+        connecting: false,
         orders: state.orders.map((order) => {
           if (order.id === action.order.id) {
             return action.order;
           }
           return order;
         }),
-        meals: action.order.Meals,
-        pagination: { ...state.pagination,
-          count: state.pagination.count + 1 },
-        mealPagination: action.mealPagination,
       };
     case orderTypes.GET_ORDER_MEAL_SUCCESS:
       return {
+        ...state,
+        connecting: false,
         orders: state.orders.map((order) => {
           if (order.id === action.order.id) {
             return action.order;
           }
           return order;
         }),
-        meals: action.order.Meals,
-        mealPagination: action.mealPagination,
       };
     default:
       return state;

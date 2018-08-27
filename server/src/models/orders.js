@@ -15,10 +15,13 @@ export default (sequelize, DataTypes) => {
               association: 'Meals',
               required: true,
               paranoid: false,
-              attributes: ['id', 'userId', 'title', 'description', 'price'],
+              attributes: ['id', 'userId', 'title', 'description', 'price',
+                [sequelize
+                  .literal('"Meals"."price" * "Meals->MealOrders"."quantity"'),
+                'subTotal']],
               through: {
                 attributes: ['quantity']
-              }
+              },
             },
             {
               association: 'User',
@@ -33,7 +36,10 @@ export default (sequelize, DataTypes) => {
               where: { userId },
               required: true,
               paranoid: false,
-              attributes: ['id', 'userId', 'title', 'description', 'price'],
+              attributes: ['id', 'userId', 'title', 'description', 'price',
+                [sequelize
+                  .literal('"Meals"."price" * "Meals->MealOrders"."quantity"'),
+                'subTotal']],
               through: {
                 attributes: ['quantity']
               }

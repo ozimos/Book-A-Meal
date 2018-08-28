@@ -1,4 +1,3 @@
-// Dependencies
 import express from 'express';
 import Validator from 'express-joi-validation';
 
@@ -11,15 +10,11 @@ const orderRouter = express.Router();
 const validator = Validator({ passError: true });
 const orderController = new OrderController(db.Order, db.Meal);
 
-// Params validation
-
-
 orderRouter
   .route('/')
   .get(
     Authenticate.isUser,
-    Authenticate.isAdmin,
-    OrderController.select(orderController, 'getAllOrders')
+    OrderController.select(orderController, 'getOrdersWithMealLinks')
   )
   .post(
     Authenticate.isUser,
@@ -27,7 +22,6 @@ orderRouter
     OrderController.orderClose,
     OrderController.select(orderController, 'postOrder')
   );
-
 orderRouter
   .route('/:id')
   .put(
@@ -36,22 +30,17 @@ orderRouter
     OrderController.orderClose,
     OrderController.select(orderController, 'updateOrder')
   );
-
 orderRouter
-  .route('/user/:date?')
+  .route('/:id/meals')
   .get(
     Authenticate.isUser,
-    validator.body(orderSchema),
-    OrderController.select(orderController, 'getUserOrdersByDate')
+    OrderController.select(orderController, 'getMealsInOrder')
   );
-
 orderRouter
-  .route('/all/:date?')
+  .route('/date/:date?')
   .get(
     Authenticate.isUser,
-    validator.body(orderSchema),
-    OrderController.select(orderController, 'getOrdersByDate')
+    OrderController.select(orderController, 'getOrdersWithMealLinksByDate')
   );
 
-// Return orderRouter
 export default orderRouter;

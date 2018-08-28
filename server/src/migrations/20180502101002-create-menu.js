@@ -8,6 +8,11 @@ export default {
           primaryKey: true,
           defaultValue: Sequelize.UUIDV4
         },
+        menuDate: {
+          allowNull: false,
+          type: Sequelize.DATEONLY,
+          defaultValue: new Date().setHours(0, 0, 0, 0, 0)
+        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,

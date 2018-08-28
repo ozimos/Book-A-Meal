@@ -25,11 +25,6 @@ authRouter.get(
   Authenticate.isUser, Authenticate.isAdmin,
   UserController.select(userController, 'getAllRecords')
 );
-authRouter.get(
-  '/check',
-  Authenticate.isUser,
-  UserController.checkUser
-);
 
 // Return authRouter
 export default authRouter;

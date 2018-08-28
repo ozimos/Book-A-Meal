@@ -1,69 +1,60 @@
-import Sequelize, { Op } from 'sequelize';
+import { Op } from 'sequelize';
+import addDays from 'date-fns/add_days';
 import Controller from './Controller';
 
+const today = new Date().setHours(0, 0, 0, 0, 0);
 export default class MenuController extends Controller {
-  getMenu() {
-    const today = new Date().setHours(0, 0, 0, 0, 0);
+  getMenu(req, msg) {
+    let scope;
+    const date = (req.query && req.query.date) || today;
+    const nextDate = addDays(date, 1);
 
-    return this.Model.find({
-      where: {
-        createdAt: {
-          [Op.gte]: today
-        }
-      },
-      include: [{
-        association: 'Meals',
-        required: false,
-        through: {
-          attributes: ['updatedAt']
-        }
-      }]
-    })
-      .then((response) => {
-        if (response && response.Meals[0]) {
-          return MenuController.defaultResponse(response);
-        }
-        return MenuController
-          .errorResponse('menu for the day has not been set', 404);
-      })
-      .catch(err => MenuController.errorResponse(err.message));
+    const options = { subQuery: false, distinct: false };
+    if (req.body && req.body.id) {
+      options.where = { id: req.body.id };
+    } else {
+      options.where = {
+        menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
+      };
+    }
+    const acceptCallback = rows => rows[0].Meals.length > 0;
+    const message = msg || 'menu for the day has not been set';
+    const { userId, isCaterer } = req.decoded;
+    if (isCaterer) {
+      scope = [{ method: ['forCaterers', userId] }];
+    } else {
+      scope = 'forNonCaterers';
+    }
+    return this
+      .getAllRecords(req, scope, options, { message, acceptCallback })
+      .catch(error => MenuController.errorResponse(error.message));
+
   }
+
   postMenu(req) {
-
-    const today = new Date().setHours(0, 0, 0, 0, 0);
-
-    let menuRef;
+    const { userId } = req.decoded;
+    const date = (req.query && req.query.date) || today;
+    const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {
-        createdAt: {
-          [Op.gte]: today
-        }
+        menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
       },
       defaults: {
-        createdAt: Sequelize.fn('NOW')
+        menuDate: date,
       }
     })
-      .then(([menu]) => {
-        menuRef = menu;
-        return menu.setMeals(req.body.meals);
+      .then(async ([menu]) => {
+        const req2 = { ...req };
+        req2.body.id = menu.id;
+        try {
+          await menu.setMeals(req.body.meals, { through: { userId } });
+          return req2;
+        } catch (err) { throw new Error(err); }
       })
-      .then(() => this.Model.findById(menuRef.id, {
-        include: [{
-          association: 'Meals',
-          required: false,
-          through: {
-            attributes: ['updatedAt']
-          }
-        }]
-      }))
-      .then((response) => {
-        if (response && response.Meals[0]) {
-          process.env.ORDER_START_HOUR = new Date().getHours();
-          process.env.ORDER_START_MINS = new Date().getMinutes();
-          return MenuController.defaultResponse(response, 201);
-        }
-        return MenuController
-          .errorResponse('Menu was not posted. Try again', 404);
+      .then((req2) => {
+        process.env.ORDER_START_HOUR = new Date().getHours();
+        process.env.ORDER_START_MINS = new Date().getMinutes();
+        return this.getMenu(req2, 'Menu was not posted. Try again');
       })
       .catch(err => MenuController.errorResponse(err.message));
   }

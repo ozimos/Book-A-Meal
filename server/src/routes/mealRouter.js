@@ -16,7 +16,7 @@ mealRouter.route('/')
   .get(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    MealController.select(mealController, 'getAllRecords')
+    MealController.select(mealController, 'getMeals')
   )
   .post(
     Authenticate.isUser,
@@ -24,12 +24,7 @@ mealRouter.route('/')
     validator.body(schemas.createMeal),
     MealController.select(mealController, 'addMeal')
   );
-mealRouter.route('/user')
-  .get(
-    Authenticate.isUser,
-    Authenticate.isAdmin,
-    MealController.select(mealController, 'getAllUserRecords')
-  );
+
 mealRouter.route('/:id')
   .get(
     Authenticate.isUser,

@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
     this.searchUpdated = this.searchUpdated.bind(this);
   }
   componentDidMount() {
-    this.props.dispatch(dashboardActions.getOrdersByDate());
+    this.props.dispatch(dashboardActions.getOrdersWithMealLinksByDate());
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term });

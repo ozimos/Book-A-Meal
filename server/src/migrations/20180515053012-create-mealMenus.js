@@ -9,7 +9,7 @@ export default {
           references: {
             model: 'Meals',
             key: 'id',
-          },
+          }
         },
         menuId: {
           type: Sequelize.UUID,
@@ -17,7 +17,11 @@ export default {
           references: {
             model: 'Menus',
             key: 'id',
-          },
+          }
+        },
+        userId: {
+          type: Sequelize.UUID,
+          allowNull: false,
         },
         createdAt: {
           allowNull: false,

@@ -13,6 +13,7 @@ export const seedUsers = [{
   firstName: 'Toviey',
   lastName: 'Oz',
   email: 'adm.in@gmail.com',
+  // eslint-disable-next-line max-len
   password: '$2a$10$JNmon8b2KLUT.31FsTwyDeSz3ge/BZ5OOpc6mq32CzdAfU.DCz.4e',
   isCaterer: false
 }
@@ -23,6 +24,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Beef with Rice',
   description: 'plain rice with ground beef',
+  // eslint-disable-next-line max-len
   imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532706744/hbj4qsguzdi78xcksws8.jpg',
   price: 2000,
 },
@@ -31,6 +33,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Spaghetti and Sauce',
   description: 'plain rice with ground beef',
+  // eslint-disable-next-line max-len
   imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532701830/hz2fmblixkuvbfnt4vvv.jpg',
   price: 1500,
 },
@@ -39,6 +42,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Amala and Ewedu',
   description: 'traditional',
+  // eslint-disable-next-line max-len
   imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532723568/rfja8q5tmldmtga2uc29.jpg',
   price: 1800,
 },
@@ -47,6 +51,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Starch and Owho',
   description: 'affordable',
+  // eslint-disable-next-line max-len
   imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532723402/ifzj4ynikksdo6tdtvko.jpg',
   price: 1800,
 },
@@ -55,6 +60,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Pancake and Syrup',
   description: 'affordable',
+  // eslint-disable-next-line max-len
   imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532722391/qgj8cexfzuopitoldmt7.jpg',
   price: 1800,
 },
@@ -63,6 +69,7 @@ export const seedMeals = [{
   userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   title: 'Starch and Owho',
   description: 'affordable',
+  // eslint-disable-next-line max-len
   imageUrl: 'http://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532723533/c4wpnbdit8pisnwlhk7x.jpg',
   price: 1800,
 }
@@ -81,36 +88,42 @@ export const seedMenus = [{
 export const seedMealMenus = [{
   mealId: seedMeals[0].id,
   menuId: seedMenus[0].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: subDays(new Date(), 1),
   updatedAt: subDays(new Date(), 1)
 },
 {
   mealId: seedMeals[1].id,
   menuId: seedMenus[0].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: subDays(new Date(), 1),
   updatedAt: subDays(new Date(), 1)
 },
 {
   mealId: seedMeals[2].id,
   menuId: seedMenus[0].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: subDays(new Date(), 1),
   updatedAt: subDays(new Date(), 1)
 },
 {
   mealId: seedMeals[4].id,
   menuId: seedMenus[1].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: new Date(),
   updatedAt: new Date()
 },
 {
   mealId: seedMeals[0].id,
   menuId: seedMenus[1].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: new Date(),
   updatedAt: new Date()
 },
 {
   mealId: seedMeals[1].id,
   menuId: seedMenus[1].id,
+  userId: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
   createdAt: new Date(),
   updatedAt: new Date()
 }];

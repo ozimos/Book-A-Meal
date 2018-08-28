@@ -11,12 +11,11 @@ describe('Integration Controller Meal All, Single, Delete', () => {
   describe('AllMeals:', () => {
 
     it('returns all meals in db', async () => {
-      const response = await mealController.getAllRecords();
-      /* eslint-disable no-unused-expressions */
-      expect(response.data[0].title).to.exist;
-      expect(response.data[0].description).to.exist;
-      expect(response.data[0].price).to.exist;
-      /* eslint-enable no-unused-expressions */
+      const query = { page: 1 };
+      const response = await mealController.getAllRecords({ query });
+      expect(response.data.rows[0].title).to.be.a('string');
+      expect(response.data.rows[0].description).to.be.a('string');
+      expect(response.data.rows[0].price).to.be.a('number');
     });
   });
   describe('SingleMeal:', () => {

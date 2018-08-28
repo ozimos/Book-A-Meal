@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 const MealCardContainer = ({ MealCard, meals, ...props }) =>
   (
     <div className={props.addClass ? `${props.addClass} gallery` : 'gallery'}>

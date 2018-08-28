@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Greeting = props =>
   (
     <div>
-      <h4>
+      <h4 className="greeting">
         Welcome {props.isCaterer ? 'Caterer' : 'Customer'} {props.firstName}
       </h4>
     </div>

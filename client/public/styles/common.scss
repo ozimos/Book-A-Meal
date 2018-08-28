@@ -7,16 +7,26 @@ body {
 
 body {
   text-align: center;
-  // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Roboto, Monserrat, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.heading {
-  color: maroon;
+.shrink.heading {
+  a{
+    color: maroon;
+    font-family: Courgette, Pacifico, Satisfy, Montserrat, cursive, 'sans-serif'
+  }
 }
 .absolute {
     position: absolute;
     top: 0;
     right: 0;
     z-index: -1;
+  }
+  main.min-height{
+    min-height: calc(100vh - 94px)
+  }
+  .greeting{
+    font-family:  Satisfy, Montserrat, cursive, 'sans-serif'
+    
   }
   .rotate {
     transform: rotate(90deg)
@@ -25,6 +35,7 @@ body {
   .fluid-img {
     width: 100%;
     height: auto;
+    min-height: 200px;
     object-fit: cover;
   }
 a {

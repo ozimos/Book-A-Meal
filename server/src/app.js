@@ -56,7 +56,7 @@ app.get('*', (req, res) => {
 
 app.use(validationErrors);
 // Get port from environment and store in Express.
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+const PORT = parseInt(process.env.PORT, 10) || 3500;
 app.set('port', PORT);
 
 app.listen(PORT, () => {

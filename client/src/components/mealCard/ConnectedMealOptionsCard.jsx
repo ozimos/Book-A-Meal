@@ -50,11 +50,11 @@ class MealOptionsCard extends React.Component {
       this.setState({ showDeleteConfirmModal: true });
   closeDeleteConfirmModal = () =>
     this.setState({ showDeleteConfirmModal: false });
-  deleteMeal = () =>
-    this.props.dispatch(mealActions.deleteMeal(this.props.id));
+  deleteMeal = id =>
+    this.props.dispatch(mealActions.deleteMeal(id));
 
-  handleSubmit = async (meal) => {
-    await this.props.dispatch(mealActions.updateMeal(meal, this.props.id));
+  handleUpdateMeal = async (meal, id) => {
+    await this.props.dispatch(mealActions.updateMeal(meal, id));
     this.closeMealEditorModal();
   }
   disableButton = () =>
@@ -121,7 +121,8 @@ class MealOptionsCard extends React.Component {
             <div>
               <Formsy
                 className="form3"
-                onValidSubmit={this.handleSubmit}
+                onValidSubmit={meal =>
+                  this.handleUpdateMeal(meal, this.props.id)}
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
                 ref={(form) => { this.formEl = form; }}
@@ -235,7 +236,7 @@ class MealOptionsCard extends React.Component {
               style={{ backgroundColor: 'red !important' }}
               className="btn"
               onClick={() => {
-                this.deleteMeal();
+                this.deleteMeal(this.props.id);
                 this.closeDeleteConfirmModal();
               }}
             >

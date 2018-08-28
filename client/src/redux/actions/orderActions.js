@@ -2,102 +2,117 @@ import {
   orderTypes
 } from '../types';
 import requestServices from '../../services/requestServices';
+import paginationExtract from '../../utils/paginationExtract';
 
 const baseUrl = '/api/v1/orders';
-const request = actionType => ({
-  type: actionType,
-});
-const failure = (error, actionType) => ({
-  type: actionType,
-  error
-});
 
-const getAllOrders = () => (dispatch) => {
-  dispatch(request(orderTypes.ORDER_REQUEST));
 
-  return requestServices.noSend(baseUrl)
+const getOrdersWithMealLinks = () => (dispatch) => {
+  dispatch({ type: orderTypes.ORDER_REQUEST });
+
+  return requestServices(baseUrl)
     .then(
       response =>
         dispatch({
           type: orderTypes.GET_ORDER_ALL_SUCCESS,
-          orders: response.data.data
+          orders: response.data.data.rows,
+          pagination: paginationExtract(response.data.data)
         }),
       error =>
-        dispatch(failure(error.response.data.message, orderTypes.ORDER_FAILURE))
-
+        dispatch({
+          type: orderTypes.ORDER_FAILURE,
+          error: error.response.data.message
+        })
     );
 };
 
-const getUserOrdersByDate = date => (dispatch) => {
-  const url = date ? `${baseUrl}/user/${date}` : `${baseUrl}/user/`;
-  dispatch(request(orderTypes.ORDER_REQUEST));
-  return requestServices.noSend(url)
+const getOrdersWithMealLinksByDate = date => (dispatch) => {
+  const url = date ? `${baseUrl}/date/${date}` : `${baseUrl}/date/`;
+  dispatch({ type: orderTypes.ORDER_REQUEST });
+  return requestServices(url)
     .then(
       response =>
         dispatch({
           type: orderTypes.GET_ORDER_ALL_SUCCESS,
-          orders: response.data.data
+          orders: response.data.data.rows,
+          pagination: paginationExtract(response.data.data)
+
         }),
       error =>
-        dispatch(failure(error.response.data.message, orderTypes.ORDER_FAILURE))
+        dispatch({
+          type: orderTypes.ORDER_FAILURE,
+          error: error.response.data.message
+        })
 
     );
 };
-const getOrdersByDate = date => (dispatch) => {
-  const url = date ? `${baseUrl}/all/${date}` : `${baseUrl}/all/`;
-  dispatch(request(orderTypes.ORDER_REQUEST));
-  return requestServices.noSend(url)
+const getMealsInOrder = orderId => (dispatch) => {
+  const url = `${baseUrl}/${orderId}/meals`;
+  dispatch({ type: orderTypes.ORDER_REQUEST });
+  return requestServices(url)
     .then(
       response =>
         dispatch({
-          type: orderTypes.GET_ORDER_ALL_SUCCESS,
-          orders: response.data.data
+          type: orderTypes.GET_ORDER_MEAL_SUCCESS,
+          order: response.data.data.rows[0],
+          mealPagination: paginationExtract(response.data.data)
+
         }),
       error =>
-        dispatch(failure(error.response.data.message, orderTypes.ORDER_FAILURE))
+        dispatch({
+          type: orderTypes.GET_ORDER_MEAL_FAILURE,
+          error: error.response.data.message,
+        })
 
     );
 };
 
 const postOrder = order => (dispatch) => {
-  dispatch(request(orderTypes.ORDER_REQUEST));
+  dispatch({ type: orderTypes.ORDER_REQUEST });
 
-  return requestServices.send(baseUrl, 'post', order)
+  return requestServices(baseUrl, 'post', order)
     .then(
       response =>
         dispatch({
           type: orderTypes.POST_ORDER_SUCCESS,
-          order: response.data.data
+          order: response.data.data.rows[0],
+          mealPagination: paginationExtract(response.data.data)
+
         }),
       error =>
-        dispatch(failure(
-          error.response.data.message,
-          orderTypes.ORDER_FAILURE
-        ))
+        dispatch({
+          type: orderTypes.ORDER_FAILURE,
+          error: error.response.data.message,
+        })
 
     );
 };
 
 const updateOrder = (order, orderId) => (dispatch) => {
-  dispatch(request(orderTypes.ORDER_REQUEST));
+  dispatch({ type: orderTypes.ORDER_REQUEST });
 
-  return requestServices.send(`${baseUrl}/${orderId}`, 'put', order)
+  return requestServices(`${baseUrl}/${orderId}`, 'put', order)
     .then(
       response =>
         dispatch({
           type: orderTypes.UPDATE_ORDER_SUCCESS,
-          order: response.data.data
+          order: response.data.data.rows[0],
+          mealPagination: paginationExtract(response.data.data)
+
         }),
       error =>
-        dispatch(failure(error.response.data.message, orderTypes.ORDER_FAILURE))
+        dispatch({
+          type: orderTypes.ORDER_FAILURE,
+          error: error.response.data.message
+        })
 
     );
 };
 
 export default {
-  getAllOrders,
-  getUserOrdersByDate,
-  getOrdersByDate,
+  getOrdersWithMealLinks,
+  getOrdersWithMealLinksByDate,
+  getMealsInOrder,
   postOrder,
   updateOrder
 };

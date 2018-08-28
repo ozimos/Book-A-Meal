@@ -8,7 +8,11 @@ const Nav = ({ user, authenticated }) =>
   (
     <div className="navbar-fixed">
       <nav className="flexbox">
-        <h3 className="shrink heading">Book A Meal</h3>
+        <h3 className="shrink heading">
+          <Link to="/">
+        Book A Meal
+          </Link>
+        </h3>
         <div className="flexbox">
           {user.isCaterer &&
           <NavLink

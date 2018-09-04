@@ -12,3 +12,16 @@ exports[`Login Component renders correctly 1`] = `
   </h4>
 </div>
 `;
+
+exports[`Login Component renders correctly 2`] = `
+<div>
+  <h4
+    className="greeting"
+  >
+    Welcome 
+    Customer
+     
+    alias
+  </h4>
+</div>
+`;

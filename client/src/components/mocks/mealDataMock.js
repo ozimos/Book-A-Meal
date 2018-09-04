@@ -1,4 +1,4 @@
-const rows = [
+export const rows = [
   { id: 'abc', price: 1200 }, { id: 'def', price: 2000 }
 ];
 export const allMeals = {

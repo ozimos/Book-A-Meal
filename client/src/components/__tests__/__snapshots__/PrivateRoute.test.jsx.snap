@@ -1,8 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PrivateRoute Component renders correctly 1`] = `
-<Route
-  component={[MockFunction]}
-  render={[Function]}
-/>
+<PrivateRoute
+  caterer={[MockFunction]}
+  customer={[MockFunction]}
+>
+  <Route
+    render={[Function]}
+  />
+</PrivateRoute>
+`;
+
+exports[`PrivateRoute Component renders correctly 2`] = `
+<PrivateRoute
+  caterer={[MockFunction]}
+  customer={[MockFunction]}
+>
+  <Route
+    render={[Function]}
+  />
+</PrivateRoute>
+`;
+
+exports[`PrivateRoute Component renders correctly 3`] = `
+<PrivateRoute
+  caterer={[MockFunction]}
+  customer={[MockFunction]}
+>
+  <Route
+    render={[Function]}
+  />
+</PrivateRoute>
 `;

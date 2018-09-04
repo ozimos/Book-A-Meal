@@ -110,7 +110,534 @@ exports[`Menu Component renders correctly 1`] = `
             addClass="scroll"
             addToCollection={[Function]}
             collection="Menu"
-            meals={Array []}
+            meals={
+              Array [
+                Object {
+                  "id": "abc",
+                  "price": 1200,
+                },
+                Object {
+                  "id": "def",
+                  "price": 2000,
+                },
+              ]
+            }
+          />
+          <PaginationBoxView
+            activeClassName="active"
+            breakLabel="..."
+            containerClassName="pagination"
+            disableInitialCallback={false}
+            disabledClassName="disabled"
+            marginPagesDisplayed={2}
+            nextClassName="next"
+            nextLabel="next"
+            onPageChange={[Function]}
+            pageCount={1}
+            pageRangeDisplayed={5}
+            previousClassName="previous"
+            previousLabel="previous"
+            subContainerClassName="pages pagination"
+          />
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={false}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox wrap"
+          >
+            <h5>
+              Today's Menu
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <button
+              className="title-button btn"
+              onClick={[Function]}
+            >
+              <p>
+                Clear Menu
+              </p>
+            </button>
+          </div>
+          <div>
+            <MealCardContainer
+              MealCard={[Function]}
+              addClass="scroll"
+              meals={
+                Array [
+                  Object {
+                    "id": "abc",
+                    "price": 1200,
+                  },
+                  Object {
+                    "id": "def",
+                    "price": 2000,
+                  },
+                ]
+              }
+            />
+            <PaginationBoxView
+              activeClassName="active"
+              breakLabel="..."
+              containerClassName="pagination"
+              disableInitialCallback={false}
+              disabledClassName="disabled"
+              marginPagesDisplayed={2}
+              nextClassName="next"
+              nextLabel="next"
+              onPageChange={[Function]}
+              pageCount={1}
+              pageRangeDisplayed={5}
+              previousClassName="previous"
+              previousLabel="previous"
+              subContainerClassName="pages pagination"
+            />
+          </div>
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+    </AccordionWrapper>
+  </main>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <aside
+      className="col s12"
+    >
+      <div>
+        <h3>
+          Menu
+        </h3>
+        <p>
+          No meals here. Select a meal and click the Add to Menu button
+        </p>
+      </div>
+    </aside>
+  </Modal>
+</div>
+`;
+
+exports[`Menu Component renders correctly 2`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <main>
+    <ToastContainer
+      autoClose={2000}
+      bodyClassName={null}
+      className={null}
+      closeButton={
+        <CloseButton
+          ariaLabel="close"
+        />
+      }
+      closeOnClick={true}
+      draggable={true}
+      draggablePercent={80}
+      hideProgressBar={false}
+      newestOnTop={false}
+      pauseOnHover={true}
+      pauseOnVisibilityChange={true}
+      position="top-right"
+      progressClassName={null}
+      rtl={false}
+      style={null}
+      toastClassName={null}
+      transition={[Function]}
+    />
+    <div
+      className="flexbox"
+    >
+      <Greeting
+        firstName="user"
+        isCaterer={true}
+      />
+      <button
+        className="btn title-button"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <p
+          className="cart-notification"
+        >
+          Menu
+          <span
+            className="badge"
+          >
+            0
+          </span>
+        </p>
+      </button>
+    </div>
+    <AccordionWrapper
+      accordion={true}
+      className="accordion"
+      onChange={[Function]}
+    >
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={true}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <h5>
+              Your Meals
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <Search
+            caseSensitive={false}
+            className="search-input input-field"
+            fuzzy={false}
+            onChange={[Function]}
+            throttle={200}
+          />
+          <MealCardContainer
+            MealCard={[Function]}
+            addClass="scroll"
+            addToCollection={[Function]}
+            collection="Menu"
+            meals={
+              Array [
+                Object {
+                  "id": "abc",
+                  "price": 1200,
+                },
+                Object {
+                  "id": "def",
+                  "price": 2000,
+                },
+              ]
+            }
+          />
+          <PaginationBoxView
+            activeClassName="active"
+            breakLabel="..."
+            containerClassName="pagination"
+            disableInitialCallback={false}
+            disabledClassName="disabled"
+            marginPagesDisplayed={2}
+            nextClassName="next"
+            nextLabel="next"
+            onPageChange={[Function]}
+            pageCount={1}
+            pageRangeDisplayed={5}
+            previousClassName="previous"
+            previousLabel="previous"
+            subContainerClassName="pages pagination"
+          />
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={false}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox wrap"
+          >
+            <h5>
+              Today's Menu
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <button
+              className="title-button btn"
+              onClick={[Function]}
+            >
+              <p>
+                Clear Menu
+              </p>
+            </button>
+          </div>
+          <div>
+            <MealCardContainer
+              MealCard={[Function]}
+              addClass="scroll"
+              meals={
+                Array [
+                  Object {
+                    "id": "abc",
+                    "price": 1200,
+                  },
+                  Object {
+                    "id": "def",
+                    "price": 2000,
+                  },
+                ]
+              }
+            />
+            <PaginationBoxView
+              activeClassName="active"
+              breakLabel="..."
+              containerClassName="pagination"
+              disableInitialCallback={false}
+              disabledClassName="disabled"
+              marginPagesDisplayed={2}
+              nextClassName="next"
+              nextLabel="next"
+              onPageChange={[Function]}
+              pageCount={1}
+              pageRangeDisplayed={5}
+              previousClassName="previous"
+              previousLabel="previous"
+              subContainerClassName="pages pagination"
+            />
+          </div>
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+    </AccordionWrapper>
+  </main>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <aside
+      className="col s12"
+    >
+      <div>
+        <h3>
+          Menu
+        </h3>
+        <p>
+          No meals here. Select a meal and click the Add to Menu button
+        </p>
+      </div>
+    </aside>
+  </Modal>
+</div>
+`;
+
+exports[`Menu Component renders correctly 3`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <main>
+    <ToastContainer
+      autoClose={2000}
+      bodyClassName={null}
+      className={null}
+      closeButton={
+        <CloseButton
+          ariaLabel="close"
+        />
+      }
+      closeOnClick={true}
+      draggable={true}
+      draggablePercent={80}
+      hideProgressBar={false}
+      newestOnTop={false}
+      pauseOnHover={true}
+      pauseOnVisibilityChange={true}
+      position="top-right"
+      progressClassName={null}
+      rtl={false}
+      style={null}
+      toastClassName={null}
+      transition={[Function]}
+    />
+    <div
+      className="flexbox"
+    >
+      <Greeting
+        firstName="user"
+        isCaterer={true}
+      />
+      <button
+        className="btn title-button"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <p
+          className="cart-notification"
+        >
+          Menu
+          <span
+            className="badge"
+          >
+            0
+          </span>
+        </p>
+      </button>
+    </div>
+    <AccordionWrapper
+      accordion={true}
+      className="accordion"
+      onChange={[Function]}
+    >
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={true}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <h5>
+              Your Meals
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <Search
+            caseSensitive={false}
+            className="search-input input-field"
+            fuzzy={false}
+            onChange={[Function]}
+            throttle={200}
+          />
+          <MealCardContainer
+            MealCard={[Function]}
+            addClass="scroll"
+            addToCollection={[Function]}
+            collection="Menu"
+            meals={
+              Array [
+                Object {
+                  "id": "abc",
+                  "price": 1200,
+                },
+                Object {
+                  "id": "def",
+                  "price": 2000,
+                },
+              ]
+            }
           />
           <PaginationBoxView
             activeClassName="active"
@@ -182,6 +709,522 @@ exports[`Menu Component renders correctly 1`] = `
             className="menu-message"
           >
             You have not added meals to the menu. Select a meal from the meal section above to add meal to menu.
+          </div>
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+    </AccordionWrapper>
+  </main>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <aside
+      className="col s12"
+    >
+      <div>
+        <h3>
+          Menu
+        </h3>
+        <p>
+          No meals here. Select a meal and click the Add to Menu button
+        </p>
+      </div>
+    </aside>
+  </Modal>
+</div>
+`;
+
+exports[`Menu Component renders correctly 4`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <main>
+    <ToastContainer
+      autoClose={2000}
+      bodyClassName={null}
+      className={null}
+      closeButton={
+        <CloseButton
+          ariaLabel="close"
+        />
+      }
+      closeOnClick={true}
+      draggable={true}
+      draggablePercent={80}
+      hideProgressBar={false}
+      newestOnTop={false}
+      pauseOnHover={true}
+      pauseOnVisibilityChange={true}
+      position="top-right"
+      progressClassName={null}
+      rtl={false}
+      style={null}
+      toastClassName={null}
+      transition={[Function]}
+    />
+    <div
+      className="flexbox"
+    >
+      <Greeting
+        firstName="user"
+        isCaterer={true}
+      />
+      <button
+        className="btn title-button"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <p
+          className="cart-notification"
+        >
+          Menu
+          <span
+            className="badge"
+          >
+            0
+          </span>
+        </p>
+      </button>
+    </div>
+    <AccordionWrapper
+      accordion={true}
+      className="accordion"
+      onChange={[Function]}
+    >
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={true}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <h5>
+              Your Meals
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <Search
+            caseSensitive={false}
+            className="search-input input-field"
+            fuzzy={false}
+            onChange={[Function]}
+            throttle={200}
+          />
+          <MealCardContainer
+            MealCard={[Function]}
+            addClass="scroll"
+            addToCollection={[Function]}
+            collection="Menu"
+            meals={
+              Array [
+                Object {
+                  "id": "abc",
+                  "price": 1200,
+                },
+                Object {
+                  "id": "def",
+                  "price": 2000,
+                },
+              ]
+            }
+          />
+          <PaginationBoxView
+            activeClassName="active"
+            breakLabel="..."
+            containerClassName="pagination"
+            disableInitialCallback={false}
+            disabledClassName="disabled"
+            marginPagesDisplayed={2}
+            nextClassName="next"
+            nextLabel="next"
+            onPageChange={[Function]}
+            pageCount={1}
+            pageRangeDisplayed={5}
+            previousClassName="previous"
+            previousLabel="previous"
+            subContainerClassName="pages pagination"
+          />
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={false}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox wrap"
+          >
+            <h5>
+              Today's Menu
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <button
+              className="title-button btn"
+              onClick={[Function]}
+            >
+              <p>
+                Clear Menu
+              </p>
+            </button>
+          </div>
+          <div>
+            <MealCardContainer
+              MealCard={[Function]}
+              addClass="scroll"
+              meals={
+                Array [
+                  Object {
+                    "id": "abc",
+                    "price": 1200,
+                  },
+                  Object {
+                    "id": "def",
+                    "price": 2000,
+                  },
+                ]
+              }
+            />
+            <PaginationBoxView
+              activeClassName="active"
+              breakLabel="..."
+              containerClassName="pagination"
+              disableInitialCallback={false}
+              disabledClassName="disabled"
+              marginPagesDisplayed={2}
+              nextClassName="next"
+              nextLabel="next"
+              onPageChange={[Function]}
+              pageCount={1}
+              pageRangeDisplayed={5}
+              previousClassName="previous"
+              previousLabel="previous"
+              subContainerClassName="pages pagination"
+            />
+          </div>
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+    </AccordionWrapper>
+  </main>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <aside
+      className="col s12"
+    >
+      <div>
+        <h3>
+          Menu
+        </h3>
+        <p>
+          No meals here. Select a meal and click the Add to Menu button
+        </p>
+      </div>
+    </aside>
+  </Modal>
+</div>
+`;
+
+exports[`Menu Component renders correctly 5`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <main>
+    <ToastContainer
+      autoClose={2000}
+      bodyClassName={null}
+      className={null}
+      closeButton={
+        <CloseButton
+          ariaLabel="close"
+        />
+      }
+      closeOnClick={true}
+      draggable={true}
+      draggablePercent={80}
+      hideProgressBar={false}
+      newestOnTop={false}
+      pauseOnHover={true}
+      pauseOnVisibilityChange={true}
+      position="top-right"
+      progressClassName={null}
+      rtl={false}
+      style={null}
+      toastClassName={null}
+      transition={[Function]}
+    />
+    <div
+      className="flexbox"
+    >
+      <Greeting
+        firstName="user"
+        isCaterer={true}
+      />
+      <button
+        className="btn title-button"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <p
+          className="cart-notification"
+        >
+          Menu
+          <span
+            className="badge"
+          >
+            0
+          </span>
+        </p>
+      </button>
+    </div>
+    <AccordionWrapper
+      accordion={true}
+      className="accordion"
+      onChange={[Function]}
+    >
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={true}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <h5>
+              Your Meals
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <Search
+            caseSensitive={false}
+            className="search-input input-field"
+            fuzzy={false}
+            onChange={[Function]}
+            throttle={200}
+          />
+          <MealCardContainer
+            MealCard={[Function]}
+            addClass="scroll"
+            addToCollection={[Function]}
+            collection="Menu"
+            meals={
+              Array [
+                Object {
+                  "id": "abc",
+                  "price": 1200,
+                },
+                Object {
+                  "id": "def",
+                  "price": 2000,
+                },
+              ]
+            }
+          />
+          <PaginationBoxView
+            activeClassName="active"
+            breakLabel="..."
+            containerClassName="pagination"
+            disableInitialCallback={false}
+            disabledClassName="disabled"
+            marginPagesDisplayed={2}
+            nextClassName="next"
+            nextLabel="next"
+            onPageChange={[Function]}
+            pageCount={1}
+            pageRangeDisplayed={5}
+            previousClassName="previous"
+            previousLabel="previous"
+            subContainerClassName="pages pagination"
+          />
+        </AccordionItemBodyWrapper>
+      </AccordionItemWrapper>
+      <AccordionItemWrapper
+        accordionStore={
+          AccordionContainer {
+            "_listeners": Array [],
+            "state": Object {
+              "accordion": true,
+              "items": Array [],
+              "onChange": [Function],
+            },
+          }
+        }
+        className="accordion__item"
+        disabled={false}
+        expanded={false}
+        hideBodyClassName=""
+      >
+        <AccordionItemTitleWrapper
+          className="accordion__title"
+          hideBodyClassName=""
+        >
+          <div
+            className="title-element flexbox wrap"
+          >
+            <h5>
+              Today's Menu
+            </h5>
+            <div
+              className="accordion__arrow u-position-relative"
+              role="presentation"
+            />
+          </div>
+        </AccordionItemTitleWrapper>
+        <AccordionItemBodyWrapper
+          className="accordion__body"
+          hideBodyClassName="accordion__body--hidden"
+        >
+          <div
+            className="title-element flexbox"
+          >
+            <button
+              className="title-button btn"
+              onClick={[Function]}
+            >
+              <p>
+                Clear Menu
+              </p>
+            </button>
+          </div>
+          <div>
+            <MealCardContainer
+              MealCard={[Function]}
+              addClass="scroll"
+              meals={
+                Array [
+                  Object {
+                    "id": "abc",
+                    "price": 1200,
+                  },
+                  Object {
+                    "id": "def",
+                    "price": 2000,
+                  },
+                ]
+              }
+            />
+            <PaginationBoxView
+              activeClassName="active"
+              breakLabel="..."
+              containerClassName="pagination"
+              disableInitialCallback={false}
+              disabledClassName="disabled"
+              marginPagesDisplayed={2}
+              nextClassName="next"
+              nextLabel="next"
+              onPageChange={[Function]}
+              pageCount={1}
+              pageRangeDisplayed={5}
+              previousClassName="previous"
+              previousLabel="previous"
+              subContainerClassName="pages pagination"
+            />
           </div>
         </AccordionItemBodyWrapper>
       </AccordionItemWrapper>

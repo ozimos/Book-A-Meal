@@ -40,13 +40,6 @@ class Menu extends React.Component {
     this.props.dispatch(menuActions.getMenu());
   }
 
-handleMealCheck = (event, meal) => {
-  if (event.target.checked) {
-    this.addToMenu(meal);
-  } else {
-    this.removeFromMenu(meal.id);
-  }
-}
 notify = message => toast(message, { className: 'toaster' });
 
 checkMeal = id => this.state.currentMenu.some(elem => elem.id === id)

@@ -133,7 +133,9 @@ export default class OrderController extends Controller {
       }
       ],
       distinct: true,
-      where: (!isCaterer) && { userId }, };
+      where: (!isCaterer) && { userId },
+      order: [['updatedAt', 'DESC']]
+    };
 
     return this.getAllRecords(req, scope, options, { raw: true })
       .then(({ limit, offset, pages, count, rows }) => {
@@ -169,6 +171,7 @@ export default class OrderController extends Controller {
   getMealsInOrder(req, options = {}) {
 
     options.where = { id: req.params.id };
+    options.order = [['updatedAt', 'DESC']];
 
     const { userId, isCaterer } = req.decoded;
 

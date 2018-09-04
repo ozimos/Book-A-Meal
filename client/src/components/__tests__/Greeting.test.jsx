@@ -1,11 +1,20 @@
 /* global React:false, shallow:false */
-/* eslint react/jsx-indent: off */
 
 import Greeting from '../greeting/Greeting';
 
+const props = {
+  isCaterer: true,
+  firstName: 'alias'
+};
+const props2 = {
+  isCaterer: false,
+  firstName: 'alias'
+};
 describe('Login Component', () => {
   it('renders correctly', () => {
-    const wrapper = shallow(<Greeting isCaterer firstName="alias" />);
+    let wrapper = shallow(<Greeting {...props} />);
+    expect(wrapper).toMatchSnapshot();
+    wrapper = shallow(<Greeting {...props2} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

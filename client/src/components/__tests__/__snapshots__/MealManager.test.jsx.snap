@@ -33,11 +33,48 @@ exports[`MealManager Component renders correctly 1`] = `
         </p>
       </button>
     </div>
-    <div>
-      <h5>
-        You have not added any meals. Get started by clicking the add a meal button
-      </h5>
-    </div>
+    <React.Fragment>
+      <Search
+        caseSensitive={false}
+        className="search-input input-field"
+        fuzzy={false}
+        onChange={[Function]}
+        throttle={200}
+      />
+      <MealCardContainer
+        MealCard={[Function]}
+        addClass="scroll2"
+        connecting={false}
+        meals={
+          Array [
+            Object {
+              "id": "abc",
+              "price": 1200,
+            },
+            Object {
+              "id": "def",
+              "price": 2000,
+            },
+          ]
+        }
+      />
+      <PaginationBoxView
+        activeClassName="active"
+        breakLabel="..."
+        containerClassName="pagination"
+        disableInitialCallback={false}
+        disabledClassName="disabled"
+        marginPagesDisplayed={2}
+        nextClassName="next"
+        nextLabel="next"
+        onPageChange={[Function]}
+        pageCount={1}
+        pageRangeDisplayed={5}
+        previousClassName="previous"
+        previousLabel="previous"
+        subContainerClassName="pages pagination"
+      />
+    </React.Fragment>
   </main>
   <Modal
     ariaHideApp={true}

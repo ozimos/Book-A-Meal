@@ -82,7 +82,62 @@ exports[`DashboardTableContainer Component renders correctly 1`] = `
         },
       ]
     }
-    data={Array []}
+    data={
+      Array [
+        Object {
+          "Meals": Array [
+            Object {
+              "MealOrders": Object {
+                "quantity": 2,
+              },
+              "id": "abc",
+              "price": 1200,
+            },
+            Object {
+              "MealOrders": Object {
+                "quantity": 2,
+              },
+              "id": "def",
+              "price": 2000,
+            },
+          ],
+          "User": Object {
+            "email": "asdf",
+            "firstName": "first",
+            "lastName": "last",
+          },
+          "id": "order1",
+          "updatedAt": "2018-08-24T16:47:55.783Z",
+          "userId": "userId",
+        },
+        Object {
+          "Meals": Array [
+            Object {
+              "MealOrders": Object {
+                "quantity": 2,
+              },
+              "id": "abc",
+              "price": 1200,
+            },
+            Object {
+              "MealOrders": Object {
+                "quantity": 2,
+              },
+              "id": "def",
+              "price": 2000,
+            },
+          ],
+          "User": Object {
+            "email": "asdf",
+            "firstName": "first",
+            "lastName": "last",
+          },
+          "id": "order2",
+          "updatedAt": "2018-08-24T16:47:55.783Z",
+          "userId": "userId",
+        },
+      ]
+    }
     defaultExpanded={Object {}}
     defaultFilterMethod={[Function]}
     defaultFiltered={Array []}

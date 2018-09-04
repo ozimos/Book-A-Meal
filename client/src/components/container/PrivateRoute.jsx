@@ -3,16 +3,17 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validateToken from '../../services/validateToken';
 
-const token = JSON.parse(localStorage.getItem('token'));
-let result = {};
-if (token) {
-  result = validateToken(token);
-}
+const PrivateRoute = ({ caterer: Caterer, customer: Customer, ...rest }) => {
+  const token = JSON.parse(localStorage.getItem('token'));
 
-const PrivateRoute = ({ caterer: Caterer, customer: Customer, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
+  let result = {};
+  if (token) {
+    result = validateToken(token);
+  }
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
       if (result.valid && result.isCaterer) {
         return (<Caterer {...props} />);
 
@@ -20,8 +21,9 @@ const PrivateRoute = ({ caterer: Caterer, customer: Customer, ...rest }) => (
         return (<Customer {...props} />);
       } return (<Redirect to="/login" />);
     }}
-  />
-);
+    />
+  );
+};
 PrivateRoute.defaultProps = {
   caterer: null,
   customer: null,

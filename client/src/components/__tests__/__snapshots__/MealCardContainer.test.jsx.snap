@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MealCardContainer Component renders correctly 1`] = `
+<div
+  className="gallery"
+>
+  <mockConstructor
+    addClass=""
+    id="abc"
+    key="abc"
+    price={1200}
+  />
+  <mockConstructor
+    addClass=""
+    id="def"
+    key="def"
+    price={2000}
+  />
+</div>
+`;
+
+exports[`MealCardContainer Component renders correctly 2`] = `
+<div
+  className="string gallery"
+>
+  <mockConstructor
+    addClass="string"
+    id="abc"
+    key="abc"
+    price={1200}
+  />
+  <mockConstructor
+    addClass="string"
+    id="def"
+    key="def"
+    price={2000}
+  />
+</div>
+`;

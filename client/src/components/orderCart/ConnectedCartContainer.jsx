@@ -44,7 +44,7 @@ class CartContainer extends React.Component {
   setQuantity = (e, id) => {
     let inputValue;
     if (e.target.value < 1) {
-      inputValue = 1;
+      inputValue = '';
     } else if (e.target.value > 99) {
       inputValue = 99;
     } else {

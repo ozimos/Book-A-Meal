@@ -41,78 +41,30 @@ exports[`CartContainer Component renders correctly 1`] = `
       </thead>
       <tbody>
         <mockConstructor
-          Meals={
-            Array [
-              Object {
-                "MealOrders": Object {
-                  "quantity": 2,
-                },
-                "id": "abc",
-                "price": 1200,
-              },
-              Object {
-                "MealOrders": Object {
-                  "quantity": 2,
-                },
-                "id": "def",
-                "price": 2000,
-              },
-            ]
-          }
-          User={
-            Object {
-              "email": "asdf",
-              "firstName": "first",
-              "lastName": "last",
-            }
-          }
           addClass=""
           clearCart={[MockFunction]}
           dispatch={[MockFunction]}
-          id="order1"
-          key="order1"
+          id="abc"
+          key="abc"
+          notify={[MockFunction]}
           orderError=""
-          orderId=""
-          quantity=""
+          orderId="abc"
+          price={1200}
+          quantity={1}
           setQuantity={[Function]}
-          userId="userId"
         />
         <mockConstructor
-          Meals={
-            Array [
-              Object {
-                "MealOrders": Object {
-                  "quantity": 2,
-                },
-                "id": "abc",
-                "price": 1200,
-              },
-              Object {
-                "MealOrders": Object {
-                  "quantity": 2,
-                },
-                "id": "def",
-                "price": 2000,
-              },
-            ]
-          }
-          User={
-            Object {
-              "email": "asdf",
-              "firstName": "first",
-              "lastName": "last",
-            }
-          }
           addClass=""
           clearCart={[MockFunction]}
           dispatch={[MockFunction]}
-          id="order2"
-          key="order2"
+          id="def"
+          key="def"
+          notify={[MockFunction]}
           orderError=""
-          orderId=""
-          quantity=""
+          orderId="abc"
+          price={2000}
+          quantity={1}
           setQuantity={[Function]}
-          userId="userId"
         />
       </tbody>
       <caption
@@ -129,7 +81,7 @@ exports[`CartContainer Component renders correctly 1`] = `
             </p>
             <p>
                ₦
-              NaN
+              3200
             </p>
           </div>
           <div
@@ -139,7 +91,114 @@ exports[`CartContainer Component renders correctly 1`] = `
               className="btn btn-cart"
               onClick={[Function]}
             >
-              Place Order
+              Modify Order
+            </button>
+            <button
+              className="btn btn-cart"
+              onClick={[MockFunction]}
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </caption>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`CartContainer Component renders correctly 2`] = `
+<div
+  className="string"
+>
+  <div
+    className="flexbox cart"
+  >
+    <h5>
+      Order Cart
+    </h5>
+    <button
+      className="btn title-button"
+    >
+      ✖
+    </button>
+  </div>
+  <div
+    className="responsive-table"
+  >
+    <table
+      className="table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Meal Title
+          </th>
+          <th>
+            Price (₦)
+          </th>
+          <th>
+            Quantity
+          </th>
+          <th>
+            Subtotal (₦)
+          </th>
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        <mockConstructor
+          addClass="string"
+          clearCart={[MockFunction]}
+          dispatch={[MockFunction]}
+          id="abc"
+          key="abc"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={1200}
+          quantity={1}
+          setQuantity={[Function]}
+        />
+        <mockConstructor
+          addClass="string"
+          clearCart={[MockFunction]}
+          dispatch={[MockFunction]}
+          id="def"
+          key="def"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={2000}
+          quantity={1}
+          setQuantity={[Function]}
+        />
+      </tbody>
+      <caption
+        className="flexbox-cart"
+      >
+        <div
+          className="flexbox"
+        >
+          <div
+            className="flexbox info"
+          >
+            <p>
+               Order Total 
+            </p>
+            <p>
+               ₦
+              3200
+            </p>
+          </div>
+          <div
+            className="flexbox info"
+          >
+            <button
+              className="btn btn-cart"
+              onClick={[Function]}
+            >
+              Modify Order
             </button>
             <button
               className="btn btn-cart"

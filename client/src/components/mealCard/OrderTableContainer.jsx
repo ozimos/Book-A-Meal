@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import format from 'date-fns/format';
 import isToday from 'date-fns/is_today';
-import differenceInMinutes from 'date-fns/difference_in_minutes';
 import 'react-table/react-table.css';
+import canEdit from '../../services/canEdit';
 
 const OrderTableContainer = ({ orders, ...props }) => {
-  const hasEditMinutes = (updatedAt) => {
-    const orderEditMinutes = parseInt(process.env.ORDER_EDIT_MINUTES, 10) || 15;
-    const minutesSinceOrder = differenceInMinutes(new Date(), updatedAt);
-    return orderEditMinutes - minutesSinceOrder > 0;
-  };
-
 
   const columns = [
     {
@@ -34,7 +28,7 @@ const OrderTableContainer = ({ orders, ...props }) => {
       Header: '',
       accessor: 'updatedAt',
       Cell: columnProps => isToday(columnProps.value) &&
-        hasEditMinutes(columnProps.value) &&
+      canEdit(columnProps.value) &&
       (
       <button
         className="btn title-button"
@@ -69,14 +63,10 @@ const OrderTableContainer = ({ orders, ...props }) => {
         sortable={false}
         manual
         getTdProps={(state, rowInfo, column) => ({
-            onClick: (e, handleOriginal) => {
+            onClick: () => {
               if (column.Header) {
                 props.getOrderMeals(rowInfo.row.id);
                 props.getOrderMealsTotals(rowInfo.row.id);
-              }
-
-              if (handleOriginal) {
-                handleOriginal();
               }
             }
           })}

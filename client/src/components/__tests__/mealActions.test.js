@@ -126,7 +126,7 @@ describe('meal async actions', () => {
       });
   });
   it('dispatches MEALS_REQUEST and DELETE_MEAL_SUCCESS' +
-  'on successfully deleting a meal', () => {
+  ' on successfully deleting a meal', () => {
     const mealId = 'abc';
     moxios.stubRequest(`/api/v1/meals/${mealId}`, {
       status: 200,

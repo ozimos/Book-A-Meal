@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
               required: true,
               paranoid: false,
               attributes: ['id', 'userId', 'title', 'description', 'price',
+                'updatedAt',
                 [sequelize
                   .literal('"Meals"."price" * "Meals->MealOrders"."quantity"'),
                 'subTotal']],
@@ -37,6 +38,7 @@ export default (sequelize, DataTypes) => {
               required: true,
               paranoid: false,
               attributes: ['id', 'userId', 'title', 'description', 'price',
+                'updatedAt',
                 [sequelize
                   .literal('"Meals"."price" * "Meals->MealOrders"."quantity"'),
                 'subTotal']],

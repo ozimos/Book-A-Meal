@@ -1,0 +1,1847 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Book-A-Meal is an application that allows customers to make food orders and helps the food\nvendor know what the customers want to eat\n",
+    "version" : "1",
+    "title" : "Book A Meal API"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/ozimos7/Book_A_Meal-API/1",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/api/v1/auth/signup" : {
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Create a new user",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SignUp"
+          },
+          "x-examples" : {
+            "application/json" : " {\r\n\"firstName\":\"Tovieye\", \r\n\"lastName\":\"Ozi\", \r\n\"email\":\"ozimos83@yahoo.com\", \r\n\"password\":\"test\"\r\n, \r\n\"confirmPassword\":\"test\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Return user details as saved on database and success message",
+            "schema" : {
+              "$ref" : "#/definitions/SignUpResponse"
+            }
+          },
+          "400" : {
+            "description" : "Invalid input",
+            "schema" : {
+              "$ref" : "#/definitions/SignUpError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login" : {
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Log a user in",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Login"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"email\":\"ozimos83@yahoo.com\",\r\n\"password\":\"test\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return user details as saved on database and success message",
+            "schema" : {
+              "$ref" : "#/definitions/SignUpResponse"
+            }
+          },
+          "404" : {
+            "description" : "Invalid input",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meals" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Return all meals details as saved on database",
+            "schema" : {
+              "$ref" : "#/definitions/MealsPostResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Add a new meal",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MealsPost"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"title\":\"amala and ewedu\",\r\n\"description\":\"satisfying\",\r\n\"price\":\"2000\",\r\n\"imageUrl\":\"https://cdn.pixabay.com/photo/2017/11/23/13/50/pumpkin-soup-2972858_960_720.jpg\",\r\n\"userId\":\"67217a96-9fa9-451b-8244-738f9ba8f63b\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Return meal details as saved on database",
+            "schema" : {
+              "$ref" : "#/definitions/Meals"
+            }
+          },
+          "400" : {
+            "description" : "Invalid input",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            },
+            "x-examples" : {
+              "message" : "internal server error"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/meals/{mealId}" : {
+      "put" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/MealsPost"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"title\":\"chicken wings with chips\",\r\n\"description\":\"exotic\"\r\n}"
+          }
+        }, {
+          "name" : "mealId",
+          "in" : "path",
+          "description" : "Meal Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return meal details as updated on database",
+            "schema" : {
+              "$ref" : "#/definitions/Meals"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      },
+      "delete" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "mealId",
+          "in" : "path",
+          "description" : "Meal Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return number of records deleted"
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/{orderId}" : {
+      "put" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Orders"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"meals\":[\"084a7e7c-ef72-45cd-8998-727e56af2759\", \"efe1ed43-6169-4b9c-bd2d-fcdea22f2be4\"]\r\n}"
+          }
+        }, {
+          "name" : "orderId",
+          "in" : "path",
+          "description" : "Order Id",
+          "required" : true,
+          "type" : "string",
+          "format" : "uuidv4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return order details as saved on database",
+            "schema" : {
+              "$ref" : "#/definitions/MealOrderResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/total/{orderId}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "orderId",
+          "in" : "path",
+          "description" : "Order Id",
+          "required" : true,
+          "type" : "string",
+          "format" : "uuidv4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return total cost of order",
+            "examples" : {
+              "application/json" : {
+                "data" : {
+                  "revenue" : 9400,
+                  "orders" : 1,
+                  "users" : 1
+                }
+              }
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Totals"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/total/date" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Date",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return total orders, customers and revenue for caterer for particular day",
+            "examples" : {
+              "application/json" : {
+                "data" : {
+                  "revenue" : 40000,
+                  "orders" : 10,
+                  "users" : 2
+                }
+              }
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Totals"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/date/{date}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "path",
+          "description" : "Date",
+          "required" : true,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return paginated orders for user for selected date",
+            "schema" : {
+              "$ref" : "#/definitions/AllOrderPostResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Return paginated orders for user",
+            "schema" : {
+              "$ref" : "#/definitions/AllOrderPostResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Orders"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"meals\" :[{\"id\": \"084a7e7c-ef72-45cd-8998-727e56af2759\", \"quantity\": \"1\"}]\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Return order details as saved on database",
+            "schema" : {
+              "$ref" : "#/definitions/OrdersPostResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/{orderId}/meals" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "orderId",
+          "in" : "path",
+          "description" : "Order Id",
+          "required" : true,
+          "type" : "string",
+          "format" : "uuidv4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return paginated meals in order for user",
+            "schema" : {
+              "$ref" : "#/definitions/MealOrderResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/menu" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Date",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the menu for the day",
+            "schema" : {
+              "$ref" : "#/definitions/MenuResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Menu"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\"description\":\"Wednesday's Menu\",\r\n\"meals\":[\"084a7e7c-ef72-45cd-8998-727e56af2759\", \"efe1ed43-6169-4b9c-bd2d-fcdea22f2be4\", \"74011cce-299a-4a9d-84b2-55398748d360\"]\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Returns posted menu",
+            "schema" : {
+              "$ref" : "#/definitions/MenuResponse"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorObject"
+            }
+          },
+          "404" : {
+            "description" : "No records available",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorString"
+            }
+          }
+        },
+        "security" : [ {
+          "jwt" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "jwt" : {
+      "type" : "apiKey",
+      "name" : "authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "Meals" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deletedAt" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      },
+      "example" : {
+        "id" : "adeb3de2-330d-4724-a450-5a7711bca1cd",
+        "title" : "Assorted Jelly Delight",
+        "description" : "Scrumptious",
+        "price" : "500,",
+        "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg",
+        "userId" : "2b68ce1d-9e9c-416f-9364-cd633d827b43",
+        "createdAt" : "2018-08-21T08:23:11.982Z",
+        "updatedAt" : "2018-08-21T08:23:11.982Z",
+        "deletedAt" : "2099-12-31T23:00:00.000Z"
+      }
+    },
+    "MenuMealsResponse" : {
+      "type" : "object",
+      "properties" : {
+        "Meals" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MenuMealsResponse_Meals"
+          }
+        }
+      },
+      "example" : {
+        "Meals" : [ {
+          "createdAt" : "2000-01-23",
+          "MealMenus" : {
+            "userId" : "userId"
+          },
+          "deletedAt" : "2000-01-23",
+          "price" : "price",
+          "imageUrl" : "imageUrl",
+          "description" : "description",
+          "id" : "id",
+          "title" : "title",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        }, {
+          "createdAt" : "2000-01-23",
+          "MealMenus" : {
+            "userId" : "userId"
+          },
+          "deletedAt" : "2000-01-23",
+          "price" : "price",
+          "imageUrl" : "imageUrl",
+          "description" : "description",
+          "id" : "id",
+          "title" : "title",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        } ]
+      }
+    },
+    "MealsPost" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "title" : "Assorted Jelly Delight",
+        "description" : "Scrumptious",
+        "price" : "500,",
+        "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg"
+      }
+    },
+    "Orders" : {
+      "type" : "object",
+      "properties" : {
+        "meals" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Orders_meals"
+          }
+        }
+      },
+      "example" : {
+        "meals" : [ {
+          "id" : "443b76e7-b152-4937-890e-492c842b45a8",
+          "quantity" : "1"
+        }, {
+          "id" : "443b76e7-b152-4937-890e-492c842b45a8",
+          "quantity" : "1"
+        } ]
+      }
+    },
+    "OrdersGetResponse" : {
+      "type" : "object",
+      "properties" : {
+        "meals" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Orders_meals"
+          }
+        }
+      },
+      "example" : {
+        "data" : [ {
+          "id" : "b7f4b44a-052a-457c-8422-327e106ddbed",
+          "createdAt" : "2018-06-12T08:29:07.670Z",
+          "updatedAt" : "2018-06-12T08:29:07.670Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "adb53a5a-06c7-4067-8062-c71a7ac5484e",
+            "title" : "Beef with Rice",
+            "description" : "plain rice with ground beef",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 3
+            }
+          } ]
+        }, {
+          "id" : "b8c05c01-7ed0-45eb-b3b4-e9ff52ffe17c",
+          "createdAt" : "2018-06-12T08:31:15.569Z",
+          "updatedAt" : "2018-06-12T08:31:15.569Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "adb53a5a-06c7-4067-8062-c71a7ac5484e",
+            "title" : "Beef with Rice",
+            "description" : "plain rice with ground beef",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 3
+            }
+          } ]
+        }, {
+          "id" : "98aa2afd-f14f-4fee-999f-f496518d81d6",
+          "createdAt" : "2018-06-12T08:31:47.811Z",
+          "updatedAt" : "2018-06-12T08:31:47.811Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "adb53a5a-06c7-4067-8062-c71a7ac5484e",
+            "title" : "Beef with Rice",
+            "description" : "plain rice with ground beef",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 3
+            }
+          } ]
+        }, {
+          "id" : "96baddec-af73-456c-8c2b-c73c0dd67a78",
+          "createdAt" : "2018-06-12T12:40:00.781Z",
+          "updatedAt" : "2018-06-12T12:40:00.781Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "a30194b2-7925-48bf-99f2-5847042f34fd",
+            "title" : "Amala and Ewedu",
+            "description" : "allow",
+            "price" : 3000,
+            "MealOrders" : {
+              "quantity" : 1
+            }
+          } ]
+        }, {
+          "id" : "2c7ba6d8-643b-4e0e-a182-c7edfab6fc0d",
+          "createdAt" : "2018-06-12T12:40:15.696Z",
+          "updatedAt" : "2018-06-12T12:40:15.696Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "a30194b2-7925-48bf-99f2-5847042f34fd",
+            "title" : "Amala and Ewedu",
+            "description" : "allow",
+            "price" : 3000,
+            "MealOrders" : {
+              "quantity" : 1
+            }
+          } ]
+        }, {
+          "id" : "f2e1da5f-d52c-4434-bd2f-39fc62beaec4",
+          "createdAt" : "2018-06-12T12:41:30.652Z",
+          "updatedAt" : "2018-06-12T12:41:30.652Z",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "price" : 2500,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          }, {
+            "id" : "a30194b2-7925-48bf-99f2-5847042f34fd",
+            "title" : "Amala and Ewedu",
+            "description" : "allow",
+            "price" : 3000,
+            "MealOrders" : {
+              "quantity" : 1
+            }
+          }, {
+            "id" : "58355807-693d-435f-8284-c63f52563165",
+            "title" : "Delicious Spaghetti and Tomato Sauce",
+            "description" : "Alluring",
+            "price" : 3200,
+            "MealOrders" : {
+              "quantity" : 2
+            }
+          } ]
+        } ]
+      }
+    },
+    "MealsPostResponse" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/MealsPostResponse_data"
+        }
+      },
+      "example" : {
+        "data" : {
+          "pages" : 1,
+          "offset" : 6,
+          "limit" : 0,
+          "count" : 5,
+          "rows" : [ {
+            "id" : "adeb3de2-330d-4724-a450-5a7711bca1cd",
+            "title" : "Assorted Jelly Delight",
+            "description" : "Scrumptious",
+            "price" : "500,",
+            "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg",
+            "userId" : "2b68ce1d-9e9c-416f-9364-cd633d827b43",
+            "createdAt" : "2018-08-21T08:23:11.982Z",
+            "updatedAt" : "2018-08-21T08:23:11.982Z",
+            "deletedAt" : "2099-12-31T23:00:00.000Z"
+          }, {
+            "id" : "adeb3de2-330d-4724-a450-5a7711bca1cd",
+            "title" : "Assorted Jelly Delight",
+            "description" : "Scrumptious",
+            "price" : "500,",
+            "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg",
+            "userId" : "2b68ce1d-9e9c-416f-9364-cd633d827b43",
+            "createdAt" : "2018-08-21T08:23:11.982Z",
+            "updatedAt" : "2018-08-21T08:23:11.982Z",
+            "deletedAt" : "2099-12-31T23:00:00.000Z"
+          } ]
+        }
+      }
+    },
+    "MenuResponse" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/MenuResponse_data"
+        }
+      },
+      "example" : {
+        "data" : {
+          "pages" : 1,
+          "offset" : 6,
+          "limit" : 0,
+          "count" : 5,
+          "rows" : [ {
+            "Meals" : [ {
+              "createdAt" : "2000-01-23",
+              "MealMenus" : {
+                "userId" : "userId"
+              },
+              "deletedAt" : "2000-01-23",
+              "price" : "price",
+              "imageUrl" : "imageUrl",
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            }, {
+              "createdAt" : "2000-01-23",
+              "MealMenus" : {
+                "userId" : "userId"
+              },
+              "deletedAt" : "2000-01-23",
+              "price" : "price",
+              "imageUrl" : "imageUrl",
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            } ]
+          }, {
+            "Meals" : [ {
+              "createdAt" : "2000-01-23",
+              "MealMenus" : {
+                "userId" : "userId"
+              },
+              "deletedAt" : "2000-01-23",
+              "price" : "price",
+              "imageUrl" : "imageUrl",
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            }, {
+              "createdAt" : "2000-01-23",
+              "MealMenus" : {
+                "userId" : "userId"
+              },
+              "deletedAt" : "2000-01-23",
+              "price" : "price",
+              "imageUrl" : "imageUrl",
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            } ]
+          } ]
+        }
+      }
+    },
+    "AllOrderPostResponse" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/AllOrderPostResponse_data"
+        }
+      },
+      "example" : {
+        "data" : {
+          "pages" : 1,
+          "offset" : 6,
+          "limit" : 0,
+          "count" : 5,
+          "rows" : [ {
+            "createdAt" : "2000-01-23",
+            "MealsURL" : "MealsURL",
+            "User" : {
+              "firstName" : "firstName",
+              "lastName" : "lastName",
+              "email" : "email"
+            },
+            "id" : "id",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "createdAt" : "2000-01-23",
+            "MealsURL" : "MealsURL",
+            "User" : {
+              "firstName" : "firstName",
+              "lastName" : "lastName",
+              "email" : "email"
+            },
+            "id" : "id",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ]
+        }
+      }
+    },
+    "MealOrderResponse" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/MealOrderResponse_data"
+        }
+      },
+      "example" : {
+        "data" : {
+          "pages" : 1,
+          "offset" : 6,
+          "limit" : 0,
+          "count" : 5,
+          "rows" : [ {
+            "createdAt" : "2000-01-23",
+            "User" : {
+              "firstName" : "firstName",
+              "lastName" : "lastName",
+              "email" : "email"
+            },
+            "id" : "id",
+            "Meals" : [ {
+              "price" : 5.63737665663332876420099637471139430999755859375,
+              "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+              "MealOrders" : {
+                "quantity" : 7.061401241503109105224211816675961017608642578125
+              },
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            }, {
+              "price" : 5.63737665663332876420099637471139430999755859375,
+              "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+              "MealOrders" : {
+                "quantity" : 7.061401241503109105224211816675961017608642578125
+              },
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            } ],
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "createdAt" : "2000-01-23",
+            "User" : {
+              "firstName" : "firstName",
+              "lastName" : "lastName",
+              "email" : "email"
+            },
+            "id" : "id",
+            "Meals" : [ {
+              "price" : 5.63737665663332876420099637471139430999755859375,
+              "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+              "MealOrders" : {
+                "quantity" : 7.061401241503109105224211816675961017608642578125
+              },
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            }, {
+              "price" : 5.63737665663332876420099637471139430999755859375,
+              "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+              "MealOrders" : {
+                "quantity" : 7.061401241503109105224211816675961017608642578125
+              },
+              "description" : "description",
+              "id" : "id",
+              "title" : "title",
+              "userId" : "userId",
+              "updatedAt" : "2000-01-23"
+            } ],
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ]
+        }
+      }
+    },
+    "Totals" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/Totals_data"
+        }
+      }
+    },
+    "AllOrdersEntries" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "User" : {
+          "$ref" : "#/definitions/AllOrdersEntries_User"
+        },
+        "MealsURL" : {
+          "type" : "string",
+          "format" : "URL"
+        }
+      },
+      "example" : {
+        "createdAt" : "2000-01-23",
+        "MealsURL" : "MealsURL",
+        "User" : {
+          "firstName" : "firstName",
+          "lastName" : "lastName",
+          "email" : "email"
+        },
+        "id" : "id",
+        "userId" : "userId",
+        "updatedAt" : "2000-01-23"
+      }
+    },
+    "OrderMealsEntries" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "User" : {
+          "$ref" : "#/definitions/AllOrdersEntries_User"
+        },
+        "Meals" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/OrderMealsEntries_Meals"
+          }
+        }
+      },
+      "example" : {
+        "createdAt" : "2000-01-23",
+        "User" : {
+          "firstName" : "firstName",
+          "lastName" : "lastName",
+          "email" : "email"
+        },
+        "id" : "id",
+        "Meals" : [ {
+          "price" : 5.63737665663332876420099637471139430999755859375,
+          "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+          "MealOrders" : {
+            "quantity" : 7.061401241503109105224211816675961017608642578125
+          },
+          "description" : "description",
+          "id" : "id",
+          "title" : "title",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        }, {
+          "price" : 5.63737665663332876420099637471139430999755859375,
+          "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+          "MealOrders" : {
+            "quantity" : 7.061401241503109105224211816675961017608642578125
+          },
+          "description" : "description",
+          "id" : "id",
+          "title" : "title",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        } ],
+        "userId" : "userId",
+        "updatedAt" : "2000-01-23"
+      }
+    },
+    "OrdersPostResponse" : {
+      "type" : "object",
+      "properties" : {
+        "meals" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Orders_meals"
+          }
+        }
+      },
+      "example" : {
+        "data" : {
+          "id" : "f2e1da5f-d52c-4434-bd2f-39fc62beaec4",
+          "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+          "updatedAt" : "2018-06-12T12:41:30.652Z",
+          "createdAt" : "2018-06-12T12:41:30.652Z",
+          "Meals" : [ {
+            "id" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+            "title" : "Starch and Edikangkong",
+            "description" : "swallow with vegetable soup",
+            "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1528740846/awlipmzzr3jn63ne9jlf.jpg",
+            "price" : 2500,
+            "createdAt" : "2018-06-10T17:11:38.276Z",
+            "updatedAt" : "2018-06-11T18:24:48.023Z",
+            "userId" : "6d15d03a-93f2-4b82-a707-9e2af07c0d91",
+            "MealOrders" : {
+              "quantity" : 2,
+              "createdAt" : "2018-06-12T12:41:30.679Z",
+              "updatedAt" : "2018-06-12T12:41:30.679Z",
+              "mealId" : "6aaa93e3-5a68-45a1-861b-d13c0b0cb967",
+              "orderId" : "f2e1da5f-d52c-4434-bd2f-39fc62beaec4"
+            }
+          }, {
+            "id" : "a30194b2-7925-48bf-99f2-5847042f34fd",
+            "title" : "Amala and Ewedu",
+            "description" : "allow",
+            "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1528741951/yrj7mcoon9maexboruvl.jpg",
+            "price" : 3000,
+            "createdAt" : "2018-06-05T20:40:37.259Z",
+            "updatedAt" : "2018-06-11T18:32:40.051Z",
+            "userId" : "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
+            "MealOrders" : {
+              "quantity" : 1,
+              "createdAt" : "2018-06-12T12:41:30.687Z",
+              "updatedAt" : "2018-06-12T12:41:30.687Z",
+              "mealId" : "a30194b2-7925-48bf-99f2-5847042f34fd",
+              "orderId" : "f2e1da5f-d52c-4434-bd2f-39fc62beaec4"
+            }
+          }, {
+            "id" : "58355807-693d-435f-8284-c63f52563165",
+            "title" : "Delicious Spaghetti and Tomato Sauce",
+            "description" : "Alluring",
+            "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1528742169/hb9tdneoqtyl35cv5q36.jpg",
+            "price" : 3200,
+            "createdAt" : "2018-06-11T18:37:08.540Z",
+            "updatedAt" : "2018-06-11T18:37:08.540Z",
+            "userId" : "6d15d03a-93f2-4b82-a707-9e2af07c0d91",
+            "MealOrders" : {
+              "quantity" : 2,
+              "createdAt" : "2018-06-12T12:41:30.692Z",
+              "updatedAt" : "2018-06-12T12:41:30.692Z",
+              "mealId" : "58355807-693d-435f-8284-c63f52563165",
+              "orderId" : "f2e1da5f-d52c-4434-bd2f-39fc62beaec4"
+            }
+          } ]
+        }
+      }
+    },
+    "Menu" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string"
+        },
+        "meals" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "format" : "uuidv4"
+          }
+        }
+      },
+      "example" : {
+        "description" : "Thursday Menu",
+        "meals" : [ "443b76e7-b152-4937-890e-492c842b45a8", "443b76e7-b152-4937-890e-492c842b45a8" ]
+      }
+    },
+    "SignUp" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string",
+          "format" : "email"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "confirmPassword" : {
+          "type" : "string"
+        },
+        "isCaterer" : {
+          "type" : "boolean"
+        }
+      },
+      "example" : {
+        "firstName" : "firstName",
+        "lastName" : "lastName",
+        "password" : "password",
+        "isCaterer" : true,
+        "confirmPassword" : "confirmPassword",
+        "email" : "email"
+      }
+    },
+    "SignUpResponse" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/SignUpResponse_data"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "token" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "data" : {
+          "firstName" : "firstName",
+          "lastName" : "lastName",
+          "isCaterer" : true,
+          "email" : "email"
+        },
+        "message" : "Signup succesful",
+        "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0NhdGVyZXIiOmZhbHNlLCJ1c2VySWQiOiI3MTQ0OWQxYy05NjZjLTQ3NmEtYjAwMS0wZTQ4MWM3YjQzOWEiLCJmaXJzdE5hbWUiOiJUb3ZpZXllIiwiaWF0IjoxNTM2MzExNTQ3LCJleHAiOjE1MzYzMzMxNDd9.h5eBaptA09X65yFmz2YJwl3DHz8XVrOT3hx5jTjOY1c"
+      }
+    },
+    "SignUpError" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      },
+      "example" : {
+        "message" : {
+          "email" : "Incorrect email or password"
+        }
+      }
+    },
+    "ErrorObject" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      }
+    },
+    "ErrorString" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Login" : {
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string",
+          "format" : "email"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "password" : "password",
+        "email" : "email"
+      }
+    },
+    "MenuMealsResponse_MealMenus" : {
+      "properties" : {
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        }
+      },
+      "example" : {
+        "userId" : "userId"
+      }
+    },
+    "MenuMealsResponse_Meals" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deletedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "MealMenus" : {
+          "$ref" : "#/definitions/MenuMealsResponse_MealMenus"
+        }
+      },
+      "example" : {
+        "createdAt" : "2000-01-23",
+        "MealMenus" : {
+          "userId" : "userId"
+        },
+        "deletedAt" : "2000-01-23",
+        "price" : "price",
+        "imageUrl" : "imageUrl",
+        "description" : "description",
+        "id" : "id",
+        "title" : "title",
+        "userId" : "userId",
+        "updatedAt" : "2000-01-23"
+      }
+    },
+    "Orders_meals" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "quantity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "MealsPostResponse_data" : {
+      "properties" : {
+        "limit" : {
+          "type" : "integer"
+        },
+        "offset" : {
+          "type" : "integer"
+        },
+        "pages" : {
+          "type" : "integer"
+        },
+        "count" : {
+          "type" : "integer"
+        },
+        "rows" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Meals"
+          }
+        }
+      },
+      "example" : {
+        "pages" : 1,
+        "offset" : 6,
+        "limit" : 0,
+        "count" : 5,
+        "rows" : [ {
+          "id" : "adeb3de2-330d-4724-a450-5a7711bca1cd",
+          "title" : "Assorted Jelly Delight",
+          "description" : "Scrumptious",
+          "price" : "500,",
+          "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg",
+          "userId" : "2b68ce1d-9e9c-416f-9364-cd633d827b43",
+          "createdAt" : "2018-08-21T08:23:11.982Z",
+          "updatedAt" : "2018-08-21T08:23:11.982Z",
+          "deletedAt" : "2099-12-31T23:00:00.000Z"
+        }, {
+          "id" : "adeb3de2-330d-4724-a450-5a7711bca1cd",
+          "title" : "Assorted Jelly Delight",
+          "description" : "Scrumptious",
+          "price" : "500,",
+          "imageUrl" : "https://res.cloudinary.com/tovieyeozim/image/upload/v1534839752/zdyyspiqnu1taqr9wpa3.jpg",
+          "userId" : "2b68ce1d-9e9c-416f-9364-cd633d827b43",
+          "createdAt" : "2018-08-21T08:23:11.982Z",
+          "updatedAt" : "2018-08-21T08:23:11.982Z",
+          "deletedAt" : "2099-12-31T23:00:00.000Z"
+        } ]
+      }
+    },
+    "MenuResponse_data" : {
+      "properties" : {
+        "limit" : {
+          "type" : "integer"
+        },
+        "offset" : {
+          "type" : "integer"
+        },
+        "pages" : {
+          "type" : "integer"
+        },
+        "count" : {
+          "type" : "integer"
+        },
+        "rows" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MenuMealsResponse"
+          }
+        }
+      },
+      "example" : {
+        "pages" : 1,
+        "offset" : 6,
+        "limit" : 0,
+        "count" : 5,
+        "rows" : [ {
+          "Meals" : [ {
+            "createdAt" : "2000-01-23",
+            "MealMenus" : {
+              "userId" : "userId"
+            },
+            "deletedAt" : "2000-01-23",
+            "price" : "price",
+            "imageUrl" : "imageUrl",
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "createdAt" : "2000-01-23",
+            "MealMenus" : {
+              "userId" : "userId"
+            },
+            "deletedAt" : "2000-01-23",
+            "price" : "price",
+            "imageUrl" : "imageUrl",
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ]
+        }, {
+          "Meals" : [ {
+            "createdAt" : "2000-01-23",
+            "MealMenus" : {
+              "userId" : "userId"
+            },
+            "deletedAt" : "2000-01-23",
+            "price" : "price",
+            "imageUrl" : "imageUrl",
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "createdAt" : "2000-01-23",
+            "MealMenus" : {
+              "userId" : "userId"
+            },
+            "deletedAt" : "2000-01-23",
+            "price" : "price",
+            "imageUrl" : "imageUrl",
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ]
+        } ]
+      }
+    },
+    "AllOrderPostResponse_data" : {
+      "properties" : {
+        "limit" : {
+          "type" : "integer"
+        },
+        "offset" : {
+          "type" : "integer"
+        },
+        "pages" : {
+          "type" : "integer"
+        },
+        "count" : {
+          "type" : "integer"
+        },
+        "rows" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AllOrdersEntries"
+          }
+        }
+      },
+      "example" : {
+        "pages" : 1,
+        "offset" : 6,
+        "limit" : 0,
+        "count" : 5,
+        "rows" : [ {
+          "createdAt" : "2000-01-23",
+          "MealsURL" : "MealsURL",
+          "User" : {
+            "firstName" : "firstName",
+            "lastName" : "lastName",
+            "email" : "email"
+          },
+          "id" : "id",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        }, {
+          "createdAt" : "2000-01-23",
+          "MealsURL" : "MealsURL",
+          "User" : {
+            "firstName" : "firstName",
+            "lastName" : "lastName",
+            "email" : "email"
+          },
+          "id" : "id",
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        } ]
+      }
+    },
+    "MealOrderResponse_data" : {
+      "properties" : {
+        "limit" : {
+          "type" : "integer"
+        },
+        "offset" : {
+          "type" : "integer"
+        },
+        "pages" : {
+          "type" : "integer"
+        },
+        "count" : {
+          "type" : "integer"
+        },
+        "rows" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/OrderMealsEntries"
+          }
+        }
+      },
+      "example" : {
+        "pages" : 1,
+        "offset" : 6,
+        "limit" : 0,
+        "count" : 5,
+        "rows" : [ {
+          "createdAt" : "2000-01-23",
+          "User" : {
+            "firstName" : "firstName",
+            "lastName" : "lastName",
+            "email" : "email"
+          },
+          "id" : "id",
+          "Meals" : [ {
+            "price" : 5.63737665663332876420099637471139430999755859375,
+            "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+            "MealOrders" : {
+              "quantity" : 7.061401241503109105224211816675961017608642578125
+            },
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "price" : 5.63737665663332876420099637471139430999755859375,
+            "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+            "MealOrders" : {
+              "quantity" : 7.061401241503109105224211816675961017608642578125
+            },
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ],
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        }, {
+          "createdAt" : "2000-01-23",
+          "User" : {
+            "firstName" : "firstName",
+            "lastName" : "lastName",
+            "email" : "email"
+          },
+          "id" : "id",
+          "Meals" : [ {
+            "price" : 5.63737665663332876420099637471139430999755859375,
+            "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+            "MealOrders" : {
+              "quantity" : 7.061401241503109105224211816675961017608642578125
+            },
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          }, {
+            "price" : 5.63737665663332876420099637471139430999755859375,
+            "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+            "MealOrders" : {
+              "quantity" : 7.061401241503109105224211816675961017608642578125
+            },
+            "description" : "description",
+            "id" : "id",
+            "title" : "title",
+            "userId" : "userId",
+            "updatedAt" : "2000-01-23"
+          } ],
+          "userId" : "userId",
+          "updatedAt" : "2000-01-23"
+        } ]
+      }
+    },
+    "Totals_data" : {
+      "properties" : {
+        "revenue" : {
+          "type" : "integer"
+        },
+        "orders" : {
+          "type" : "integer"
+        },
+        "users" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "AllOrdersEntries_User" : {
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string",
+          "format" : "email"
+        }
+      },
+      "example" : {
+        "firstName" : "firstName",
+        "lastName" : "lastName",
+        "email" : "email"
+      }
+    },
+    "OrderMealsEntries_MealOrders" : {
+      "properties" : {
+        "quantity" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "quantity" : 7.061401241503109105224211816675961017608642578125
+      }
+    },
+    "OrderMealsEntries_Meals" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number"
+        },
+        "userId" : {
+          "type" : "string",
+          "format" : "uuidv4"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "subtotal" : {
+          "type" : "number"
+        },
+        "MealOrders" : {
+          "$ref" : "#/definitions/OrderMealsEntries_MealOrders"
+        }
+      },
+      "example" : {
+        "price" : 5.63737665663332876420099637471139430999755859375,
+        "subtotal" : 2.3021358869347654518833223846741020679473876953125,
+        "MealOrders" : {
+          "quantity" : 7.061401241503109105224211816675961017608642578125
+        },
+        "description" : "description",
+        "id" : "id",
+        "title" : "title",
+        "userId" : "userId",
+        "updatedAt" : "2000-01-23"
+      }
+    },
+    "SignUpResponse_data" : {
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string",
+          "format" : "email"
+        },
+        "isCaterer" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Book-A-Meal",
+  "scripts": {
+  },
+  "env": {
+    "ORDER_CLOSE": {
+      "required": true
+    },
+    "TOKEN_PASSWORD": {
+      "required": true
+    },
+    "CLOUDINARY_URL": {
+      "required": true
+    },
+    "CLOUDINARY_UPLOAD_PRESET": {
+      "required": true
+    },
+    "CLOUDINARY_API_KEY": {
+      "required": true
+    }
+    
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

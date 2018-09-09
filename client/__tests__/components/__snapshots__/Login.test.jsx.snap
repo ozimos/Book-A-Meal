@@ -1,0 +1,434 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Component renders correctly 1`] = `
+<div
+  className="canvas"
+>
+  <div
+    className="container2"
+  >
+    <header
+      className="header"
+    >
+      <h2
+        className="heading"
+      >
+        Book A Meal
+      </h2>
+    </header>
+    <main>
+      <div
+        className="welcome"
+      >
+        <h4
+          className="welcome-text"
+        >
+          Welcome!
+        </h4>
+        <h5>
+          Sign in by entering the information below
+        </h5>
+      </div>
+      <div
+        className="form-box"
+      >
+        <Formsy
+          className="form"
+          disabled={false}
+          getErrorMessage={[Function]}
+          getErrorMessages={[Function]}
+          getValue={[Function]}
+          hasValue={[Function]}
+          isFormDisabled={[Function]}
+          isFormSubmitted={[Function]}
+          isPristine={[Function]}
+          isRequired={[Function]}
+          isValid={[Function]}
+          isValidValue={[Function]}
+          mapping={null}
+          onChange={[Function]}
+          onError={[Function]}
+          onInvalid={[Function]}
+          onInvalidSubmit={[Function]}
+          onReset={[Function]}
+          onSubmit={[Function]}
+          onValid={[Function]}
+          onValidSubmit={[Function]}
+          preventExternalInvalidation={false}
+          resetValue={[Function]}
+          setValidations={[Function]}
+          setValue={[Function]}
+          showError={[Function]}
+          showRequired={[Function]}
+          validationErrors={null}
+        >
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="email"
+            placeholder="Email"
+            required={false}
+            typeOfInput="text"
+            validationError="This is not a valid email"
+            validationErrors={
+              Object {
+                "isEmail": "This is not a valid email",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "input must be longer than 5 character",
+              }
+            }
+            validations={
+              Object {
+                "isEmail": true,
+                "maxLength": 48,
+                "minLength": 5,
+              }
+            }
+          />
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="password"
+            placeholder="Password"
+            required={true}
+            typeOfInput="password"
+            validationError=""
+            validationErrors={
+              Object {
+                "hasLowerCase": "Must have lowercase letter or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasNumber": "Must have a number or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasSpecialCharacter": "Must have a special character or 
+                    you can use a passphrase of minimum length 16 characters",
+                "hasUpperCase": "Must have uppercase letter or you can 
+                    use a passphrase of minimum length 16 characters",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "Must have at least 8 characters",
+              }
+            }
+            validations={
+              Object {
+                "hasLowerCase": [Function],
+                "hasNumber": [Function],
+                "hasSpecialCharacter": [Function],
+                "hasUpperCase": [Function],
+                "maxLength": 48,
+                "minLength": 8,
+              }
+            }
+          />
+          <button
+            className="btn btn-disabled"
+            disabled={true}
+            type="submit"
+          >
+            Continue
+          </button>
+        </Formsy>
+        <div
+          className="stacked-text"
+        >
+          <Link
+            replace={false}
+            to="/signup"
+          >
+            <p>
+              Don't have an account? Click here to create one
+            </p>
+          </Link>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Login Component renders correctly 2`] = `
+<div
+  className="canvas"
+>
+  <div
+    className="container2"
+  >
+    <header
+      className="header"
+    >
+      <h2
+        className="heading"
+      >
+        Book A Meal
+      </h2>
+    </header>
+    <main>
+      <div
+        className="welcome"
+      >
+        <h4
+          className="welcome-text"
+        >
+          Welcome!
+        </h4>
+        <h5>
+          Sign in by entering the information below
+        </h5>
+      </div>
+      <div
+        className="form-box"
+      >
+        <Formsy
+          className="form"
+          disabled={false}
+          getErrorMessage={[Function]}
+          getErrorMessages={[Function]}
+          getValue={[Function]}
+          hasValue={[Function]}
+          isFormDisabled={[Function]}
+          isFormSubmitted={[Function]}
+          isPristine={[Function]}
+          isRequired={[Function]}
+          isValid={[Function]}
+          isValidValue={[Function]}
+          mapping={null}
+          onChange={[Function]}
+          onError={[Function]}
+          onInvalid={[Function]}
+          onInvalidSubmit={[Function]}
+          onReset={[Function]}
+          onSubmit={[Function]}
+          onValid={[Function]}
+          onValidSubmit={[Function]}
+          preventExternalInvalidation={false}
+          resetValue={[Function]}
+          setValidations={[Function]}
+          setValue={[Function]}
+          showError={[Function]}
+          showRequired={[Function]}
+          validationErrors={null}
+        >
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="email"
+            placeholder="Email"
+            required={false}
+            typeOfInput="text"
+            validationError="This is not a valid email"
+            validationErrors={
+              Object {
+                "isEmail": "This is not a valid email",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "input must be longer than 5 character",
+              }
+            }
+            validations={
+              Object {
+                "isEmail": true,
+                "maxLength": 48,
+                "minLength": 5,
+              }
+            }
+          />
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="password"
+            placeholder="Password"
+            required={true}
+            typeOfInput="password"
+            validationError=""
+            validationErrors={
+              Object {
+                "hasLowerCase": "Must have lowercase letter or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasNumber": "Must have a number or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasSpecialCharacter": "Must have a special character or 
+                    you can use a passphrase of minimum length 16 characters",
+                "hasUpperCase": "Must have uppercase letter or you can 
+                    use a passphrase of minimum length 16 characters",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "Must have at least 8 characters",
+              }
+            }
+            validations={
+              Object {
+                "hasLowerCase": [Function],
+                "hasNumber": [Function],
+                "hasSpecialCharacter": [Function],
+                "hasUpperCase": [Function],
+                "maxLength": 48,
+                "minLength": 8,
+              }
+            }
+          />
+          <button
+            className="btn btn-disabled"
+            disabled={true}
+            type="submit"
+          >
+            Continue
+          </button>
+        </Formsy>
+        <div
+          className="stacked-text"
+        >
+          <Link
+            replace={false}
+            to="/signup"
+          >
+            <p>
+              Don't have an account? Click here to create one
+            </p>
+          </Link>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Login Component renders correctly 3`] = `
+<div
+  className="canvas"
+>
+  <div
+    className="container2"
+  >
+    <header
+      className="header"
+    >
+      <h2
+        className="heading"
+      >
+        Book A Meal
+      </h2>
+    </header>
+    <main>
+      <div
+        className="welcome"
+      >
+        <h4
+          className="welcome-text"
+        >
+          Welcome!
+        </h4>
+        <h5>
+          Sign in by entering the information below
+        </h5>
+      </div>
+      <div
+        className="form-box"
+      >
+        <Formsy
+          className="form"
+          disabled={false}
+          getErrorMessage={[Function]}
+          getErrorMessages={[Function]}
+          getValue={[Function]}
+          hasValue={[Function]}
+          isFormDisabled={[Function]}
+          isFormSubmitted={[Function]}
+          isPristine={[Function]}
+          isRequired={[Function]}
+          isValid={[Function]}
+          isValidValue={[Function]}
+          mapping={null}
+          onChange={[Function]}
+          onError={[Function]}
+          onInvalid={[Function]}
+          onInvalidSubmit={[Function]}
+          onReset={[Function]}
+          onSubmit={[Function]}
+          onValid={[Function]}
+          onValidSubmit={[Function]}
+          preventExternalInvalidation={false}
+          resetValue={[Function]}
+          setValidations={[Function]}
+          setValue={[Function]}
+          showError={[Function]}
+          showRequired={[Function]}
+          validationErrors={null}
+        >
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="email"
+            placeholder="Email"
+            required={false}
+            typeOfInput="text"
+            validationError="This is not a valid email"
+            validationErrors={
+              Object {
+                "isEmail": "This is not a valid email",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "input must be longer than 5 character",
+              }
+            }
+            validations={
+              Object {
+                "isEmail": true,
+                "maxLength": 48,
+                "minLength": 5,
+              }
+            }
+          />
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="password"
+            placeholder="Password"
+            required={true}
+            typeOfInput="password"
+            validationError=""
+            validationErrors={
+              Object {
+                "hasLowerCase": "Must have lowercase letter or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasNumber": "Must have a number or you can
+                     use a passphrase of minimum length 16 characters",
+                "hasSpecialCharacter": "Must have a special character or 
+                    you can use a passphrase of minimum length 16 characters",
+                "hasUpperCase": "Must have uppercase letter or you can 
+                    use a passphrase of minimum length 16 characters",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "Must have at least 8 characters",
+              }
+            }
+            validations={
+              Object {
+                "hasLowerCase": [Function],
+                "hasNumber": [Function],
+                "hasSpecialCharacter": [Function],
+                "hasUpperCase": [Function],
+                "maxLength": 48,
+                "minLength": 8,
+              }
+            }
+          />
+          <button
+            className="btn btn-disabled"
+            disabled={true}
+            type="submit"
+          >
+            Continue
+          </button>
+        </Formsy>
+        <div
+          className="stacked-text"
+        >
+          <Link
+            replace={false}
+            to="/signup"
+          >
+            <p>
+              Don't have an account? Click here to create one
+            </p>
+          </Link>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Login Component should map state to props 1`] = `
+Object {
+  "authenticated": false,
+  "loginError": "",
+}
+`;

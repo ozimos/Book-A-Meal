@@ -1,0 +1,12 @@
+{
+  "presets": ["env", "react"],
+  "plugins": [
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
+    ["transform-class-properties", { "spec": true }],
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }],
+    "react-hot-loader/babel"
+  ]
+}

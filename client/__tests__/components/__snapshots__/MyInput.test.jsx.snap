@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MyInput Component renders correctly 1`] = `
+<React.Fragment>
+  <input
+    max="99999"
+    maxLength="50"
+    onChange={[Function]}
+    placeholder="text"
+    style=""
+    type="text"
+    value=""
+  />
+  <div
+    style={
+      Object {
+        "color": "red",
+        "fontSize": "1rem",
+      }
+    }
+  />
+</React.Fragment>
+`;

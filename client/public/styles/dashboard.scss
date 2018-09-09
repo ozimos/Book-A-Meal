@@ -1,0 +1,142 @@
+
+ 
+header.extra.header{
+    margin-top: 20px
+}
+.canvas2{
+      background: #fafafa url('../images/pastries2.jpg');
+      background-position: right;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: 50% 100%;      
+      .heading {
+        margin-left: 20px
+      }
+
+      .container3 {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        margin-top: -20px;
+        margin-bottom: -20px;
+        background-color: #fafafa;
+        background-attachment: scroll;
+        background-size: 200vw 200vh;
+      }
+      
+      
+      .order_summary{
+      min-width: 15%;
+      }
+      .order_span{
+        padding-top: 10px ;
+        min-width: 30px;
+        width: 20%
+      }
+      .order_span.summary_value{
+        font-size: 2em
+      }
+      
+      .order_detail{
+        background-color: #CD9655;
+        height: 60px;
+        .search-input {
+          padding-top: 0px;
+          & > input{
+    padding:0px 20px 0px 15px;            
+        height: 30px; 
+        width: 80%;
+          }
+        }
+  .search-input::before {
+    top: 0;
+  }
+        
+      }
+      .title-element {
+        line-height: 2;
+        &>.flexbox {
+            max-width: 80%;
+            &>*:first-child {
+                justify-items: flex-start;
+                margin-right: 20px;
+              }
+          }
+          &>* {
+            margin: 0;
+            font-weight: lighter;
+          }
+      }
+      
+      
+      
+      .summary {
+        margin: 40px 0;
+        text-align: left;
+        * {
+            margin-left: 20px;
+            padding: 0;
+          }
+      }
+      
+      
+      
+      
+      #meal_image {
+        width: 60%;
+        margin: 10px auto;
+      }
+      
+     
+      
+      .welcome {
+        box-sizing: border-box;
+        min-height: 6em;
+        margin-top: 2em;
+        margin-bottom: 3em;
+      }
+      
+      .welcome-text {
+        padding: 0 50px;
+        font-weight: 900;
+      }
+      
+      .modal-trigger {
+        cursor: pointer;
+      }
+      
+      .shrink.modal-trigger,
+      h3.modal-trigger,p.modal-trigger  {
+        color: #2f80ed;
+      }
+      
+     
+      
+      @media screen and (min-width: 736px) {
+       
+        .container3 {
+          max-width: 70%;
+        }
+       
+      }
+      
+      @media screen and (min-width: 600px) and (max-width: 736px){
+       
+        .container3 {
+          max-width: 80%;
+        }
+        .canvas2{
+      background-size: 20% 100%;                
+        }
+        .order_span.shrink{
+          visibility: visible;
+        }
+      }
+      
+      @media screen and (min-width: 450px) and (max-width: 600px) {
+        .order_span.shrink{
+            visibility: hidden;
+          }
+      }  
+}

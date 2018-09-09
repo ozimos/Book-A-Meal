@@ -1,0 +1,60 @@
+.u-position-absolute {
+    position: absolute;
+}
+
+.u-position-relative {
+    position: relative;
+}
+.accordion__arrow.u-position-relative{
+    margin-left: 10px
+}
+.accordion__body {
+    display: block;
+}
+
+.accordion__body--hidden {
+    display: none;
+}
+
+.accordion__arrow {
+    display: inline-block;
+    width: 25px;
+    height: 12px;
+    margin-top: -6px;
+    margin-left: 10px
+}
+
+.accordion__arrow::after,
+.accordion__arrow::before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 15px;
+    height: 3px;
+    background-color: currentColor;
+    content: '';
+    color: blue
+}
+
+.accordion__arrow::before {
+    left: 10px;
+    transform: rotate(-45deg);
+}
+
+[aria-expanded='true'] .accordion__arrow::before, [aria-selected='true'] .accordion__arrow::before {
+    transform: rotate(45deg);
+}
+
+.accordion__arrow::after {
+    right: 10px;
+    transform: rotate(45deg);
+}
+
+[aria-expanded='true'] .accordion__arrow::after, [aria-selected='true'] .accordion__arrow::after {
+    transform: rotate(-45deg);
+}
+
+.accordion__arrow::before,
+.accordion__arrow::after {
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+}

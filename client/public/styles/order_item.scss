@@ -1,0 +1,10 @@
+.order_item{
+    .long_string{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+    .left_pad{
+        padding-left: 0px;
+    }
+}

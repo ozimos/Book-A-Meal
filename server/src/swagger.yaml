@@ -1,0 +1,341 @@
+---
+swagger: "2.0"
+info:
+  description: |
+    Book-A-Meal is an application that allows customers to make food orders and helps the food
+    vendor know what the customers want to eat
+  version: "1"
+  title: Book A Meal API
+host: virtserver.swaggerhub.com
+basePath: /ozimos7/Book_A_Meal-API/1
+schemes:
+- https
+paths:
+  /api/v1/auth/signup:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Create a new user
+        required: true
+        schema:
+          $ref: '#/definitions/SignUp'
+        x-examples:
+          application/json: " {\r\n\"firstName\":\"Tovieye\", \r\n\"lastName\":\"\
+            Ozi\", \r\n\"email\":\"ozimos83@yahoo.com\", \r\n\"password\":\"test\"\
+            \r\n, \r\n\"confirmPassword\":\"test\"\r\n}"
+      responses:
+        201:
+          description: Return user details as saved on database and success message
+          schema:
+            $ref: '#/definitions/SignUp'
+        400:
+          description: Invalid input
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Log a user in
+        required: true
+        schema:
+          $ref: '#/definitions/Login'
+        x-examples:
+          application/json: "{\r\n\"email\":\"ozimos83@yahoo.com\",\r\n\"password\"\
+            :\"test\"\r\n}"
+      responses:
+        200:
+          description: Return user details as saved on database and success message
+          schema:
+            $ref: '#/definitions/SignUp'
+        404:
+          description: Invalid input
+  /api/v1/meals:
+    get:
+      parameters: []
+      responses:
+        200:
+          description: Return all meals details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Add a new meal
+        required: true
+        schema:
+          $ref: '#/definitions/Meals'
+        x-examples:
+          application/json: "{\r\n\"title\":\"amala and ewedu\",\r\n\"description\"\
+            :\"satisfying\",\r\n\"price\":\"2000\",\r\n\"imageUrl\":\"https://cdn.pixabay.com/photo/2017/11/23/13/50/pumpkin-soup-2972858_960_720.jpg\"\
+            ,\r\n\"userId\":\"67217a96-9fa9-451b-8244-738f9ba8f63b\"\r\n}"
+      responses:
+        201:
+          description: Return meal details as saved on database
+          schema:
+            $ref: '#/definitions/Meals'
+        400:
+          description: Invalid input
+      security:
+      - jwt: []
+  /api/v1/meals/{mealId}:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: false
+        schema:
+          $ref: '#/definitions/Meals'
+        x-examples:
+          application/json: "{\r\n\"title\":\"chicken wings with chips\",\r\n\"description\"\
+            :\"exotic\"\r\n}"
+      - name: mealId
+        in: path
+        description: Meal Id
+        required: true
+        type: string
+      responses:
+        200:
+          description: Return meal details as updated on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: mealId
+        in: path
+        description: Meal Id
+        required: true
+        type: string
+      responses:
+        200:
+          description: Return meal details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+  /api/v1/orders/{orderId}:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: false
+        schema:
+          $ref: '#/definitions/Orders'
+        x-examples:
+          application/json: "{\r\n\"meals\":[\"084a7e7c-ef72-45cd-8998-727e56af2759\"\
+            , \"efe1ed43-6169-4b9c-bd2d-fcdea22f2be4\"]\r\n}"
+      - name: orderId
+        in: path
+        description: Meal Id
+        required: true
+        type: string
+      responses:
+        200:
+          description: Return order details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+  /api/v1/orders:
+    get:
+      parameters: []
+      responses:
+        200:
+          description: Return all order details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Orders'
+        x-examples:
+          application/json: "{\r\n\"meals\" :[{\"id\": \"084a7e7c-ef72-45cd-8998-727e56af2759\"\
+            , \"quantity\": \"1\"}]\r\n}"
+      responses:
+        201:
+          description: Return order details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+  /api/v1/menu:
+    get:
+      parameters: []
+      responses:
+        200:
+          description: Return all order details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Menu'
+        x-examples:
+          application/json: "{\r\n\"description\":\"Wednesday's Menu\",\r\n\"meals\"\
+            :[\"084a7e7c-ef72-45cd-8998-727e56af2759\", \"efe1ed43-6169-4b9c-bd2d-fcdea22f2be4\"\
+            , \"74011cce-299a-4a9d-84b2-55398748d360\"]\r\n}"
+      responses:
+        201:
+          description: Return order details as saved on database
+        400:
+          description: Bad Request
+        404:
+          description: No records available
+      security:
+      - jwt: []
+securityDefinitions:
+  jwt:
+    type: apiKey
+    name: authorization
+    in: header
+definitions:
+  Meals:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      price:
+        type: string
+      imageUrl:
+        type: string
+      userId:
+        type: string
+        format: uuidv4
+    example:
+      price: price
+      imageUrl: imageUrl
+      description: description
+      title: title
+      userId: userId
+  Orders:
+    type: object
+    properties:
+      meals:
+        type: array
+        items:
+          $ref: '#/definitions/Orders_meals'
+    example:
+      meals:
+      - id: 443b76e7-b152-4937-890e-492c842b45a8
+        quantity: "1"
+      - id: 443b76e7-b152-4937-890e-492c842b45a8
+        quantity: "1"
+  Menu:
+    type: object
+    properties:
+      description:
+        type: string
+      meals:
+        type: array
+        items:
+          type: string
+          format: uuidv4
+    example:
+      description: Thursday Menu
+      meals:
+      - 443b76e7-b152-4937-890e-492c842b45a8
+      - 443b76e7-b152-4937-890e-492c842b45a8
+  SignUp:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+      confirmPassword:
+        type: string
+      isCaterer:
+        type: boolean
+    example:
+      firstName: firstName
+      lastName: lastName
+      password: password
+      isCaterer: true
+      confirmPassword: confirmPassword
+      email: email
+  Login:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+    example:
+      password: password
+      email: email
+  Orders_meals:
+    properties:
+      id:
+        type: string
+        format: uuidv4
+      quantity:
+        type: string

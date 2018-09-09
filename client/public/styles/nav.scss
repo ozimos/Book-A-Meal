@@ -1,0 +1,16 @@
+nav.flexbox{
+    background-color: #fafafa;
+    a, button{
+        font-family: Roboto, Monserrat, 'Segoe UI', Tahoma, Verdana, sans-serif;
+        color: #2f80ed; 
+        line-height: normal;                    
+        &.active{
+            font-weight: bold;
+          } 
+      }
+      button{
+          border: none;
+          cursor: pointer;
+          background-color: white
+      }
+  }

@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Nav Component renders correctly 1`] = `
+<div
+  className="navbar-fixed"
+>
+  <nav
+    className="flexbox"
+  >
+    <h3
+      className="shrink heading"
+    >
+      <Link
+        replace={false}
+        to="/"
+      >
+        Book A Meal
+      </Link>
+    </h3>
+    <div
+      className="flexbox"
+    >
+      <NavLink
+        activeClassName="active"
+        aria-current="page"
+        className="nav-item long_string"
+        to="/dashboard"
+      >
+        DashBoard
+      </NavLink>
+      <NavLink
+        activeClassName="active"
+        aria-current="page"
+        className="nav-item"
+        to="/meals"
+      >
+        Meals
+      </NavLink>
+      <NavLink
+        activeClassName="active"
+        aria-current="page"
+        className="nav-item"
+        to="/menu"
+      >
+        Menu
+      </NavLink>
+      <button
+        onClick={[Function]}
+      >
+        Log Out
+      </button>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Nav Component renders correctly 2`] = `
+<div
+  className="navbar-fixed"
+>
+  <nav
+    className="flexbox"
+  >
+    <h3
+      className="shrink heading"
+    >
+      <Link
+        replace={false}
+        to="/"
+      >
+        Book A Meal
+      </Link>
+    </h3>
+    <div
+      className="flexbox"
+    >
+      <NavLink
+        activeClassName="active"
+        aria-current="page"
+        className="nav-item"
+        to="/orders"
+      >
+        Meal Booking
+      </NavLink>
+      <button
+        onClick={[Function]}
+      >
+        Log Out
+      </button>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Nav Component renders correctly 3`] = `
+<div
+  className="navbar-fixed"
+>
+  <nav
+    className="flexbox"
+  >
+    <h3
+      className="shrink heading"
+    >
+      <Link
+        replace={false}
+        to="/"
+      >
+        Book A Meal
+      </Link>
+    </h3>
+    <div
+      className="flexbox"
+    >
+      <NavLink
+        activeClassName="active"
+        aria-current="page"
+        className="nav-item"
+        to="/orders"
+      >
+        Meal Booking
+      </NavLink>
+      <Link
+        replace={false}
+        to="/login"
+      >
+        Log In
+      </Link>
+    </div>
+  </nav>
+</div>
+`;

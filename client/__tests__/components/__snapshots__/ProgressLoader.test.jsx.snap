@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Progress Loader renders correctly 1`] = `
+<div
+  className="progression"
+>
+  <WithStyles(LinearProgress)
+    style={
+      Object {
+        "height": "10px",
+      }
+    }
+    value={10}
+    variant="determinate"
+  />
+</div>
+`;

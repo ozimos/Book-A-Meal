@@ -1,0 +1,12 @@
+# Babel build directories
+server/lib/
+
+# VSCode Directory
+.vscode/
+
+# My debug folder
+debug/
+
+# sass files
+client/src/*.scss
+/\.s?[ac]ss$/

@@ -1,0 +1,19 @@
+const path = require('path');
+
+if (process.env.NODE_ENV === 'production'){
+module.exports =  {
+  "config": path.resolve('./server/lib/config', 'config.js'),
+  "models-path": path.resolve('./server/lib/models'),
+  "seeders-path": path.resolve('./server/lib/seeders'),
+  "migrations-path": path.resolve('./server/lib/migrations')
+};
+}
+
+
+
+module.exports = {
+   "config": path.resolve('./server/src/config', 'babelHook.js'),
+   "models-path": path.resolve('./server/src/models'),
+   "seeders-path": path.resolve('./server/src/seeders'),
+   "migrations-path": path.resolve('./server/src/migrations')
+ };

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/book_a_meal3.css">
+  <title>Book A Meal</title>
+</head>
+
+<body >
+  <div id="dashboard" class="canvas">
+    <div class="container3">
+
+      <header class="header">
+        <nav class="flexbox">
+          <h4 class="shrink heading">Book A Meal</h4>
+          <div class="flexbox nowrap">
+            <a href="meal_list.html">
+              Meals
+            </a>
+
+            <a href="menu_editor.html">
+              Menu
+            </a>
+
+            <a href="meal_booking.html">
+              Meal Booking
+            </a>
+            <a class="active" href="order_report2.html">
+                Dashboard
+            </a>
+            <a href="sign_in.html">
+              Log Out
+            </a>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div>
+          <h4>Welcome Caterer Sanni</h4>
+        </div>
+          <div class="flexbox">
+            <div class="card order_summary">
+                <div class="row">
+                    <span class="col s4 order_span summary_value">100</span>                  
+                    <span class="col s4 offset-s4 order_span"><img class="responsive-img" src="./assets/food.png"/></span>  
+                </div>               
+                <h5>Orders</h5>
+            </div >
+            <div class="card order_summary">
+                <div class="row">                
+                    <span class="col s3 order_span summary_value">50</span>
+                    <span class="col s4 offset-s5 order_span"><img class="responsive-img" src="./assets/profile.png"/></span>                  
+                </div>                
+                <h5>Customers</h5>
+            </div >
+            <div class="card order_summary">
+                <div class="row">                                
+                    <span class="col s7 order_span summary_value">&#8358;10,000</span>
+                    <span class="col s4 offset-s1 order_span"><img class="responsive-img" src="./assets/chart.png"/></span>              
+                </div>            
+                <h5>Total Sales</h5>
+          </div>
+        </div>
+
+        <div class="order_detail flexbox">
+          <h5>
+            Order Details
+          </h5>
+          
+          <div class="flexbox">
+
+          </div>
+          <div class="input-field" action="">
+            <i class="material-icons prefix">search</i>
+            <input id="mealSelector" type="search" placeholder="search">
+          </div>
+        </div>
+
+        <!-- element list -->
+        <div>
+          <table class="striped responsive-table">
+            <thead>
+              <tr>
+                <th>
+                    S/N
+                </th>
+                <th>
+                  Customer
+                </th>
+                <th>
+                  Order
+                </th>
+                <th>
+                  Meals
+                </th>
+                <th>
+                  Quantities
+                </th>
+                <th>
+                  Total
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>
+                      <p>
+                        1
+                      </p>
+                    </td>
+                    <td>
+                        <p>
+                          Jane
+                        </p>
+                      </td>
+                <td>
+                  <p class="modal-trigger">
+                    112345-1
+                  </p>
+                </td>
+                <td>
+                  <p>Eba and Soup, Rice and Beans</p>
+                </td>
+                <td>
+                    <p>
+                      3, 4
+                    </p>
+                  </td>
+                <td>
+                  <p>&#8358;10000</p>
+                </td>
+              </tr>
+              <tr>
+                  <td>
+                      <p>
+                        2
+                      </p>
+                    </td>
+                    <td>
+                        <p>
+                          Dienebi
+                        </p>
+                      </td>
+                <td>
+                  <p class="modal-trigger">
+                    112345-2
+                  </p>
+                </td>
+                <td>
+                  <p>Eba and Soup, Rice and Beans</p>
+                </td>
+                <td>
+                    <p>
+                      3, 4
+                    </p>
+                  </td>
+                <td>
+                  <p>&#8358;10000</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        </main>
+    </div>
+  </div>
+
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class=" modal-content">
+      <div class="title flexbox">
+        <h3>
+          Order Details
+        </h3>
+        <div class="flexbox">
+          <button class="title-button close">
+            &#10006;
+          </button>
+        </div>
+      </div>
+      <div class="form-box">
+        <h3>Order ID: 12345</h3>
+        <h3>Customer: Alice Zed</h3>
+        <h3>Amount: &#8358;1200</h3>
+        <h3>Time: 12.50PM</h3>
+        <h3>Meal: Fried Rice</h3>
+      </div>
+
+    </div>
+
+
+  </div>
+  <script src="js/modal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+</body>
+
+</html>

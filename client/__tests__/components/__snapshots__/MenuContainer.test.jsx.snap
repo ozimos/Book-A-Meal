@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MenuContainer Component renders correctly 1`] = `
+<div
+  className=""
+>
+  <div
+    className="flexbox"
+  >
+    <h5>
+      Menu Editor
+    </h5>
+    <button
+      className="btn title-button"
+    >
+      ✖
+    </button>
+  </div>
+  <div
+    className="scroll"
+  >
+    <div
+      className="flexbox"
+      key="meal1"
+    >
+      <span
+        className="text_left long_string"
+        key="meal1"
+      >
+        Eba and Egusi
+      </span>
+      <button
+        className="btn title-button"
+        onClick={[Function]}
+      >
+        Remove
+      </button>
+    </div>
+    <div
+      className="flexbox"
+      key="meal2"
+    >
+      <span
+        className="text_left long_string"
+        key="meal2"
+      >
+        Rice and Stew
+      </span>
+      <button
+        className="btn title-button"
+        onClick={[Function]}
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+  <div
+    className="flexbox"
+  >
+    <button
+      className="btn btn-cart"
+      onClick={[Function]}
+    >
+      Post meals to Menu
+    </button>
+    <button
+      className="btn btn-cart"
+      onClick={[MockFunction]}
+    >
+      Clear Menu
+    </button>
+  </div>
+</div>
+`;
+
+exports[`MenuContainer Component renders correctly 2`] = `
+<div
+  className="string"
+>
+  <div
+    className="flexbox"
+  >
+    <h5>
+      Menu Editor
+    </h5>
+    <button
+      className="btn title-button"
+    >
+      ✖
+    </button>
+  </div>
+  <div
+    className="scroll"
+  >
+    <div
+      className="flexbox"
+      key="meal1"
+    >
+      <span
+        className="text_left long_string"
+        key="meal1"
+      >
+        Eba and Egusi
+      </span>
+      <button
+        className="btn title-button"
+        onClick={[Function]}
+      >
+        Remove
+      </button>
+    </div>
+    <div
+      className="flexbox"
+      key="meal2"
+    >
+      <span
+        className="text_left long_string"
+        key="meal2"
+      >
+        Rice and Stew
+      </span>
+      <button
+        className="btn title-button"
+        onClick={[Function]}
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+  <div
+    className="flexbox"
+  >
+    <button
+      className="btn btn-cart"
+      onClick={[Function]}
+    >
+      Post meals to Menu
+    </button>
+    <button
+      className="btn btn-cart"
+      onClick={[MockFunction]}
+    >
+      Clear Menu
+    </button>
+  </div>
+</div>
+`;

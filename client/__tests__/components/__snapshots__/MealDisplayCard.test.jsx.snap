@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MealsDisplayCard Component renders correctly 1`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          >
+            nice
+          </span>
+          <span>
+            ₦
+            200
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+        src="nice"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    >
+      nice
+    </p>
+  </div>
+</React.Fragment>
+`;
+
+exports[`MealsDisplayCard Component renders correctly 2`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          >
+            nice
+          </span>
+          <span>
+            ₦
+            200
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+        src="nice"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    >
+      nice
+    </p>
+    <button
+      className="btn title-button"
+      onClick={[Function]}
+    >
+      Add to menu
+    </button>
+  </div>
+</React.Fragment>
+`;
+
+exports[`MealsDisplayCard Component renders correctly 3`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          >
+            nice
+          </span>
+          <span>
+            ₦
+            200
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+        src="nice"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    >
+      nice
+    </p>
+    <button
+      className="btn title-button"
+      onClick={[Function]}
+    >
+      Remove from menu
+    </button>
+  </div>
+</React.Fragment>
+`;
+
+exports[`MealsDisplayCard Component renders correctly 4`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          >
+            nice
+          </span>
+          <span>
+            ₦
+            200
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+        src="nice"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    >
+      nice
+    </p>
+    <button
+      className="btn title-button"
+      onClick={[Function]}
+    >
+      Add to menu
+    </button>
+  </div>
+</React.Fragment>
+`;
+
+exports[`MealsDisplayCard Component renders correctly 5`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          >
+            nice
+          </span>
+          <span>
+            ₦
+            200
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+        src="nice"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    >
+      nice
+    </p>
+    <button
+      className="btn title-button"
+      onClick={[Function]}
+    >
+      Remove from menu
+    </button>
+  </div>
+</React.Fragment>
+`;

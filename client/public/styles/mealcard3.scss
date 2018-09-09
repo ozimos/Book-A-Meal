@@ -1,0 +1,24 @@
+.card.card-booking{
+    
+    .pillar{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title-element{
+            padding-left: 10px;
+            padding-right: 10px;
+                }
+                .flexbox{
+                    align-items: flex-end;
+                    .pad{
+                        margin-bottom: 0.2em
+                    }
+                }
+    }
+    .grow{
+        flex-grow: 1;
+    }
+    .pillar.grow{
+        height: 120px
+    }
+}

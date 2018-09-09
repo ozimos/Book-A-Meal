@@ -1,0 +1,482 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MealOptionsCard Component renders correctly 1`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string text_left"
+          />
+          <span>
+            ₦
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    />
+    <button
+      className="btn pad-btn modal-open"
+      onClick={[Function]}
+    >
+      Edit
+    </button>
+    <button
+      className="title-button card-btn"
+      onClick={[Function]}
+    >
+      ✖
+    </button>
+  </div>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <div
+      className="title flexbox navbar-fixed"
+    >
+      <h4
+        className="shrink"
+      >
+        Meal Editor
+      </h4>
+      <button
+        className="btn title-button"
+        onClick={[Function]}
+      >
+        ✖
+      </button>
+    </div>
+    <div
+      className="form3-grid"
+    >
+      <div>
+        <Formsy
+          className="form3"
+          disabled={false}
+          getErrorMessage={[Function]}
+          getErrorMessages={[Function]}
+          getValue={[Function]}
+          hasValue={[Function]}
+          isFormDisabled={[Function]}
+          isFormSubmitted={[Function]}
+          isPristine={[Function]}
+          isRequired={[Function]}
+          isValid={[Function]}
+          isValidValue={[Function]}
+          mapping={null}
+          onChange={[Function]}
+          onError={[Function]}
+          onInvalid={[Function]}
+          onInvalidSubmit={[Function]}
+          onReset={[Function]}
+          onSubmit={[Function]}
+          onValid={[Function]}
+          onValidSubmit={[Function]}
+          preventExternalInvalidation={false}
+          resetValue={[Function]}
+          setValidations={[Function]}
+          setValue={[Function]}
+          showError={[Function]}
+          showRequired={[Function]}
+          validationErrors={null}
+        >
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="title"
+            placeholder="Meal Title"
+            required={false}
+            typeOfInput="text"
+            validationError="Please enter the meal title"
+            validationErrors={
+              Object {
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "input must be longer than 1 character",
+              }
+            }
+            validations={
+              Object {
+                "maxLength": 48,
+                "minLength": 1,
+              }
+            }
+          />
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="price"
+            placeholder="₦undefined"
+            required={false}
+            typeOfInput="number"
+            validationError="Please enter a price"
+            validationErrors={
+              Object {
+                "isOnlyInt": "price must be integer",
+                "maxLength": "input must be shorter than 50 characters",
+                "minLength": "input must be longer than 1 character",
+              }
+            }
+            validations={
+              Object {
+                "isOnlyInt": [Function],
+                "maxLength": 48,
+                "minLength": 1,
+              }
+            }
+          />
+          <Formsy(TextArea)
+            innerRef={[Function]}
+            name="description"
+            placeholder="Description"
+            required={false}
+            validationError=""
+            validationErrors={
+              Object {
+                "maxLength": "input must be shorter than 100 characters",
+                "minLength": "input must be longer than 5 characters",
+              }
+            }
+            validations={
+              Object {
+                "maxLength": 98,
+                "minLength": 5,
+              }
+            }
+          />
+          <Formsy(Input)
+            innerRef={[Function]}
+            name="imageUrl"
+            required={false}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            typeOfInput="url"
+            validationError="Please select an image"
+            validationErrors={
+              Object {
+                "isUrl": "A valid url was not supplied",
+                "maxLength": "input must be shorter than 100 characters",
+                "minLength": "input must be longer than 5 characters",
+              }
+            }
+            validations={
+              Object {
+                "isUrl": true,
+                "maxLength": 98,
+                "minLength": 5,
+              }
+            }
+          />
+        </Formsy>
+      </div>
+      <div
+        className="overlay-container"
+      >
+        <div
+          className="overlay full"
+        >
+          <t
+            accept="image/*"
+            className="dropzone"
+            disableClick={false}
+            disablePreview={false}
+            disabled={false}
+            maxSize={Infinity}
+            minSize={0}
+            multiple={true}
+            onDrop={[Function]}
+            preventDropOnDocument={true}
+          >
+            <button
+              className="btn"
+            >
+               Select an Image
+            </button>
+          </t>
+        </div>
+        <div
+          id="meal_image"
+        >
+          <img
+            alt="meal"
+            className="fluid-img"
+          />
+        </div>
+      </div>
+      <button
+        className="btn"
+        disabled={true}
+        onClick={[Function]}
+        type="submit"
+      >
+        <p>
+          Continue
+        </p>
+      </button>
+    </div>
+  </Modal>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Confirmation Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={false}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <p>
+      This action will delete your meal. Do you want to continue
+    </p>
+    <div
+      className="title flexbox"
+    >
+      <button
+        className="btn delete"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "red !important",
+          }
+        }
+      >
+        <p>
+          Yes
+        </p>
+      </button>
+      <button
+        className="btn"
+        onClick={[Function]}
+      >
+        <p>
+          No
+        </p>
+      </button>
+    </div>
+  </Modal>
+</React.Fragment>
+`;
+
+exports[`MealOptionsCard Component renders mounted component correctly 1`] = `
+<MealOptionsCard
+  connecting={false}
+  dispatch={[MockFunction]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string text_left"
+          />
+          <span>
+            ₦
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    />
+    <button
+      className="btn pad-btn modal-open"
+      onClick={[Function]}
+    >
+      Edit
+    </button>
+    <button
+      className="title-button card-btn"
+      onClick={[Function]}
+    >
+      ✖
+    </button>
+  </div>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Input Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <ModalPortal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      defaultStyles={
+        Object {
+          "content": Object {
+            "WebkitOverflowScrolling": "touch",
+            "background": "#fff",
+            "border": "1px solid #ccc",
+            "borderRadius": "4px",
+            "bottom": "40px",
+            "left": "40px",
+            "outline": "none",
+            "overflow": "auto",
+            "padding": "20px",
+            "position": "absolute",
+            "right": "40px",
+            "top": "40px",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(255, 255, 255, 0.75)",
+            "bottom": 0,
+            "left": 0,
+            "position": "fixed",
+            "right": 0,
+            "top": 0,
+          },
+        }
+      }
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {},
+          "overlay": Object {},
+        }
+      }
+    />
+  </Modal>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    className="modal-content"
+    closeTimeoutMS={0}
+    contentLabel="Confirmation Modal"
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={false}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+  >
+    <ModalPortal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Confirmation Modal"
+      defaultStyles={
+        Object {
+          "content": Object {
+            "WebkitOverflowScrolling": "touch",
+            "background": "#fff",
+            "border": "1px solid #ccc",
+            "borderRadius": "4px",
+            "bottom": "40px",
+            "left": "40px",
+            "outline": "none",
+            "overflow": "auto",
+            "padding": "20px",
+            "position": "absolute",
+            "right": "40px",
+            "top": "40px",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(255, 255, 255, 0.75)",
+            "bottom": 0,
+            "left": 0,
+            "position": "fixed",
+            "right": 0,
+            "top": 0,
+          },
+        }
+      }
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={false}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {},
+          "overlay": Object {},
+        }
+      }
+    />
+  </Modal>
+</MealOptionsCard>
+`;
+
+exports[`MealOptionsCard Component should map state to props 1`] = `
+Object {
+  "connecting": false,
+  "mealError": "",
+}
+`;

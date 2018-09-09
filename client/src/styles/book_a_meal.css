@@ -1,0 +1,165 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+  background: #fafafa url('../assets/pastries2.jpg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 50% 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.heading {
+  color: maroon
+}
+
+.container2 {
+  box-sizing: border-box;
+  max-width: 736px;
+  height: 100vh;
+  margin: 0;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  padding-left: 10%;
+  padding-right: 20%;
+  background-color: #fafafa;
+  background-attachment: scroll;
+  background-attachment: scroll;
+}
+
+a {
+  text-decoration: none;
+  padding: 0.5em;
+  color: #2f80ed;
+}
+
+.text-blue {
+  color: #2f80ed;
+}
+
+.bg-blue {
+  border-radius: 5px;
+  background-color: #2f80ed;
+}
+
+button,
+.btn {
+  background-color: #2f80ed;
+  border-radius: 10px;
+  padding: 0.5em 0;
+  min-width: 20px;
+  color: #aaa;
+  font-weight: bold;
+  border-width: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-box {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.hide {
+  display: none
+}
+
+.stacked-text {
+  margin-top: 20px;
+}
+
+.stacked-text>* {
+  margin: 0;
+  color: lightblue;
+}
+
+.form>* {
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  border-width: 0 0 1px 0;
+  border-color: #000;
+  margin-top: 20px;
+}
+
+.form>input,
+.form>p {
+  text-align: left;
+  background-color: #fafafa
+}
+
+.form>label {
+  font-size: 16px;
+  text-align: left;
+  margin: 0;
+}
+
+.form>div {
+  text-align: left;
+  padding-right: auto;
+}
+
+#meal_image {
+  width: 60%;
+  margin: 10px auto;
+}
+
+.rotate {
+  transform: rotate(90deg)
+}
+
+.fluid-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.welcome {
+  box-sizing: border-box;
+  min-height: 6em;
+  margin-top: 2em;
+  margin-bottom: 3em;
+}
+
+.welcome-text {
+  padding: 0 50px;
+  font-weight: 900;
+}
+
+@media screen and (min-width: 736px) {
+  html,
+  body {
+    margin: 0 auto;
+    padding: 0;
+  }
+  .modal-content {
+    padding: 10px 20px;
+  }
+  .form-box {
+    width: 80%;
+    margin: 40px auto;
+  }
+  .contain {
+    max-width: 80%;
+    margin: 0;
+    margin-right: auto;
+  }
+  .container2 {
+    max-width: 50% !important;
+    padding-left: 2%;
+    padding-right: 4%;
+    margin-left: 0;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .container2 {
+    max-width: 70%;
+  }
+}

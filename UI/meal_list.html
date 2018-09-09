@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/book_a_meal.css">
+  <title>Book A Meal</title>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <nav class="flexbox">
+        <h2 class="shrink heading">Book A Meal</h2>
+        <div class="flexbox nowrap">
+          <a href="menu_editor.html">
+            Menu
+
+          </a>
+          <a href="order_report.html">
+            Orders
+
+          </a>
+          <a href="meal_booking.html">
+            Meal Booking
+
+          </a>
+          <a href="sign_in.html">
+            Log Out
+
+          </a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div>
+        <h3>Welcome Caterer Sanni</h3>
+      </div>
+      <div class="title flexbox">
+        <h3 class="shrink">
+          Your Meals
+        </h3>
+        <div class="flexbox nowrap">
+          <p>Click on a meal title to edit the meal or</p>
+          <button class="title-button modal-trigger">
+            <p>Add Meal</p>
+          </button>
+        </div>
+      </div>
+      <!-- element list -->
+      <div class="gallery">
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/Food.jpg" alt="Meal Image" class="fluid-img">
+          <div class="title-element flexbox wrap">
+            <h4 class="shrink modal-trigger">
+              Some random meal
+            </h4>
+            <div class="flexbox">
+              <button class="title-button icon">
+                &#10006;
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class=" modal-content">
+      <div class="title flexbox">
+        <h3 class="shrink">
+          Meal Editor
+        </h3>
+        <div class="flexbox">
+          <button class="title-button close">
+            &#10006;
+          </button>
+        </div>
+      </div>
+      <div class="form-box">
+        <form class="form" id="form_menu" action="">
+
+          <input type="text" name="mealName" placeholder="Meal Name">
+          <input type="text" name="price" placeholder="Price">
+          <textarea name="password" placeholder="Description"></textarea>
+          <p>Select a meal image</p>
+          <input type="file" name="image">
+        </form>
+      </div>
+      <div id="meal_image">
+        <img src="assets/Food.jpg" alt="Picture of meal" class="fluid-img">
+      </div>
+      <button class="title-button" form="form_menu" type="submit">
+        <p>Continue</p>
+      </button>
+    </div>
+
+
+  </div>
+
+  <script src="js/modal.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1638 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Order Component renders correctly 1`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <div
+    className="flexbox"
+  >
+    <Greeting
+      firstName="user"
+      isCaterer={true}
+    />
+    <button
+      className="btn title-button"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <p
+        className="cart-notification"
+      >
+        Cart
+        <span
+          className="badge"
+        >
+          0
+        </span>
+      </p>
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <main
+      className="col s12"
+    >
+      <ToastContainer
+        autoClose={2000}
+        bodyClassName={null}
+        className={null}
+        closeButton={
+          <CloseButton
+            ariaLabel="close"
+          />
+        }
+        closeOnClick={true}
+        draggable={true}
+        draggablePercent={80}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover={true}
+        pauseOnVisibilityChange={true}
+        position="top-right"
+        progressClassName={null}
+        rtl={false}
+        style={null}
+        toastClassName={null}
+        transition={[Function]}
+      />
+      <AccordionWrapper
+        accordion={true}
+        className="accordion"
+        onChange={[Function]}
+      >
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={true}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Today's Menu
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <div
+              className="flexbox"
+            >
+              <Search
+                caseSensitive={false}
+                className="search-input input-field"
+                fuzzy={false}
+                onChange={[Function]}
+                throttle={200}
+              />
+            </div>
+            <div>
+              <MealCardContainer
+                MealCard={[Function]}
+                addClass="scroll"
+                addToCollection={[Function]}
+                collection="cart"
+                meals={
+                  Array [
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal1",
+                      "imageUrl": "nice",
+                      "price": 1200,
+                      "title": "Eba and Egusi",
+                      "userId": "user1",
+                    },
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal2",
+                      "imageUrl": "nice",
+                      "price": 2000,
+                      "title": "Rice and Stew",
+                      "userId": "user1",
+                    },
+                  ]
+                }
+              />
+              <PaginationBoxView
+                activeClassName="active"
+                breakLabel="..."
+                containerClassName="pagination"
+                disableInitialCallback={false}
+                disabledClassName="disabled"
+                marginPagesDisplayed={2}
+                nextClassName="next"
+                nextLabel="next"
+                onPageChange={[Function]}
+                pageCount={1}
+                pageRangeDisplayed={5}
+                previousClassName="previous"
+                previousLabel="previous"
+                subContainerClassName="pages pagination"
+              />
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={false}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Your Order History
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <p
+              className="mr-auto"
+            >
+              Orders can only be edited up to 
+                    15
+                     minutes after order is placed
+            </p>
+            <OrderTableContainer
+              addOrderToCart={[Function]}
+              currentOrderId=""
+              defaultPage={0}
+              getOrderMeals={[Function]}
+              getOrderMealsTotals={[Function]}
+              loading={false}
+              loadingMeals={false}
+              onFetchData={[Function]}
+              orders={
+                Array [
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order1",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order2",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order3",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                ]
+              }
+              pagination={
+                Object {
+                  "limit": 10,
+                  "offset": 0,
+                  "pages": 1,
+                }
+              }
+            />
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+      </AccordionWrapper>
+    </main>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+    >
+      <aside
+        className="col s12"
+      >
+        <div>
+          <h3>
+            Order Cart
+          </h3>
+          <p>
+            No orders here. Select a meal and click the Add to Cart button
+          </p>
+        </div>
+      </aside>
+    </Modal>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "width": "60%",
+          },
+        }
+      }
+    >
+      <MealsTable
+        closeMealDetailModal={[Function]}
+        getTrProps={[Function]}
+        loading={false}
+        meals={
+          Array [
+            Object {
+              "description": "nice",
+              "id": "meal1",
+              "imageUrl": "nice",
+              "price": 1200,
+              "title": "Eba and Egusi",
+              "userId": "user1",
+            },
+            Object {
+              "description": "nice",
+              "id": "meal2",
+              "imageUrl": "nice",
+              "price": 2000,
+              "title": "Rice and Stew",
+              "userId": "user1",
+            },
+          ]
+        }
+        mealsPagination={
+          Object {
+            "limit": 5,
+            "offset": 0,
+            "pages": 1,
+          }
+        }
+        onFetchData={[Function]}
+        total={0}
+      />
+    </Modal>
+  </div>
+</div>
+`;
+
+exports[`Order Component renders correctly 2`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <div
+    className="flexbox"
+  >
+    <Greeting
+      firstName="user"
+      isCaterer={true}
+    />
+    <button
+      className="btn title-button"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <p
+        className="cart-notification"
+      >
+        Cart
+        <span
+          className="badge"
+        >
+          0
+        </span>
+      </p>
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <main
+      className="col s12"
+    >
+      <ToastContainer
+        autoClose={2000}
+        bodyClassName={null}
+        className={null}
+        closeButton={
+          <CloseButton
+            ariaLabel="close"
+          />
+        }
+        closeOnClick={true}
+        draggable={true}
+        draggablePercent={80}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover={true}
+        pauseOnVisibilityChange={true}
+        position="top-right"
+        progressClassName={null}
+        rtl={false}
+        style={null}
+        toastClassName={null}
+        transition={[Function]}
+      />
+      <AccordionWrapper
+        accordion={true}
+        className="accordion"
+        onChange={[Function]}
+      >
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={true}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Today's Menu
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <div
+              className="flexbox"
+            >
+              <Search
+                caseSensitive={false}
+                className="search-input input-field"
+                fuzzy={false}
+                onChange={[Function]}
+                throttle={200}
+              />
+            </div>
+            <div>
+              The menu for the day has not been set
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={false}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Your Order History
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <p
+              className="mr-auto"
+            >
+              Orders can only be edited up to 
+                    15
+                     minutes after order is placed
+            </p>
+            <OrderTableContainer
+              addOrderToCart={[Function]}
+              currentOrderId=""
+              defaultPage={0}
+              getOrderMeals={[Function]}
+              getOrderMealsTotals={[Function]}
+              loading={false}
+              loadingMeals={false}
+              onFetchData={[Function]}
+              orders={
+                Array [
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order1",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order2",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order3",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                ]
+              }
+              pagination={
+                Object {
+                  "limit": 10,
+                  "offset": 0,
+                  "pages": 1,
+                }
+              }
+            />
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+      </AccordionWrapper>
+    </main>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+    >
+      <aside
+        className="col s12"
+      >
+        <div>
+          <h3>
+            Order Cart
+          </h3>
+          <p>
+            No orders here. Select a meal and click the Add to Cart button
+          </p>
+        </div>
+      </aside>
+    </Modal>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "width": "60%",
+          },
+        }
+      }
+    >
+      <MealsTable
+        closeMealDetailModal={[Function]}
+        getTrProps={[Function]}
+        loading={false}
+        meals={
+          Array [
+            Object {
+              "description": "nice",
+              "id": "meal1",
+              "imageUrl": "nice",
+              "price": 1200,
+              "title": "Eba and Egusi",
+              "userId": "user1",
+            },
+            Object {
+              "description": "nice",
+              "id": "meal2",
+              "imageUrl": "nice",
+              "price": 2000,
+              "title": "Rice and Stew",
+              "userId": "user1",
+            },
+          ]
+        }
+        mealsPagination={
+          Object {
+            "limit": 5,
+            "offset": 0,
+            "pages": 1,
+          }
+        }
+        onFetchData={[Function]}
+        total={0}
+      />
+    </Modal>
+  </div>
+</div>
+`;
+
+exports[`Order Component renders correctly 3`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <div
+    className="flexbox"
+  >
+    <Greeting
+      firstName="user"
+      isCaterer={true}
+    />
+    <button
+      className="btn title-button"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <p
+        className="cart-notification"
+      >
+        Cart
+        <span
+          className="badge"
+        >
+          0
+        </span>
+      </p>
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <main
+      className="col s12"
+    >
+      <ToastContainer
+        autoClose={2000}
+        bodyClassName={null}
+        className={null}
+        closeButton={
+          <CloseButton
+            ariaLabel="close"
+          />
+        }
+        closeOnClick={true}
+        draggable={true}
+        draggablePercent={80}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover={true}
+        pauseOnVisibilityChange={true}
+        position="top-right"
+        progressClassName={null}
+        rtl={false}
+        style={null}
+        toastClassName={null}
+        transition={[Function]}
+      />
+      <AccordionWrapper
+        accordion={true}
+        className="accordion"
+        onChange={[Function]}
+      >
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={true}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Today's Menu
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <div
+              className="flexbox"
+            >
+              <Search
+                caseSensitive={false}
+                className="search-input input-field"
+                fuzzy={false}
+                onChange={[Function]}
+                throttle={200}
+              />
+            </div>
+            <div>
+              <MealCardContainer
+                MealCard={[Function]}
+                addClass="scroll"
+                addToCollection={[Function]}
+                collection="cart"
+                meals={
+                  Array [
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal1",
+                      "imageUrl": "nice",
+                      "price": 1200,
+                      "title": "Eba and Egusi",
+                      "userId": "user1",
+                    },
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal2",
+                      "imageUrl": "nice",
+                      "price": 2000,
+                      "title": "Rice and Stew",
+                      "userId": "user1",
+                    },
+                  ]
+                }
+              />
+              <PaginationBoxView
+                activeClassName="active"
+                breakLabel="..."
+                containerClassName="pagination"
+                disableInitialCallback={false}
+                disabledClassName="disabled"
+                marginPagesDisplayed={2}
+                nextClassName="next"
+                nextLabel="next"
+                onPageChange={[Function]}
+                pageCount={1}
+                pageRangeDisplayed={5}
+                previousClassName="previous"
+                previousLabel="previous"
+                subContainerClassName="pages pagination"
+              />
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={false}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Your Order History
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <p
+              className="mr-auto"
+            >
+              Orders can only be edited up to 
+                    15
+                     minutes after order is placed
+            </p>
+            <div>
+              You have not placed an order on this application
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+      </AccordionWrapper>
+    </main>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+    >
+      <aside
+        className="col s12"
+      >
+        <div>
+          <h3>
+            Order Cart
+          </h3>
+          <p>
+            No orders here. Select a meal and click the Add to Cart button
+          </p>
+        </div>
+      </aside>
+    </Modal>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "width": "60%",
+          },
+        }
+      }
+    >
+      <MealsTable
+        closeMealDetailModal={[Function]}
+        getTrProps={[Function]}
+        loading={false}
+        meals={
+          Array [
+            Object {
+              "description": "nice",
+              "id": "meal1",
+              "imageUrl": "nice",
+              "price": 1200,
+              "title": "Eba and Egusi",
+              "userId": "user1",
+            },
+            Object {
+              "description": "nice",
+              "id": "meal2",
+              "imageUrl": "nice",
+              "price": 2000,
+              "title": "Rice and Stew",
+              "userId": "user1",
+            },
+          ]
+        }
+        mealsPagination={
+          Object {
+            "limit": 5,
+            "offset": 0,
+            "pages": 1,
+          }
+        }
+        onFetchData={[Function]}
+        total={0}
+      />
+    </Modal>
+  </div>
+</div>
+`;
+
+exports[`Order Component renders correctly 4`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <div
+    className="flexbox"
+  >
+    <Greeting
+      firstName="user"
+      isCaterer={true}
+    />
+    <button
+      className="btn title-button"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <p
+        className="cart-notification"
+      >
+        Cart
+        <span
+          className="badge"
+        >
+          0
+        </span>
+      </p>
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <main
+      className="col s12"
+    >
+      <ToastContainer
+        autoClose={2000}
+        bodyClassName={null}
+        className={null}
+        closeButton={
+          <CloseButton
+            ariaLabel="close"
+          />
+        }
+        closeOnClick={true}
+        draggable={true}
+        draggablePercent={80}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover={true}
+        pauseOnVisibilityChange={true}
+        position="top-right"
+        progressClassName={null}
+        rtl={false}
+        style={null}
+        toastClassName={null}
+        transition={[Function]}
+      />
+      <AccordionWrapper
+        accordion={true}
+        className="accordion"
+        onChange={[Function]}
+      >
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={true}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Today's Menu
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <div
+              className="flexbox"
+            >
+              <Search
+                caseSensitive={false}
+                className="search-input input-field"
+                fuzzy={false}
+                onChange={[Function]}
+                throttle={200}
+              />
+            </div>
+            <div>
+              The menu for the day has not been set
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={false}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Your Order History
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <p
+              className="mr-auto"
+            >
+              Orders can only be edited up to 
+                    15
+                     minutes after order is placed
+            </p>
+            <div>
+              You have not placed an order on this application
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+      </AccordionWrapper>
+    </main>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+    >
+      <aside
+        className="col s12"
+      >
+        <div>
+          <h3>
+            Order Cart
+          </h3>
+          <p>
+            No orders here. Select a meal and click the Add to Cart button
+          </p>
+        </div>
+      </aside>
+    </Modal>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "width": "60%",
+          },
+        }
+      }
+    >
+      <MealsTable
+        closeMealDetailModal={[Function]}
+        getTrProps={[Function]}
+        loading={false}
+        meals={
+          Array [
+            Object {
+              "description": "nice",
+              "id": "meal1",
+              "imageUrl": "nice",
+              "price": 1200,
+              "title": "Eba and Egusi",
+              "userId": "user1",
+            },
+            Object {
+              "description": "nice",
+              "id": "meal2",
+              "imageUrl": "nice",
+              "price": 2000,
+              "title": "Rice and Stew",
+              "userId": "user1",
+            },
+          ]
+        }
+        mealsPagination={
+          Object {
+            "limit": 5,
+            "offset": 0,
+            "pages": 1,
+          }
+        }
+        onFetchData={[Function]}
+        total={0}
+      />
+    </Modal>
+  </div>
+</div>
+`;
+
+exports[`Order Component renders correctly 5`] = `
+<div
+  className="contain"
+>
+  <header
+    className="header"
+  >
+    <Connect(Nav) />
+  </header>
+  <div
+    className="flexbox"
+  >
+    <Greeting
+      firstName="user"
+      isCaterer={true}
+    />
+    <button
+      className="btn title-button"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <p
+        className="cart-notification"
+      >
+        Cart
+        <span
+          className="badge"
+        >
+          0
+        </span>
+      </p>
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <main
+      className="col s12"
+    >
+      <ToastContainer
+        autoClose={2000}
+        bodyClassName={null}
+        className={null}
+        closeButton={
+          <CloseButton
+            ariaLabel="close"
+          />
+        }
+        closeOnClick={true}
+        draggable={true}
+        draggablePercent={80}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover={true}
+        pauseOnVisibilityChange={true}
+        position="top-right"
+        progressClassName={null}
+        rtl={false}
+        style={null}
+        toastClassName={null}
+        transition={[Function]}
+      />
+      <AccordionWrapper
+        accordion={true}
+        className="accordion"
+        onChange={[Function]}
+      >
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={true}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Today's Menu
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <div
+              className="flexbox"
+            >
+              <Search
+                caseSensitive={false}
+                className="search-input input-field"
+                fuzzy={false}
+                onChange={[Function]}
+                throttle={200}
+              />
+            </div>
+            <div>
+              <MealCardContainer
+                MealCard={[Function]}
+                addClass="scroll"
+                addToCollection={[Function]}
+                collection="cart"
+                meals={
+                  Array [
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal1",
+                      "imageUrl": "nice",
+                      "price": 1200,
+                      "title": "Eba and Egusi",
+                      "userId": "user1",
+                    },
+                    Object {
+                      "MealMenus": Object {
+                        "userId": "user1",
+                      },
+                      "description": "nice",
+                      "id": "meal2",
+                      "imageUrl": "nice",
+                      "price": 2000,
+                      "title": "Rice and Stew",
+                      "userId": "user1",
+                    },
+                  ]
+                }
+              />
+              <PaginationBoxView
+                activeClassName="active"
+                breakLabel="..."
+                containerClassName="pagination"
+                disableInitialCallback={false}
+                disabledClassName="disabled"
+                marginPagesDisplayed={2}
+                nextClassName="next"
+                nextLabel="next"
+                onPageChange={[Function]}
+                pageCount={1}
+                pageRangeDisplayed={5}
+                previousClassName="previous"
+                previousLabel="previous"
+                subContainerClassName="pages pagination"
+              />
+            </div>
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+        <AccordionItemWrapper
+          accordionStore={
+            AccordionContainer {
+              "_listeners": Array [],
+              "state": Object {
+                "accordion": true,
+                "items": Array [],
+                "onChange": [Function],
+              },
+            }
+          }
+          className="accordion__item"
+          disabled={false}
+          expanded={false}
+          hideBodyClassName=""
+        >
+          <AccordionItemTitleWrapper
+            className="accordion__title"
+            hideBodyClassName=""
+          >
+            <div
+              className="title-element flexbox"
+            >
+              <h4
+                className="long_string"
+              >
+                Your Order History
+              </h4>
+              <div
+                className="accordion__arrow u-position-relative"
+                role="presentation"
+              />
+            </div>
+          </AccordionItemTitleWrapper>
+          <AccordionItemBodyWrapper
+            className="accordion__body"
+            hideBodyClassName="accordion__body--hidden"
+          >
+            <p
+              className="mr-auto"
+            >
+              Orders can only be edited up to 
+                    15
+                     minutes after order is placed
+            </p>
+            <OrderTableContainer
+              addOrderToCart={[Function]}
+              currentOrderId=""
+              defaultPage={0}
+              getOrderMeals={[Function]}
+              getOrderMealsTotals={[Function]}
+              loading={false}
+              loadingMeals={false}
+              onFetchData={[Function]}
+              orders={
+                Array [
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order1",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order2",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                  Object {
+                    "MealsURL": "url",
+                    "User": Object {
+                      "email": "asdf",
+                      "firstName": "first",
+                      "lastName": "last",
+                    },
+                    "id": "order3",
+                    "updatedAt": "2018-08-24T16:47:55.783Z",
+                    "userId": "userId",
+                  },
+                ]
+              }
+              pagination={
+                Object {
+                  "pages": 1,
+                }
+              }
+            />
+          </AccordionItemBodyWrapper>
+        </AccordionItemWrapper>
+      </AccordionWrapper>
+    </main>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+    >
+      <aside
+        className="col s12"
+      >
+        <div>
+          <h3>
+            Order Cart
+          </h3>
+          <p>
+            No orders here. Select a meal and click the Add to Cart button
+          </p>
+        </div>
+      </aside>
+    </Modal>
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      className="modal-content"
+      closeTimeoutMS={0}
+      contentLabel="Input Modal"
+      isOpen={false}
+      onRequestClose={[Function]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "width": "60%",
+          },
+        }
+      }
+    >
+      <MealsTable
+        closeMealDetailModal={[Function]}
+        getTrProps={[Function]}
+        loading={false}
+        meals={
+          Array [
+            Object {
+              "description": "nice",
+              "id": "meal1",
+              "imageUrl": "nice",
+              "price": 1200,
+              "title": "Eba and Egusi",
+              "userId": "user1",
+            },
+            Object {
+              "description": "nice",
+              "id": "meal2",
+              "imageUrl": "nice",
+              "price": 2000,
+              "title": "Rice and Stew",
+              "userId": "user1",
+            },
+          ]
+        }
+        mealsPagination={
+          Object {
+            "pages": 1,
+          }
+        }
+        onFetchData={[Function]}
+        total={0}
+      />
+    </Modal>
+  </div>
+</div>
+`;
+
+exports[`Order Component should map state to props 1`] = `
+Object {
+  "loadingMeals": false,
+  "mealsPagination": Object {
+    "count": 1,
+    "limit": 5,
+    "offset": 0,
+    "pages": 1,
+  },
+  "menu": Array [],
+  "menuConnecting": false,
+  "menuPagination": Object {
+    "count": 1,
+    "limit": 10,
+    "offset": 0,
+    "pages": 1,
+  },
+  "orderConnecting": false,
+  "orderEditMeals": Array [],
+  "orderError": null,
+  "orderMeals": Array [],
+  "orderMealsError": null,
+  "orders": Array [],
+  "pagination": Object {
+    "count": 1,
+    "limit": 10,
+    "offset": 0,
+    "pages": 1,
+  },
+  "total": 0,
+  "user": Object {
+    "firstName": "Name",
+    "isCaterer": true,
+  },
+}
+`;

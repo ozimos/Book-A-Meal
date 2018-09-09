@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MyCheckBox Component renders correctly 1`] = `
+<React.Fragment>
+  <input
+    id="isCaterer"
+    name="isCaterer"
+    onChange={[Function]}
+    style={
+      Object {
+        "margin": "-5px",
+        "visibility": "hidden",
+      }
+    }
+    type="checkbox"
+    value={false}
+  />
+</React.Fragment>
+`;

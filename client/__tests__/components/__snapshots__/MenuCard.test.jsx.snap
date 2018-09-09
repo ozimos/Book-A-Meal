@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MealDisplayCard Component renders correctly 1`] = `
+<React.Fragment>
+  <div
+    className="card"
+  >
+    <div
+      className="overlay-container"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="flexbox"
+        >
+          <span
+            className="long_string"
+          />
+          <span>
+            ₦
+          </span>
+        </div>
+      </div>
+      <img
+        alt="Meal"
+        className="fluid-img"
+      />
+    </div>
+    <p
+      className="descrip long_string"
+    />
+  </div>
+</React.Fragment>
+`;

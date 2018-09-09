@@ -1,0 +1,233 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartContainer Component renders correctly 1`] = `
+<div
+  className=""
+>
+  <div
+    className="flexbox cart"
+  >
+    <h5>
+      Order Cart
+    </h5>
+    <button
+      className="btn title-button"
+    >
+      ✖
+    </button>
+  </div>
+  <div
+    className="responsive-table"
+  >
+    <table
+      className="table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Meal Title
+          </th>
+          <th>
+            Price (₦)
+          </th>
+          <th>
+            Quantity
+          </th>
+          <th>
+            Subtotal (₦)
+          </th>
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        <mockConstructor
+          addClass=""
+          clearCart={[MockFunction]}
+          description="nice"
+          dispatch={[MockFunction]}
+          id="meal1"
+          imageUrl="nice"
+          key="meal1"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={1200}
+          quantity={1}
+          setQuantity={[Function]}
+          title="Eba and Egusi"
+          userId="user1"
+        />
+        <mockConstructor
+          addClass=""
+          clearCart={[MockFunction]}
+          description="nice"
+          dispatch={[MockFunction]}
+          id="meal2"
+          imageUrl="nice"
+          key="meal2"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={2000}
+          quantity={1}
+          setQuantity={[Function]}
+          title="Rice and Stew"
+          userId="user1"
+        />
+      </tbody>
+      <caption
+        className="flexbox-cart"
+      >
+        <div
+          className="flexbox"
+        >
+          <div
+            className="flexbox info"
+          >
+            <p>
+               Order Total 
+            </p>
+            <p>
+               ₦
+              3200
+            </p>
+          </div>
+          <div
+            className="flexbox info"
+          >
+            <button
+              className="btn btn-cart"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Modify Order
+            </button>
+            <button
+              className="btn btn-cart"
+              onClick={[MockFunction]}
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </caption>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`CartContainer Component renders correctly 2`] = `
+<div
+  className="string"
+>
+  <div
+    className="flexbox cart"
+  >
+    <h5>
+      Order Cart
+    </h5>
+    <button
+      className="btn title-button"
+    >
+      ✖
+    </button>
+  </div>
+  <div
+    className="responsive-table"
+  >
+    <table
+      className="table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Meal Title
+          </th>
+          <th>
+            Price (₦)
+          </th>
+          <th>
+            Quantity
+          </th>
+          <th>
+            Subtotal (₦)
+          </th>
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        <mockConstructor
+          addClass="string"
+          clearCart={[MockFunction]}
+          description="nice"
+          dispatch={[MockFunction]}
+          id="meal1"
+          imageUrl="nice"
+          key="meal1"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={1200}
+          quantity={1}
+          setQuantity={[Function]}
+          title="Eba and Egusi"
+          userId="user1"
+        />
+        <mockConstructor
+          addClass="string"
+          clearCart={[MockFunction]}
+          description="nice"
+          dispatch={[MockFunction]}
+          id="meal2"
+          imageUrl="nice"
+          key="meal2"
+          notify={[MockFunction]}
+          orderError=""
+          orderId="abc"
+          price={2000}
+          quantity={1}
+          setQuantity={[Function]}
+          title="Rice and Stew"
+          userId="user1"
+        />
+      </tbody>
+      <caption
+        className="flexbox-cart"
+      >
+        <div
+          className="flexbox"
+        >
+          <div
+            className="flexbox info"
+          >
+            <p>
+               Order Total 
+            </p>
+            <p>
+               ₦
+              3200
+            </p>
+          </div>
+          <div
+            className="flexbox info"
+          >
+            <button
+              className="btn btn-cart"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Modify Order
+            </button>
+            <button
+              className="btn btn-cart"
+              onClick={[MockFunction]}
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </caption>
+    </table>
+  </div>
+</div>
+`;

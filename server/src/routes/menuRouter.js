@@ -12,14 +12,14 @@ const menuRouter = express.Router();
 const validator = Validator({ passError: true });
 const menuController = new MenuController(db.Menu, db.Meal);
 
+menuRouter.use(Authenticate.isUser);
+
 menuRouter.route('/')
   .get(
-    Authenticate.isUser,
     validator.query(querySchema),
     MenuController.select(menuController, 'getMenu')
   )
   .post(
-    Authenticate.isUser,
     Authenticate.isAdmin,
     validator.query(querySchema),
     validator.body(menuSchema),

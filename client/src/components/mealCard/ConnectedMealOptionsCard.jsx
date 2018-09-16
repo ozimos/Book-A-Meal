@@ -278,13 +278,16 @@ export class MealOptionsCard extends React.Component {
 
 MealOptionsCard.defaultProps = {
   connecting: false,
+  title: '',
+  description: '',
+  price: 0,
 };
 
 MealOptionsCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
   connecting: PropTypes.bool,
-  price: PropTypes.number.isRequired,
+  price: PropTypes.number,
   id: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,

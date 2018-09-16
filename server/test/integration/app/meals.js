@@ -5,13 +5,12 @@ import {
   rootURL,
   defaultMeal,
   tovieyeCatererToken,
-  catererTovieye,
-  templateTest,
 } from '../../../testHelpers/appHelper';
+import { catererTovieye, seedMeals } from '../../../src/seedFiles';
 import app from '../../../src/app';
 import db from '../../../../server/src/models';
 
-
+const catererTovieyeMeals = seedMeals.slice(0, 2);
 const deletedMeal = {
   id: 'e71e6f38-a794-4bfb-b9a2-f28f8ff0aab5',
   userId: catererTovieye.id,
@@ -33,13 +32,19 @@ context('meals integration test', () => {
 
   // Get All Meals
   describe('GET /meals', () => {
-    it('should return all meals', () => request(app).get(getMealsUrl)
-      .set('authorization', `JWT ${tovieyeCatererToken}`)
-      .then((res) => {
-        expect(res.body.data.rows[0].id).to.equal(deletedMeal.id);
-        expect(res.body.data.rows[0].price).to.equal(deletedMeal.price);
-      }));
-    templateTest('Get All Meals', 'get', getMealsUrl, null, 'rows', 'object');
+    it(
+      'should return all meals for caterer',
+      () => request(app).get(getMealsUrl)
+        .set('authorization', `JWT ${tovieyeCatererToken}`)
+        .then((res) => {
+          const mealIdList = res.body.data.rows.map(meal => meal.id);
+          const catererMealsIdList = catererTovieyeMeals.map(meal => meal.id);
+          expect(res).to.have.status(200);
+          expect(res.body.data.rows[0].id).to.equal(deletedMeal.id);
+          expect(res.body.data.rows[0].price).to.equal(deletedMeal.price);
+          expect(mealIdList).to.include.members(catererMealsIdList);
+        })
+    );
   });
 
   // Get One Meal
@@ -49,11 +54,11 @@ context('meals integration test', () => {
       request(app).get(mealIdUrl)
         .set('authorization', `JWT ${tovieyeCatererToken}`)
         .then((res) => {
+          expect(res).to.have.status(200);
           expect(res.body.data.title).to.equal(defaultMeal.title);
           expect(res.body.data.price).to.equal(defaultMeal.price);
         }));
 
-    templateTest('Get Meal', 'get', mealIdUrl, null, 'price', 'object');
   });
 
   // Update A Meal
@@ -67,14 +72,11 @@ context('meals integration test', () => {
       .set('authorization', `JWT ${tovieyeCatererToken}`)
       .send(updatedMeal)
       .then((res) => {
+        expect(res).to.have.status(200);
         expect(res.body.data.title).to.equal(updatedMeal.title);
         expect(res.body.data.price).to.equal(updatedMeal.price);
       }));
 
-    templateTest(
-      'Modify Meal', 'put',
-      mealIdUrl, updatedMeal, 'price', 'object'
-    );
   });
 
   // Delete A Meal
@@ -113,6 +115,7 @@ context('meals integration test', () => {
     it('should create a meal', () => request(app).post(mealsUrl)
       .set('authorization', `JWT ${tovieyeCatererToken}`).send(newMeal)
       .then((res) => {
+        expect(res).to.have.status(201);
         expect(res.body.data.title).to.equal(newMeal.title);
         expect(res.body.data.description).to.equal(newMeal.description);
       }));

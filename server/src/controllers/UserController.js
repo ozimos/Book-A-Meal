@@ -8,6 +8,7 @@ import Controller from './Controller';
  * @class UserController
  */
 class UserController extends Controller {
+
   /**
    *
    *

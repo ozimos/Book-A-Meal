@@ -1,10 +1,12 @@
 /* eslint import/no-extraneous-dependencies: off */
 
-import {
-  expect
-} from 'chai';
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
+import httpMocks from 'node-mocks-http';
 import td from 'testdouble';
 import Controller from '../../../src/controllers/Controller.js';
+
+chai.use(chaiHttp);
 
 let Table, controller;
 describe('Controllers', () => {
@@ -39,12 +41,34 @@ describe('Controllers', () => {
         const scope = 'string';
         const req = { query };
         td.when(Table.scope(scope)).thenReturn(Table);
-        td.when(Table.findAndCountAll(td.matchers.anything()))
+        td.when(Table.findAndCountAll(td.matchers.contains({
+          limit: query.limit,
+          offset: query.offset
+        })))
           .thenResolve({ count: 1, rows: expectedResponse });
 
         return controller.getAllRecords(req, scope)
           .then(response => expect(response.data.rows)
             .to.eql(expectedResponse));
+      }
+    );
+
+    it(
+      'should return error message if no records are returned from database',
+      () => {
+        const expectedResponse = [];
+        const scope = 'string';
+        const req = { query };
+        td.when(Table.scope(scope)).thenReturn(Table);
+        td.when(Table.findAndCountAll(td.matchers.contains({
+          limit: query.limit,
+          offset: query.offset
+        })))
+          .thenResolve({ count: 1, rows: expectedResponse });
+
+        return controller.getAllRecords(req, scope)
+          .then(response => expect(response.message)
+            .to.eql('no records available'));
       }
     );
 
@@ -57,10 +81,13 @@ describe('Controllers', () => {
         const scope = 'string';
         const req = { query };
         td.when(Table.scope(scope)).thenReturn(Table);
-        td.when(Table.findAndCountAll(td.matchers.anything()))
+        td.when(Table.findAndCountAll(td.matchers.contains({
+          limit: query.limit,
+          offset: query.offset
+        })))
           .thenReject(error);
         return controller.getAllRecords(req, scope)
-          .catch(response => expect(response.message).to.equal(error.message));
+          .then(response => expect(response.message).to.equal(error.message));
       }
     );
   });
@@ -105,7 +132,7 @@ describe('Controllers', () => {
         };
         td.when(Table.findById(req.params.id, undefined)).thenReject(error);
         return controller.getSingleRecord(req, undefined)
-          .catch(response => expect(response.message).to.equal(error.message));
+          .then(response => expect(response.message).to.equal(error.message));
       }
     );
   });
@@ -147,7 +174,7 @@ describe('Controllers', () => {
         };
         td.when(Table.create(req.body)).thenReject(error);
         return controller.postRecord(req)
-          .catch(response => expect(response.message).to.equal(error.message));
+          .then(response => expect(response.message).to.equal(error.message));
       }
     );
   });
@@ -179,6 +206,19 @@ describe('Controllers', () => {
           expect(response.data).to.eql(req.body));
     });
 
+    it('should return an error message if no rows were updated', () => {
+      td.when(Table.update(req.body, {
+        where: {
+          id: req.params.id
+        },
+        returning: true
+      })).thenResolve([0, [req.body]]);
+
+      return controller.updateRecord(req)
+        .then(response =>
+          expect(response.message).to.eql('no records available'));
+    });
+
     it(
       'should return an error message if error occurs when accessing database',
       () => {
@@ -192,18 +232,39 @@ describe('Controllers', () => {
           returning: true
         })).thenReject(error);
         return controller.updateRecord(req)
-          .catch(response => expect(response.message).to.equal(error.message));
+          .then(response => expect(response.message).to.equal(error.message));
       }
     );
   });
 
   describe('deleteRecord()', () => {
 
+    const expectedResponse = [
+      {
+        id: 1,
+        title: 'Beef with Rice',
+        description: 'plain rice with ground beef',
+        price: 1500,
+      },
+      {
+        id: 2,
+        title: 'Beef with Fries',
+        description: 'beef slab with fried potato slivers',
+        price: 2000,
+      }
+    ];
+
     const req = {
       params: {
         id: 'c848bf5c-27ab-4882-9e43-ffe178c82602'
       },
     };
+
+    let getAllRecords;
+    beforeEach('Stub Controller', () => {
+      getAllRecords = td.replace(controller, 'getAllRecords');
+      td.when(getAllRecords(req)).thenResolve(expectedResponse);
+    });
 
 
     it(
@@ -218,8 +279,75 @@ describe('Controllers', () => {
           },
         })).thenReject(error);
         return controller.deleteRecord(req)
-          .catch(response => expect(response.message).to.equal(error.message));
+          .then(response => expect(response.message).to.equal(error.message));
+      }
+    );
+
+    it(
+      'should return an error message if no matching record for delete id',
+      () => {
+        td.when(Table.destroy({
+          where: {
+            id: req.params.id
+          },
+        })).thenResolve(null);
+        return controller.deleteRecord(req)
+          .then(response => expect(response.message)
+            .to.equal('no records available'));
+      }
+    );
+
+    it(
+      'should return the result for `getAllRecords` if a record was deleted',
+      () => {
+        td.when(Table.destroy({
+          where: {
+            id: req.params.id
+          },
+        })).thenResolve(1);
+        return controller.deleteRecord(req)
+          .then(response => expect(response)
+            .to.equal(expectedResponse));
       }
     );
   });
+
+  describe('select', () => {
+    const response = {
+      statusCode: 200,
+      data: {
+        user: 'user'
+      }
+    };
+    const req = {
+      params: {
+        id: 'c848bf5c-27ab-4882-9e43-ffe178c82602'
+      },
+    
+    };
+    const res = httpMocks.createResponse();
+    // let deleteRecord;
+    // beforeEach('Stub Controller', () => {
+    //   deleteRecord = td.replace(controller, 'deleteRecord');
+    // });
+
+    it('returns a middleware function', () => {
+      // td.when(deleteRecord(td.matchers.anything())).thenResolve(response);
+      td.when(Table.destroy({
+        where: {
+          id: req.params.id
+        },
+      })).thenResolve(null);
+      const middleware = Controller.select(controller, 'deleteRecord');
+      expect(middleware).to.be.a('function');
+      middleware(req, res)
+        .then((responseValue) => {
+          console.log(responseValue);
+          expect(responseValue.message).to.eql('no records available');
+          expect(response).to.have.status(404);
+        });
+      // console.log(td.explain(deleteRecord));
+    });
+  });
 });
+

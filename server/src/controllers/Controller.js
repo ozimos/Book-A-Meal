@@ -24,15 +24,14 @@ class Controller {
    * @memberof Controller
    */
   static select(instance, method) {
-    return (req, res) => {
-      instance[method](req).then((response) => {
+    return (req, res) => instance[method](req)
+      .then((response) => {
         const {
           statusCode,
           ...rest
         } = response;
-        res.status(statusCode).json(rest);
+        return res.status(statusCode).json(rest);
       });
-    };
   }
 
   /**
@@ -101,8 +100,7 @@ class Controller {
    */
   getAllRecords(
     req, scope = 'defaultScope', options = {},
-    { message = 'no records available', acceptCallback = () => true,
-      raw = false, statusCode = 200 } = {}
+    { raw = false } = {}
   ) {
     let { offset = 0, limit = 8 } = req.query;
 
@@ -115,16 +113,18 @@ class Controller {
       .then((data) => {
         const { count, rows } = data;
         const pages = Math.ceil(count / limit);
+
         if (raw) return { limit, offset, pages, count, rows };
-        if ((rows && rows.length) || acceptCallback(rows)) {
+
+        if ((rows && rows.length)) {
           return Controller.defaultResponse({
             limit,
             offset,
             pages,
             count,
-            rows }, statusCode);
+            rows });
         }
-        return Controller.errorResponse(message, 404);
+        return Controller.errorResponse('no records available', 404);
       })
       .catch(error => Controller.errorResponse(error.message));
   }

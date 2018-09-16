@@ -52,13 +52,15 @@ MealDisplayCard.defaultProps = {
   addToCollection: null,
   collection: null,
   removeFromCollection: null,
+  description: '',
+  price: 0,
 };
 
 MealDisplayCard.propTypes = {
   title: PropTypes.string.isRequired,
   collection: PropTypes.string,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  description: PropTypes.string,
+  price: PropTypes.number,
   id: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   addToCollection: PropTypes.func,

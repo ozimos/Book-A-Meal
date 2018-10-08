@@ -1,12 +1,12 @@
 /* eslint import/no-extraneous-dependencies: off */
 
 import chai, { expect } from 'chai';
-import chaiHttp from 'chai-http';
-import httpMocks from 'node-mocks-http';
+import sinonChai from 'sinon-chai';
+import { mockReq, mockRes } from 'sinon-express-mock';
 import td from 'testdouble';
 import Controller from '../../../src/controllers/Controller.js';
 
-chai.use(chaiHttp);
+chai.use(sinonChai);
 
 let Table, controller;
 describe('Controllers', () => {
@@ -319,34 +319,23 @@ describe('Controllers', () => {
         user: 'user'
       }
     };
-    const req = {
-      params: {
-        id: 'c848bf5c-27ab-4882-9e43-ffe178c82602'
-      },
-    
-    };
-    const res = httpMocks.createResponse();
-    // let deleteRecord;
-    // beforeEach('Stub Controller', () => {
-    //   deleteRecord = td.replace(controller, 'deleteRecord');
-    // });
+    const req = mockReq();
+    const res = mockRes();
+    let deleteRecord;
+    beforeEach('Stub Controller', () => {
+      deleteRecord = td.replace(controller, 'deleteRecord');
+    });
 
     it('returns a middleware function', () => {
-      // td.when(deleteRecord(td.matchers.anything())).thenResolve(response);
-      td.when(Table.destroy({
-        where: {
-          id: req.params.id
-        },
-      })).thenResolve(null);
+      td.when(deleteRecord(req)).thenResolve(response);
       const middleware = Controller.select(controller, 'deleteRecord');
       expect(middleware).to.be.a('function');
       middleware(req, res)
-        .then((responseValue) => {
-          console.log(responseValue);
-          expect(responseValue.message).to.eql('no records available');
-          expect(response).to.have.status(404);
+        .then(() => {
+          expect(res.json).to.be.calledWith({ data: response.data });
+          expect(res.status).to.be.calledWith(response.statusCode);
         });
-      // console.log(td.explain(deleteRecord));
+
     });
   });
 });

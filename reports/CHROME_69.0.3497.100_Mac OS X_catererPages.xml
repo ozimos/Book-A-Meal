@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="1"
+            tests="12">
+
+  <testsuite name="catererPages"
+    errors="1" failures="1" hostname="" id="" package="catererPages" skipped="7"
+    tests="12" time="35.62" timestamp="Sun, 07 Oct 2018 13:19:57 GMT">
+  
+    <testcase name="It should allow caterer to login and navigate caterer to
+   meal management page" classname="catererPages" time="10.96" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="It should allow caterer to edit a meal" classname="catererPages" time="8.410" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="It should not allow caterer to create a new meal" classname="catererPages" time="12.86" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="It should navigate to menu page and show caterer meals " classname="catererPages" time="2.198" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="It should show the caterer&#39;s menu for the day " classname="catererPages" time="1.191" assertions="1">  <failure message="Testing if element &lt;#accordion__body-1 &gt; div:nth-child(2) &gt; div &gt; div:nth-child(1) &gt; p&gt; contains text: &#34;plain rice with ground beef&#34;. Element could not be located.">    at Object.ItShouldShowTheCatererSMenuForTheDay [as It should show the caterer&#39;s menu for the day ] (/Users/ozimos/Documents/projects/Book-A-Meal/e2e-tests/catererPages.js:100:15)
+    at process._tickCallback (internal/process/next_tick.js:61:11)</failure>
+
+    
+    </testcase>
+  
+
+  
+    <system-err>
+      ERROR: Unable to locate element: &#34;#accordion__body-1 &gt; div:nth-child(2) &gt; div &gt; div:nth-child(1) &gt; p&#34; using: css selector
+    at F.command (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/api/assertions/containsText.js:46:21)
+    at F.module.exports.BaseAssertion._scheduleAssertion (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/assertion.js:87:17)
+    at F.module.exports.BaseAssertion._executeCommand (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/assertion.js:82:17)
+    at AssertionInstance.commandFn [as _commandFn] (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/assertion.js:180:21)
+    at AsyncTree.runCommand (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:154:30)
+    at AsyncTree.runChildNode (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:114:8)
+    at AsyncTree.walkDown (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:80:10)
+    at AsyncTree.walkUp (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:97:8)
+    at AsyncTree.walkDown (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:90:12)
+    at AsyncTree.traverse (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:73:8)
+    at F.onCommandComplete (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/core/queue.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at F.emit (events.js:182:13)
+    at Timeout._onTimeout (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/api/client-commands/pause.js:40:10)
+    at ontimeout (timers.js:427:11)
+    at tryOnTimeout (timers.js:289:5)
+    at listOnTimeout (timers.js:252:5)
+    at Timer.processTimers (timers.js:212:10)
+ERROR: Unable to locate element: &#34;.scroll.gallery &gt; .card:nth-child(2) &gt; button&#34; using: css selector
+    at Object.ItShouldAddMealToCartIfMealSAddButtonIsClicked [as It should add meal to cart if meal&#39;s add button is clicked] (/Users/ozimos/Documents/projects/Book-A-Meal/e2e-tests/orderPage.js:40:8)
+    at Module.call (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/runner/module.js:62:34)
+    at /Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/lib/runner/testcase.js:70:29
+    at _fulfilled (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at /Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:863:30
+    at Promise.promise.promiseDispatch (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    at flush (/Users/ozimos/Documents/projects/Book-A-Meal/node_modules/nightwatch/node_modules/q/q.js:125:13)
+    at process._tickCallback (internal/process/next_tick.js:61:11)
+    </system-err>
+  
+
+  
+    
+    <testcase
+      name="It should allow the caterer to clear the menu for the day" classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should add a meal to the menu cart if the meal&#39;s add 
+  to menu button is clicked" classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should not add a meal to the menu cart if the meal has already
+   been added to the menu cart" classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should navigate to menu cart and post menu" classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should show the new caterer&#39;s menu for the day " classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should navigate to the caterer&#39;s dashboard " classname="catererPages">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="It should show order details when table row is clicked" classname="catererPages">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

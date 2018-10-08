@@ -100,7 +100,8 @@ class Controller {
    */
   getAllRecords(
     req, scope = 'defaultScope', options = {},
-    { raw = false } = {}
+    { message = 'no records available', acceptCallback = () => false,
+      raw = false } = {}
   ) {
     let { offset = 0, limit = 8 } = req.query;
 
@@ -116,7 +117,7 @@ class Controller {
 
         if (raw) return { limit, offset, pages, count, rows };
 
-        if ((rows && rows.length)) {
+        if ((rows && rows.length) || acceptCallback(rows)) {
           return Controller.defaultResponse({
             limit,
             offset,
@@ -124,7 +125,7 @@ class Controller {
             count,
             rows });
         }
-        return Controller.errorResponse('no records available', 404);
+        return Controller.errorResponse(message, 404);
       })
       .catch(error => Controller.errorResponse(error.message));
   }

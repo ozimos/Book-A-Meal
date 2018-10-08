@@ -1,20 +1,13 @@
 import path from 'path';
 import express from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
-import {
-  config
-} from 'dotenv';
+import { config } from 'dotenv';
 
 import swaggerDocument from './swagger.json';
 import routers from './routes';
 import validationErrors from './middleware/validationErrors';
-import configWp from '../../webpack.dev.js';
-
 
 config();
 const app = express();
@@ -25,6 +18,13 @@ app.use(bodyParser.urlencoded({
 }));
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  const webpack = require('webpack');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const configWp = require('../../webpack.dev.js').default;
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
+
   const compiler = webpack(configWp);
 
   app.use(webpackDevMiddleware(compiler, {
@@ -45,7 +45,6 @@ app.use(express.static(path.resolve(__dirname, '../../client/', 'dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
-
 
 app.use(validationErrors);
 // Get port from environment and store in Express.

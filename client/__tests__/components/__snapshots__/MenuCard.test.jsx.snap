@@ -19,6 +19,7 @@ exports[`MealDisplayCard Component renders correctly 1`] = `
           />
           <span>
             ₦
+            0
           </span>
         </div>
       </div>

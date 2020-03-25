@@ -1,78 +1,87 @@
-import express from 'express';
-import Validator from 'express-joi-validation';
+import express from "express";
+import { createValidator } from "express-joi-validation";
 
-import OrderController from '../controllers/OrderController';
-import orderSchema from '../middleware/orderSchemas';
-import paramSchema from '../middleware/paramSchema';
-import querySchema from '../middleware/querySchema';
-import Authenticate from '../middleware/Authenticate';
-import db from '../models';
+import OrderController from "../controllers/OrderController";
+import orderSchema from "../middleware/orderSchemas";
+import paramSchema from "../middleware/paramSchema";
+import querySchema from "../middleware/querySchema";
+import Authenticate from "../middleware/Authenticate";
+import db from "../models";
 
 const orderRouter = express.Router();
-const validator = Validator({ passError: true });
+const validator = createValidator({ passError: true });
 const orderController = new OrderController(db.Order);
 
 orderRouter
-  .route('/')
+  .route("/")
   .get(
-    Authenticate.isUser, validator.query(querySchema),
-    OrderController.select(orderController, 'getOrdersWithMealLinks')
+    Authenticate.isUser,
+    validator.query(querySchema),
+    OrderController.select(orderController, "getOrdersWithMealLinks")
   )
   .post(
-    Authenticate.isUser, validator.query(querySchema),
+    Authenticate.isUser,
+    validator.query(querySchema),
     validator.body(orderSchema),
     OrderController.orderClose,
-    OrderController.select(orderController, 'postOrder')
+    OrderController.select(orderController, "postOrder")
   );
 
 orderRouter
-  .route('/date/:date?')
+  .route("/date/:date?")
   .get(
-    Authenticate.isUser, validator.params(paramSchema),
-    OrderController.select(orderController, 'getOrdersWithMealLinksByDate')
+    Authenticate.isUser,
+    validator.params(paramSchema),
+    OrderController.select(orderController, "getOrdersWithMealLinksByDate")
   );
 
 orderRouter
-  .route('/total/date')
+  .route("/total/date")
   .get(
-    Authenticate.isUser, validator.query(querySchema),
-    OrderController.select(orderController, 'getTotalDaySales')
+    Authenticate.isUser,
+    validator.query(querySchema),
+    OrderController.select(orderController, "getTotalDaySales")
   );
 
 orderRouter
-  .route('/total/:id')
+  .route("/total/:id")
   .get(
-    Authenticate.isUser, validator.params(paramSchema),
-    OrderController.select(orderController, 'getTotalOrderSales')
+    Authenticate.isUser,
+    validator.params(paramSchema),
+    OrderController.select(orderController, "getTotalOrderSales")
   );
 
 orderRouter
-  .route('/:id')
+  .route("/:id")
   .get(
-    Authenticate.isUser, validator.params(paramSchema),
+    Authenticate.isUser,
+    validator.params(paramSchema),
     OrderController.orderClose,
-    OrderController.select(orderController, 'getSingleOrder')
+    OrderController.select(orderController, "getSingleOrder")
   )
   .put(
-    Authenticate.isUser, validator.params(paramSchema),
+    Authenticate.isUser,
+    validator.params(paramSchema),
     validator.query(querySchema),
     validator.body(orderSchema),
     OrderController.orderClose,
-    OrderController.select(orderController, 'updateOrder')
+    OrderController.select(orderController, "updateOrder")
   )
   .delete(
-    Authenticate.isUser, validator.params(paramSchema),
+    Authenticate.isUser,
+    validator.params(paramSchema),
     validator.body(orderSchema),
     OrderController.orderClose,
-    OrderController.select(orderController, 'deleteOrder')
+    OrderController.select(orderController, "deleteOrder")
   );
 
 orderRouter
-  .route('/:id/meals')
+  .route("/:id/meals")
   .get(
-    Authenticate.isUser, validator.params(paramSchema),
+    Authenticate.isUser,
+    validator.params(paramSchema),
     validator.query(querySchema),
-    OrderController.select(orderController, 'getMealsInOrder')
+    OrderController.select(orderController, "getMealsInOrder")
   );
 
 export default orderRouter;

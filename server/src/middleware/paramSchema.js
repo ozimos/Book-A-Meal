@@ -1,12 +1,10 @@
-import Joi from 'joi';
+import Joi from "@hapi/joi";
 
 const paramSchema = Joi.object({
   id: Joi.string().guid({
-    version: [
-      'uuidv4'
-    ]
+    version: ["uuidv4"]
   }),
-  date: Joi.date(),
+  date: Joi.date()
 });
 
 export default paramSchema;

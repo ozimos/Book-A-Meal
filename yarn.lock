@@ -202,6 +202,58 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/address@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@hapi/address@npm:4.0.1"
+  dependencies:
+    "@hapi/hoek": ^9.0.0
+  checksum: 2/3b7b3bddb9e86f9eb478f8945f5bb93fb7ee19e935f97e82de69ac193c0ca85cf15f6a525a6ca914cdef894f4c3bd0ee81e3767656fcea01a7a9d6fdaee19fad
+  languageName: node
+  linkType: hard
+
+"@hapi/formula@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hapi/formula@npm:2.0.0"
+  checksum: 2/02d14257149799b478e21f2620639470efb152f09dd2083fb9a6f247f29760de4af6ceb938b2337ecdf2a0514c2edd5beca6df5415d5c2cea909977fb0da4eaf
+  languageName: node
+  linkType: hard
+
+"@hapi/hoek@npm:^9.0.0":
+  version: 9.0.4
+  resolution: "@hapi/hoek@npm:9.0.4"
+  checksum: 2/d000f60d5e30db7ed2b838a7ec4a757542f04036c8eb431328fd1139f3f7dbd400a2c7d86acbbaf8b8da11dee6f8ae706f6d88bd71c02b3c5f16fd3f6223aa09
+  languageName: node
+  linkType: hard
+
+"@hapi/joi@npm:^17.1.1":
+  version: 17.1.1
+  resolution: "@hapi/joi@npm:17.1.1"
+  dependencies:
+    "@hapi/address": ^4.0.1
+    "@hapi/formula": ^2.0.0
+    "@hapi/hoek": ^9.0.0
+    "@hapi/pinpoint": ^2.0.0
+    "@hapi/topo": ^5.0.0
+  checksum: 2/7547ccf2a8168e4f68f630069ab069f94d0689bd18a034a6dea40cc9c7e88776665670316f65bdd29068dccde111f3d7164504cfaf6db183110b64f36c5643dd
+  languageName: node
+  linkType: hard
+
+"@hapi/pinpoint@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hapi/pinpoint@npm:2.0.0"
+  checksum: 2/445ca018999145dccff58ca1be71fa533c3124a1d0f256b8c3daf88067992a20aebfbdee49664741cfac160d924c76d24bd3e8eeb521af721e6f606f4bd64634
+  languageName: node
+  linkType: hard
+
+"@hapi/topo@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@hapi/topo@npm:5.0.0"
+  dependencies:
+    "@hapi/hoek": ^9.0.0
+  checksum: 2/f92797d5ef54bb801a3591a118ea483ed5a6b41cdd1aaa6f7bf427b64b5f76056bc7063447adf43be8f94b04408228cce12963ea498b8da8f9e01d01c78710ac
+  languageName: node
+  linkType: hard
+
 "@jest/console@npm:^24.7.1, @jest/console@npm:^24.9.0":
   version: 24.9.0
   resolution: "@jest/console@npm:24.9.0"
@@ -2707,7 +2759,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "book-a-meal@workspace:."
   dependencies:
-    babel-polyfill: ^6.26.0
+    babel-cli: ^6.26.0
+    babel-core: ^6.26.3
+    babel-eslint: ^10.1.0
+    babel-jest: ^24.9.0
+    babel-loader: ^8.1.0
+    babel-plugin-add-module-exports: ^1.0.2
+    babel-plugin-transform-class-properties: ^6.24.1
+    babel-plugin-transform-object-rest-spread: ^6.26.0
+    babel-plugin-transform-runtime: ^6.23.0
+    babel-preset-env: ^1.7.0
+    babel-preset-react: ^6.24.1
+    babel-register: ^6.26.0
     clean-webpack-plugin: ^3.0.0
     copy-webpack-plugin: ^5.1.1
     html-webpack-externals-plugin: ^3.8.0
@@ -3503,9 +3566,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client@workspace:UI":
+"client@workspace:client":
   version: 0.0.0-use.local
-  resolution: "client@workspace:UI"
+  resolution: "client@workspace:client"
   dependencies:
     "@material-ui/core": ^4.9.7
     ajv: ^6.12.0
@@ -14590,6 +14653,7 @@ resolve@^1.15.1:
   version: 0.0.0-use.local
   resolution: "server@workspace:server"
   dependencies:
+    "@hapi/joi": ^17.1.1
     ajv: ^6.12.0
     autoprefixer: ^9.7.5
     axios: ^0.19.2
@@ -14626,7 +14690,6 @@ resolve@^1.15.1:
     jest: ^24.9.0
     jest-cli: ^24.9.0
     jest-enzyme: ^7.1.2
-    joi: ^14.3.1
     jsonwebtoken: ^8.5.1
     lodash.isequal: ^4.5.0
     mocha: ^6.2.2

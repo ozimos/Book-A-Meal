@@ -7,7 +7,7 @@ import Controller from './Controller';
 import cashTotal from './util/cashTotal';
 import uniqueUsers from './util/uniqueUsers';
 
-const currentDate = format(new Date(), 'YYYY-MM-DD');
+const currentDate = format(new Date(), 'yyyy-MM-dd');
 
 export default class OrderController extends Controller {
 

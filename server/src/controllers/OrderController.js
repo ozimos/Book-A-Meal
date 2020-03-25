@@ -1,8 +1,8 @@
 import Sequelize, { Op } from 'sequelize';
 import format from 'date-fns/format';
-import isToday from 'date-fns/is_today';
-import addDays from 'date-fns/add_days';
-import differenceInMinutes from 'date-fns/difference_in_minutes';
+import isToday from 'date-fns/isToday';
+import addDays from 'date-fns/addDays';
+import differenceInMinutes from 'date-fns/differenceInMinutes';
 import Controller from './Controller';
 import cashTotal from './util/cashTotal';
 import uniqueUsers from './util/uniqueUsers';

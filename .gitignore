@@ -18,6 +18,11 @@ logs
 *.log
 npm-debug.log*
 
+# Yarn files
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
 
 # Runtime data
 pids

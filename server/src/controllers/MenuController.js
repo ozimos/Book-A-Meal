@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import addDays from 'date-fns/add_days';
+import addDays from 'date-fns/addDays';
 import Controller from './Controller';
 
 const today = new Date().setHours(0, 0, 0, 0, 0);

@@ -1,44 +1,41 @@
-export default {
+module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable(
-      'MealOrders',
-      {
-        mealId: {
-          type: Sequelize.UUID,
-          references: {
-            model: 'Meals',
-            key: 'id',
-          },
-        },
-        orderId: {
-          type: Sequelize.UUID,
-          references: {
-            model: 'Orders',
-            key: 'id',
-          },
-          onDelete: 'CASCADE'
-        },
-        quantity: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          default: 1,
-          validate: {
-            isInt: true,
-            min: 1
-          }
-        },
-        createdAt: {
-          allowNull: false,
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn('NOW')
-        },
-        updatedAt: {
-          allowNull: false,
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn('NOW')
+    queryInterface.createTable("MealOrders", {
+      mealId: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Meals",
+          key: "id"
         }
+      },
+      orderId: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Orders",
+          key: "id"
+        },
+        onDelete: "CASCADE"
+      },
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        default: 1,
+        validate: {
+          isInt: true,
+          min: 1
+        }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW")
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW")
       }
-    ),
+    }),
 
-  down: queryInterface => queryInterface.dropTable('MealOrders')
+  down: queryInterface => queryInterface.dropTable("MealOrders")
 };

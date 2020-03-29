@@ -7182,6 +7182,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["faker", [
+        ["npm:4.1.0", {
+          "packageLocation": "./.yarn/cache/faker-npm-4.1.0-7e1972c7c9-2.zip/node_modules/faker/",
+          "packageDependencies": [
+            ["faker", "npm:4.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["fast-deep-equal", [
         ["npm:2.0.1", {
           "packageLocation": "./.yarn/cache/fast-deep-equal-npm-2.0.1-9c01e08a62-2.zip/node_modules/fast-deep-equal/",
@@ -10478,10 +10487,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["js-beautify", [
-        ["npm:1.10.2", {
-          "packageLocation": "./.yarn/cache/js-beautify-npm-1.10.2-c23e328bc4-2.zip/node_modules/js-beautify/",
+        ["npm:1.10.3", {
+          "packageLocation": "./.yarn/cache/js-beautify-npm-1.10.3-858989c959-2.zip/node_modules/js-beautify/",
           "packageDependencies": [
-            ["js-beautify", "npm:1.10.2"],
+            ["js-beautify", "npm:1.10.3"],
             ["config-chain", "npm:1.1.12"],
             ["editorconfig", "npm:0.15.3"],
             ["glob", "npm:7.1.6"],
@@ -16507,11 +16516,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bluebird", "npm:3.7.1"],
             ["cli-color", "npm:1.4.0"],
             ["fs-extra", "npm:7.0.1"],
-            ["js-beautify", "npm:1.10.2"],
+            ["js-beautify", "npm:1.10.3"],
             ["lodash", "npm:4.17.15"],
             ["resolve", "patch:resolve@npm%3A1.12.0#builtin<compat/resolve>::version=1.12.0&hash=8fccd0"],
             ["umzug", "npm:2.2.0"],
-            ["yargs", "npm:13.3.0"]
+            ["yargs", "npm:13.3.2"]
           ],
           "linkType": "HARD",
         }]
@@ -16609,6 +16618,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["esm", "npm:3.2.25"],
             ["express", "npm:4.17.1"],
             ["express-joi-validation", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:4.0.3"],
+            ["faker", "npm:4.1.0"],
             ["jest", "npm:24.9.0"],
             ["jest-cli", "npm:24.9.0"],
             ["jest-enzyme", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.2"],
@@ -19429,6 +19439,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+        ["npm:13.3.2", {
+          "packageLocation": "./.yarn/cache/yargs-npm-13.3.2-1588f5dd4c-2.zip/node_modules/yargs/",
+          "packageDependencies": [
+            ["yargs", "npm:13.3.2"],
+            ["cliui", "npm:5.0.0"],
+            ["find-up", "npm:3.0.0"],
+            ["get-caller-file", "npm:2.0.5"],
+            ["require-directory", "npm:2.1.1"],
+            ["require-main-filename", "npm:2.0.0"],
+            ["set-blocking", "npm:2.0.0"],
+            ["string-width", "npm:3.1.0"],
+            ["which-module", "npm:2.0.0"],
+            ["y18n", "npm:4.0.0"],
+            ["yargs-parser", "npm:13.1.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:7.1.0", {
           "packageLocation": "./.yarn/cache/yargs-npm-7.1.0-3fad15bb3d-2.zip/node_modules/yargs/",
           "packageDependencies": [
@@ -19464,6 +19491,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yargs-parser-npm-13.1.1-d8e141761a-2.zip/node_modules/yargs-parser/",
           "packageDependencies": [
             ["yargs-parser", "npm:13.1.1"],
+            ["camelcase", "npm:5.3.1"],
+            ["decamelize", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:13.1.2", {
+          "packageLocation": "./.yarn/cache/yargs-parser-npm-13.1.2-546b639909-2.zip/node_modules/yargs-parser/",
+          "packageDependencies": [
+            ["yargs-parser", "npm:13.1.2"],
             ["camelcase", "npm:5.3.1"],
             ["decamelize", "npm:1.2.0"]
           ],

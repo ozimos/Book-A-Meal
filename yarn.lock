@@ -6180,6 +6180,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"faker@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "faker@npm:4.1.0"
+  checksum: 2/009cb4ece2ca85741cbb76a8b00e5f5819ac1ee8719fdb3b9273a60b656d161af94ce0df1940bfbd93f1cb4debb9a742d050bd141976cd983a378efae5f7d79a
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^2.0.1":
   version: 2.0.1
   resolution: "fast-deep-equal@npm:2.0.1"
@@ -9108,8 +9115,8 @@ __metadata:
   linkType: hard
 
 "js-beautify@npm:^1.8.8":
-  version: 1.10.2
-  resolution: "js-beautify@npm:1.10.2"
+  version: 1.10.3
+  resolution: "js-beautify@npm:1.10.3"
   dependencies:
     config-chain: ^1.1.12
     editorconfig: ^0.15.3
@@ -9117,10 +9124,10 @@ __metadata:
     mkdirp: ~0.5.1
     nopt: ~4.0.1
   bin:
-    css-beautify: ./js/bin/css-beautify.js
-    html-beautify: ./js/bin/html-beautify.js
-    js-beautify: ./js/bin/js-beautify.js
-  checksum: 2/9783fc9966dd9d40f17ad209887096ea9df011e24ac85d2b2d876965b2f4d0b2a1f2c4e5f0e1c82d4749e7843f0ebfedf24f4db07c2c88ce2f5f8fadc6a7e4bf
+    css-beautify: js/bin/css-beautify.js
+    html-beautify: js/bin/html-beautify.js
+    js-beautify: js/bin/js-beautify.js
+  checksum: 2/be4fca080b7d4a949d70e36a6165adf7105ddf7f3c2582fa872ed6b111cdc92008c3abb6a31cd4bf91af2f491131d83d9228cbb5f7ccfc026edbf6603b933eb3
   languageName: node
   linkType: hard
 
@@ -14687,6 +14694,7 @@ resolve@^1.15.1:
     esm: ^3.2.25
     express: ^4.17.1
     express-joi-validation: ^4.0.3
+    faker: ^4.1.0
     jest: ^24.9.0
     jest-cli: ^24.9.0
     jest-enzyme: ^7.1.2
@@ -17199,6 +17207,16 @@ resolve@^1.15.1:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^13.1.2":
+  version: 13.1.2
+  resolution: "yargs-parser@npm:13.1.2"
+  dependencies:
+    camelcase: ^5.0.0
+    decamelize: ^1.2.0
+  checksum: 2/82d3b7ab99085d70a5121399ad407d2b98d296538bf7012ac2ce044a61160ca891ea617de6374699d81955d9a61c36a3b2a6a51588e38f710bd211ce2e63c33c
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:^5.0.0":
   version: 5.0.0
   resolution: "yargs-parser@npm:5.0.0"
@@ -17258,7 +17276,7 @@ resolve@^1.15.1:
   languageName: node
   linkType: hard
 
-"yargs@npm:13.3.0, yargs@npm:^13.1.0, yargs@npm:^13.2.2, yargs@npm:^13.3.0":
+"yargs@npm:13.3.0, yargs@npm:^13.2.2, yargs@npm:^13.3.0":
   version: 13.3.0
   resolution: "yargs@npm:13.3.0"
   dependencies:
@@ -17273,6 +17291,24 @@ resolve@^1.15.1:
     y18n: ^4.0.0
     yargs-parser: ^13.1.1
   checksum: 2/3dc7285bbda75aa83e7ff9f280c1c4a3656435d20fcf84c20958133e7b804e9889d7e9a6f6a8d85e471f04c0aa136f2f5e6009c0f96f38a0321735e61290abd7
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^13.1.0":
+  version: 13.3.2
+  resolution: "yargs@npm:13.3.2"
+  dependencies:
+    cliui: ^5.0.0
+    find-up: ^3.0.0
+    get-caller-file: ^2.0.1
+    require-directory: ^2.1.1
+    require-main-filename: ^2.0.0
+    set-blocking: ^2.0.0
+    string-width: ^3.0.0
+    which-module: ^2.0.0
+    y18n: ^4.0.0
+    yargs-parser: ^13.1.2
+  checksum: 2/92c612cd14a9217d7421ae4f42bc7c460472633bfc2e45f7f86cd614a61a845670d3bac7c2228c39df7fcecce0b8c12b2af65c785b1f757de974dcf84b5074f9
   languageName: node
   linkType: hard
 

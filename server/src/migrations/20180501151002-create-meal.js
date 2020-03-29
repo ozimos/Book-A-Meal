@@ -1,7 +1,6 @@
-
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Meals', {
+    await queryInterface.createTable("Meals", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -10,52 +9,53 @@ export default {
       userId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
-          key: 'id',
-          as: 'userId',
-          onDelete: 'CASCADE'
-        },
+          model: "Users",
+          key: "id",
+          as: "userId",
+          onDelete: "CASCADE"
+        }
       },
       title: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: 'title'
+        unique: "title"
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       imageUrl: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       price: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.fn("NOW")
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.fn("NOW")
       },
       deletedAt: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       }
     });
     await queryInterface.addConstraint(
-      'Meals', ['title', 'userId', 'deletedAt'],
+      "Meals",
+      ["title", "userId", "deletedAt"],
       {
-        type: 'unique',
-        name: 'userTitle'
+        type: "unique",
+        name: "userTitle"
       }
     );
   },
 
-  down: queryInterface => queryInterface.dropTable('Meals')
+  down: queryInterface => queryInterface.dropTable("Meals")
 };

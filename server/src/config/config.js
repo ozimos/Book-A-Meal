@@ -1,27 +1,27 @@
-import * as pg from 'pg';
+const pg = require("pg");
 
-export default {
+module.exports = {
   development: {
-    username: 'root',
-    password: 'password',
-    database: 'BookAMeal_development',
-    host: '127.0.0.1',
-    dialect: 'postgres',
+    username: "ozimos",
+    password: "root",
+    database: "book_a_meal_dev",
+    host: "127.0.0.1",
+    dialect: "postgres",
     dialectModule: pg,
     // logging: false
   },
   test: {
-    username: 'travis',
-    password: 'travis',
-    database: 'travis',
-    host: '127.0.0.1',
-    dialect: 'postgres',
-    dialectModule: pg,
-    logging: false
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    dialect: "postgres",
+    dialectModule: pg
+    // logging: false
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
-    dialectModule: pg,
+    use_env_variable: "DATABASE_URL",
+    dialect: "postgres",
+    dialectModule: pg
   }
 };

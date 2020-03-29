@@ -1,6 +1,6 @@
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable("Users", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -9,7 +9,7 @@ export default {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: 'email'
+        unique: "email"
       },
       firstName: {
         type: Sequelize.STRING,
@@ -31,19 +31,19 @@ export default {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.fn("NOW")
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.fn("NOW")
       }
     });
-    await queryInterface.addConstraint('Users', ['email'], {
-      type: 'unique',
-      name: 'email'
+    await queryInterface.addConstraint("Users", ["email"], {
+      type: "unique",
+      name: "email"
     });
   },
 
-  down: queryInterface => queryInterface.dropTable('Users')
+  down: queryInterface => queryInterface.dropTable("Users")
 };

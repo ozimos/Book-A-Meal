@@ -1,48 +1,38 @@
-import bcrypt from 'bcryptjs';
+const bcrypt = require ('bcryptjs');
+const faker = require ('faker');
 
-export const seedPassword = 'Thisisatestpassword';
+const seedPassword = 'Thisisatestpassword';
 const salt = bcrypt.genSaltSync(10);
 const hashPassword = bcrypt.hashSync(seedPassword, salt);
 
-export const seedUsers = [{
-  id: 'db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b',
-  firstName: 'Tovieye',
-  lastName: 'Ozi',
-  email: 'tovieye@gmail.com',
+const seedUsers = Array.from({length: 4}, () => ({
+  id: faker.random.uuid(),
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  email: faker.internet.email(),
   password: hashPassword,
-  isCaterer: true
-},
-{
-  id: '35ef394f-bc07-4e52-9f5f-6ab326d45f85',
-  firstName: 'Douglas',
-  lastName: 'Asede',
-  email: 'douglas@gmail.com',
-  password: hashPassword,
-  isCaterer: true
-},
-{
-  id: '1242fe68-67ee-4de2-80d0-0859f3d0f361',
-  firstName: 'Dienebi',
-  lastName: 'Ombu',
-  email: 'dienebi@gmail.com',
-  password: hashPassword,
-  isCaterer: false
-},
-{
-  id: '20a0dcc4-0a78-43f6-881b-884dd6f32861',
-  firstName: 'Asaba',
-  lastName: 'Ogieh',
-  email: 'moses@gmail.com',
-  password: hashPassword,
-  isCaterer: false
-}
-];
+  isCaterer: faker.random.boolean()
+}))
 
-export const catererTovieye = seedUsers[0];
-export const catererDouglas = seedUsers[1];
-export const customerDienebi = seedUsers[2];
+const catererTovieye = seedUsers[0];
+const catererDouglas = seedUsers[1];
+const customerDienebi = seedUsers[2];
 
-export const seedMeals = [{
+const seedMeals = Array.from({length: 4}, () => ({
+  id: faker.random.uuid(),
+  userId: catererTovieye.id,
+  title: faker.lorem.words(),
+  lastName: faker.name.lastName(),
+  email: faker.internet.email(),
+  password: hashPassword,
+  isCaterer: faker.random.boolean()
+  title: 'Beef with Rice',
+  description: 'plain rice with ground beef',
+  // eslint-disable-next-line max-len
+  imageUrl: 'https://res.cloudinary.com/tovieyeozim/image/upload/c_fill,w_200,h_200/v1532706744/hbj4qsguzdi78xcksws8.jpg',
+  price: 2000,
+}))
+const seedMeals = [{
   id: 'adb53a5a-06c7-4067-8062-c71a7ac5484e',
   userId: catererTovieye.id,
   title: 'Beef with Rice',
@@ -97,7 +87,7 @@ export const seedMeals = [{
   price: 1800,
 }
 ];
-export const seedMenus = [{
+const seedMenus = [{
   id: '443b76e7-b152-4937-890e-492c842b45a8',
   userId: catererTovieye.id,
   menuDate: new Date(),
@@ -117,7 +107,7 @@ const catererTovieyeMenu = seedMenus[0];
 const catererDouglasMenu = seedMenus[1];
 
 
-export const seedMealMenus = [{
+const seedMealMenus = [{
   mealId: seedMeals[0].id,
   menuId: catererTovieyeMenu.id,
   userId: catererTovieye.id,
@@ -160,7 +150,7 @@ export const seedMealMenus = [{
   updatedAt: new Date()
 }];
 
-export const seedOrders = [
+const seedOrders = [
   {
     id: '1b977331-743a-446b-9609-4d9ad0f708eb',
     userId: customerDienebi.id,
@@ -187,7 +177,7 @@ export const seedOrders = [
   }
 ];
 
-export const seedMealOrders = [
+const seedMealOrders = [
   {
     orderId: seedOrders[0].id,
     mealId: seedMeals[0].id,
@@ -273,3 +263,17 @@ export const seedMealOrders = [
     updatedAt: new Date()
   },
 ];
+
+module.exports = {
+  seedPassword,
+  hashPassword,
+  seedUsers,
+  catererTovieye,
+  catererDouglas,
+  customerDienebi,
+  seedMeals,
+  seedMenus,
+  seedMealMenus,
+  seedOrders,
+  seedMealOrders
+}

@@ -1,8 +1,8 @@
-import { seedMealMenus } from '../../src/seedFiles';
+const { seedMealMenus } = require("../../src/seedFiles");
 
-export default {
-  up: queryInterface => queryInterface.bulkInsert('MealMenus', seedMealMenus),
+module.exports = {
+  up: queryInterface => queryInterface.bulkInsert("MealMenus", seedMealMenus),
 
-  down: queryInterface => queryInterface.bulkDelete('MealMenus', null),
+  down: queryInterface => queryInterface.bulkDelete("MealMenus", null),
   seedMealMenus
 };

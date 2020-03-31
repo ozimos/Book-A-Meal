@@ -1,6 +1,0 @@
-{
-  "passError": true,
-  "joi": {
-    "stripUnknown": true
-  }
-}

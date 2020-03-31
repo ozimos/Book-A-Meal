@@ -3,14 +3,18 @@ import express from "express";
 import { createValidator } from "express-joi-validation";
 
 import MealController from "../controllers/MealController";
-import {paramSchema, querySchema, mealSchemas} from "../middleware/joi/mealSchemas";
-import validationSettings from "../middleware/joi/validationSettings";
+import {
+  paramSchemas,
+  querySchemas,
+  mealSchemas
+} from "../middleware/joi/schemas";
+import { passError, joi } from "../middleware/joi/validationSettings";
 
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
 const mealRouter = express.Router();
-const validator = createValidator(validationSettings);
+const validator = createValidator({ passError });
 const mealController = new MealController(db.Meal);
 
 mealRouter
@@ -18,14 +22,19 @@ mealRouter
   .get(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.query(querySchema),
+    validator.query(querySchemas, { joi }),
     mealController.getMeals
   )
   .post(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.query(querySchema),
-    validator.body(mealSchemas.createMeal),
+    validator.query(querySchemas, { joi }),
+    validator.body(mealSchemas, {
+      joi: {
+        presence: "required",
+        ...joi
+      }
+    }),
     mealController.addMeal
   );
 
@@ -34,23 +43,23 @@ mealRouter
   .get(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchema),
-    validator.query(querySchema),
+    validator.params(paramSchemas, { joi }),
+    validator.query(querySchemas, { joi }),
     mealController.getSingleRecord
   )
   .put(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchema),
-    validator.query(querySchema),
-    validator.body(mealSchemas.modifyMeal),
+    validator.params(paramSchemas, { joi }),
+    validator.query(querySchemas, { joi }),
+    validator.body(mealSchemas.modifyMeal, { joi }),
     mealController.updateRecord
   )
   .delete(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchema),
-    validator.query(querySchema),
+    validator.params(paramSchemas, { joi }),
+    validator.query(querySchemas, { joi }),
     mealController.deleteMeal
   );
 

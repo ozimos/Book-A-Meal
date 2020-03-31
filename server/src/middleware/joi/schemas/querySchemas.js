@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 
-const querySchema = Joi.object({
+const querySchemas = Joi.object({
   limit: Joi.number()
     .integer()
     .min(0),
@@ -10,4 +10,4 @@ const querySchema = Joi.object({
   date: Joi.date().iso()
 });
 
-export default querySchema;
+export default querySchemas;

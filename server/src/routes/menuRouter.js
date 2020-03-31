@@ -3,27 +3,27 @@ import express from "express";
 import { createValidator } from "express-joi-validation";
 
 import MenuController from "../controllers/MenuController";
-import {menuSchema, querySchema} from "../middleware/joi/schemas";
-import validationSettings from "../middleware/joi/validationSettings";
+import { menuSchemas, querySchemas } from "../middleware/joi/schemas";
+import { passError, joi } from "../middleware/joi/validationSettings";
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
 const menuRouter = express.Router();
-const validator = createValidator(validationSettings);
+const validator = createValidator({ passError });
 const menuController = new MenuController(db.Menu, db.Meal);
 
 menuRouter
   .route("/")
   .get(
     Authenticate.isUser,
-    validator.query(querySchema),
+    validator.query(querySchemas, { joi }),
     MenuController.select(menuController, "getMenu")
   )
   .post(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.query(querySchema),
-    validator.body(menuSchema),
+    validator.query(querySchemas, { joi }),
+    validator.body(menuSchemas, { joi }),
     MenuController.select(menuController, "postMenu")
   );
 

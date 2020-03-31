@@ -52,7 +52,7 @@ mealRouter
     Authenticate.isAdmin,
     validator.params(paramSchemas, { joi }),
     validator.query(querySchemas, { joi }),
-    validator.body(mealSchemas.modifyMeal, { joi }),
+    validator.body(mealSchemas, { joi }),
     mealController.updateRecord
   )
   .delete(
@@ -60,7 +60,7 @@ mealRouter
     Authenticate.isAdmin,
     validator.params(paramSchemas, { joi }),
     validator.query(querySchemas, { joi }),
-    mealController.deleteMeal
+    mealController.deleteRecord
   );
 
 // Return mealRouter

@@ -28,8 +28,8 @@ class Controller {
    */
   postRecord(req, res) {
     return this.Model.create(req.body)
-      .then(data => res.status(201).json({data}))
-      .catch(error => res.status(400).json({message: error.message}));
+      .then(data => res.status(201).json({ data }))
+      .catch(error => res.status(400).json({ message: error.message }));
   }
 
   /**
@@ -59,12 +59,8 @@ class Controller {
   ) {
     let { offset = 0, limit = 8 } = req.query;
 
-    limit = parseInt(limit, 10);
-    offset = parseInt(offset, 10);
-    options.limit = limit;
-    options.offset = offset;
     return this.Model.scope(scope)
-      .findAndCountAll(options)
+      .findAndCountAll({ ...options, limit, offset })
       .then(result => {
         const { count, rows } = result;
         const pages = Math.ceil(count / limit);
@@ -74,9 +70,9 @@ class Controller {
             data: { limit, offset, pages, count, rows }
           });
         }
-        return res.status(404).json({message});
+        return res.status(404).json({ message });
       })
-      .catch(error => res.status(400).json({message: error.message}));
+      .catch(error => res.status(400).json({ message: error.message }));
   }
 
   /**
@@ -93,9 +89,9 @@ class Controller {
         if (!data) {
           return res.status(404).json("no records available");
         }
-        return res.status(200).json({data});
+        return res.status(200).json({ data });
       })
-      .catch(error => res.status(400).json({message: error.message}));
+      .catch(error => res.status(400).json({ message: error.message }));
   }
 
   /**
@@ -115,11 +111,11 @@ class Controller {
     })
       .then(([count, [data]]) => {
         if (count > 0) {
-          return res.status(200).json({data});
+          return res.status(200).json({ data });
         }
         return res.status(404).json("no records available");
       })
-      .catch(error => res.status(422).json({message: error.message}));
+      .catch(error => res.status(422).json({ message: error.message }));
   }
 
   /**
@@ -130,17 +126,18 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  deleteRecord(req, res) {
+  deleteRecord(req, res, options = {}) {
     return this.Model.destroy({
+      ...options,
       where: { id: req.params.id }
     })
       .then(result => {
         if (result) {
-          return this.getAllRecords(req, res);
+          return res.status(200).json({ message: "record was deleted" });
         }
-        return res.status(404).json("no records available");
+        return res.status(404).json({ message: "record was not deleted" });
       })
-      .catch(error => res.status(400).json({message: error.message}));
+      .catch(error => res.status(400).json({ message: error.message }));
   }
 }
 

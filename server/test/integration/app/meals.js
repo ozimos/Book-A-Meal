@@ -20,7 +20,7 @@ const mealsUrl = `${rootURL}/meals`;
 const getMealsUrl = `${mealsUrl}?offset=0&limit=8`;
 const mealIdUrl = `${mealsUrl}/${defaultMeal.id}`;
 const meals = [defaultMeal, deletedMeal];
-context.only("meals integration test", () => {
+context("meals integration test", () => {
   before("set up meals", async () => {
     await db.User.create(defaultCaterer);
     await db.Meal.bulkCreate(meals);
@@ -76,7 +76,7 @@ context.only("meals integration test", () => {
         .set("authorization", `JWT ${catererToken}`)
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.data.rows).to.containSubset(deletedMeal);
+          expect(res.body.message).to.equal("record was deleted");
         }));
     it("should return error if deleted meal id does not exist", () =>
       request(app)
@@ -84,14 +84,14 @@ context.only("meals integration test", () => {
         .set("authorization", `JWT ${catererToken}`)
         .then(res => {
           expect(res).to.have.status(404);
-          expect(res.body.message).to.equal("meal was not deleted");
+          expect(res.body.message).to.equal("record was not deleted");
         }));
   });
 
   // Create A Meal
   describe("POST /meals", () => {
     const meal = mealFactory(defaultCaterer);
-    const {id, ...newMeal} = meal
+    const { id, ...newMeal } = meal;
     it("should create a meal", () =>
       request(app)
         .post(mealsUrl)

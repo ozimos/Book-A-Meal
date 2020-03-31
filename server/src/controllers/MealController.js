@@ -24,7 +24,7 @@ export default class MealController extends Controller {
       order: [["createdAt", "DESC"]]
     };
     return this.getAllRecords(req, res, options).catch(error =>
-      res.status(400).json(error.message)
+      res.status(400).json({ message: error.message })
     );
   }
 
@@ -38,29 +38,7 @@ export default class MealController extends Controller {
     req.body.userId = req.decoded.userId;
     req.body.deletedAt = new Date(2100, 0);
     return this.postRecord(req, res).catch(error =>
-      res.status(400).json(error.message)
+      res.status(400).json({ message: error.message })
     );
-  }
-
-  /**
-   * delete a meal from the database
-   * @param {obj} req express request object
-   * @returns {obj}
-   *
-   */
-  deleteMeal(req, res) {
-    return this.Model.destroy({
-      where: {
-        id: req.params.id,
-        deletedAt: new Date(2100, 0)
-      }
-    })
-      .then(result => {
-        if (result) {
-          return this.getMeals(req, res);
-        }
-        return res.status(400).json("meal was not deleted", 404);
-      })
-      .catch(error => res.status(400).json(error.message));
   }
 }

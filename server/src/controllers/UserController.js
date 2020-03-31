@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import Controller from './Controller';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import Controller from "./Controller";
 
 /**
  *
@@ -9,39 +9,15 @@ import Controller from './Controller';
  */
 class UserController extends Controller {
   /**
-   *
-   *
-   * @param {any} req
-   * @returns {obj} HTTP Response
+   * Creates an instance of UserController.
+   * @param {any} Model
    * @memberof UserController
    */
-  login(req) {
-    // get user details from db
-    return this.Model
-      .findOne({
-        where: {
-          email: req.body.email
-        },
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
-      }).then((response) => {
-        if (!response) {
-          return UserController.errorResponse({
-            password: 'Incorrect email or password'
-          }, 404);
-        }
-        // check if password is correct
-        const isCorrectPassword = bcrypt
-          .compareSync(req.body.password, response.password);
-
-        if (isCorrectPassword) {
-          return UserController.sendResponseWithToken(response);
-        }
-        return UserController.errorResponse({
-          password: 'Incorrect email or password'
-        }, 404);
-      }).catch(error => UserController.errorResponse(error.message));
+  constructor(Model) {
+    super(Model);
+    this.login = this.login.bind(this);
+    this.signUp = this.signUp.bind(this);
   }
-
 
   /**
    *
@@ -50,28 +26,71 @@ class UserController extends Controller {
    * @returns {obj} HTTP Response
    * @memberof UserController
    */
-  signUp(req) {
-    const {
-      email,
-      ...rest
-    } = req.body;
+  login(req, res) {
+    // get user details from db
+    return this.Model.findOne({
+      where: {
+        email: req.body.email
+      },
+      attributes: { exclude: ["createdAt", "updatedAt"] }
+    })
+      .then(response => {
+        if (!response) {
+          return res.status(404).json({
+            data: {
+              password: "Incorrect email or password"
+            }
+          });
+        }
+        // check if password is correct
+        const isCorrectPassword = bcrypt.compareSync(
+          req.body.password,
+          response.password
+        );
+
+        if (isCorrectPassword) {
+          return UserController.sendResponseWithToken(res, response);
+        }
+        return res.status(400).json({
+          data: {
+            password: "Incorrect email or password"
+          }
+        });
+      })
+      .catch(error => res.status(400).json(error.message));
+  }
+
+  /**
+   *
+   *
+   * @param {any} req
+   * @returns {obj} HTTP Response
+   * @memberof UserController
+   */
+  signUp(req, res) {
+    const { email, ...rest } = req.body;
     // check if email is available
     return this.Model.findOrCreate({
       where: {
         email
       },
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
       defaults: rest
-    }).then(([response, created]) => {
-      if (!created) {
-        return UserController.errorResponse({
-          email: 'Email is not available'
-        });
-      }
-      return UserController
-        .sendResponseWithToken(response, 'Signup Successful, ', 201);
     })
-      .catch(error => UserController.errorResponse(error.message));
+      .then(([data, created]) => {
+        if (!created) {
+          return res.status(400).json({
+            email: "Email is not available"
+          });
+        }
+        return UserController.sendResponseWithToken(
+          res,
+          data,
+          "Signup Successful, ",
+          201
+        );
+      })
+      .catch(error => res.status(400).json(error.message));
   }
 
   /**
@@ -82,24 +101,20 @@ class UserController extends Controller {
    * @returns {obj} HTTP Response
    * @memberof UserController
    */
-  static sendResponseWithToken(user, extraMessage = '', code = 200) {
-    const data = user.dataValues ? { ...user.dataValues
-    } : user;
-    let message = extraMessage;
+  static sendResponseWithToken(res, user, extraMessage = "", code = 200) {
+    const userData = user.dataValues ? { ...user.dataValues } : user;
     const payload = {
       isCaterer: data.isCaterer,
       userId: data.id,
       firstName: data.firstName
     };
-    if (data.password) {
-      delete data.password;
-    }
+    const { password, ...data } = userData;
     const token = jwt.sign(payload, process.env.TOKEN_PASSWORD, {
-      expiresIn: '6h'
+      expiresIn: "6h"
     });
     if (token) {
-      message = `${message}Login Successful`;
-      return UserController.defaultResponse(data, code, message, token);
+      const message = `${extraMessage}Login Successful`;
+      return res.status(code).json({ data, message, token });
     }
   }
 }

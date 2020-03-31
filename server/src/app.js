@@ -20,19 +20,21 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/api/v1/meals', routers.mealRouter);
-app.use('/api/v1/menu', routers.menuRouter);
-app.use('/api/v1/orders', routers.orderRouter);
+// app.use('/api/v1/menu', routers.menuRouter);
+// app.use('/api/v1/orders', routers.orderRouter);
 app.use('/api/v1/auth', routers.authRouter);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.use(validationErrors);
 // Get port from environment and store in Express.
-const PORT = parseInt(process.env.PORT, 10) || 3500;
+const PORT = parseInt(process.env.PORT, 10) || 5300;
 app.set('port', PORT);
 
-app.listen(PORT, () => {
-  /* eslint no-console: off */
-  console.log(`API is running on port ${PORT}`);
-});
+if(!module.parent){
+  app.listen(PORT, () => {
+    /* eslint no-console: off */
+    console.log(`API is running on port ${PORT}`);
+  });
+}
 export default app;

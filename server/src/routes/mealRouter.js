@@ -3,15 +3,14 @@ import express from "express";
 import { createValidator } from "express-joi-validation";
 
 import MealController from "../controllers/MealController";
-import schemas from "../middleware/mealSchemas";
-import paramSchema from "../middleware/paramSchema";
-import querySchema from "../middleware/querySchema";
+import {paramSchema, querySchema, mealSchemas} from "../middleware/joi/mealSchemas";
+import validationSettings from "../middleware/joi/validationSettings";
 
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
 const mealRouter = express.Router();
-const validator = createValidator({ passError: true });
+const validator = createValidator(validationSettings);
 const mealController = new MealController(db.Meal);
 
 mealRouter
@@ -20,14 +19,14 @@ mealRouter
     Authenticate.isUser,
     Authenticate.isAdmin,
     validator.query(querySchema),
-    MealController.select(mealController, "getMeals")
+    mealController.getMeals
   )
   .post(
     Authenticate.isUser,
     Authenticate.isAdmin,
     validator.query(querySchema),
-    validator.body(schemas.createMeal),
-    MealController.select(mealController, "addMeal")
+    validator.body(mealSchemas.createMeal),
+    mealController.addMeal
   );
 
 mealRouter
@@ -37,22 +36,22 @@ mealRouter
     Authenticate.isAdmin,
     validator.params(paramSchema),
     validator.query(querySchema),
-    MealController.select(mealController, "getSingleRecord")
+    mealController.getSingleRecord
   )
   .put(
     Authenticate.isUser,
     Authenticate.isAdmin,
     validator.params(paramSchema),
     validator.query(querySchema),
-    validator.body(schemas.modifyMeal),
-    MealController.select(mealController, "updateRecord")
+    validator.body(mealSchemas.modifyMeal),
+    mealController.updateRecord
   )
   .delete(
     Authenticate.isUser,
     Authenticate.isAdmin,
     validator.params(paramSchema),
     validator.query(querySchema),
-    MealController.select(mealController, "deleteMeal")
+    mealController.deleteMeal
   );
 
 // Return mealRouter

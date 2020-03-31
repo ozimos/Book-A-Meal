@@ -11,11 +11,13 @@ const modifyMeal = Joi.object({
   description: defaultString,
   imageUrl: defaultString.uri(),
   price: Joi.number()
+}).options({
+  stripUnknown: true
 });
 
 export default {
   modifyMeal,
   createMeal: modifyMeal.options({
-    presence: "required"
+    presence: "required",
   })
 };

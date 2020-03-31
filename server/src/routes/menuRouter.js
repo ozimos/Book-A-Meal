@@ -3,13 +3,13 @@ import express from "express";
 import { createValidator } from "express-joi-validation";
 
 import MenuController from "../controllers/MenuController";
-import menuSchema from "../middleware/menuSchemas";
-import querySchema from "../middleware/querySchema";
+import {menuSchema, querySchema} from "../middleware/joi/schemas";
+import validationSettings from "../middleware/joi/validationSettings";
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
 const menuRouter = express.Router();
-const validator = createValidator({ passError: true });
+const validator = createValidator(validationSettings);
 const menuController = new MenuController(db.Menu, db.Meal);
 
 menuRouter

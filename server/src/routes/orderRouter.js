@@ -2,9 +2,9 @@ import express from "express";
 import { createValidator } from "express-joi-validation";
 
 import OrderController from "../controllers/OrderController";
-import orderSchema from "../middleware/orderSchemas";
-import paramSchema from "../middleware/paramSchema";
-import querySchema from "../middleware/querySchema";
+import orderSchema from "../middleware/joi/schemas/orderSchemas";
+import paramSchema from "../middleware/joi/schemas/paramSchemas";
+import querySchema from "../middleware/joi/schemas/querySchemas";
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 

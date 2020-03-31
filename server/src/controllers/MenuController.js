@@ -53,10 +53,8 @@ export default class MenuController extends Controller {
             newRows[0].Meals = [...newRows[0].Meals, ...row.dataValues.Meals];
           });
         }
-        const isEmptyMenu =
-          req.body && req.body.meals && !req.body.meals.length;
-        if (!newRows[0].Meals.length && !isEmptyMenu) {
-          return;
+        if (!newRows[0].Meals.length && req?.body?.meals?.length) {
+          throw new Error('cannot build menu')
         }
 
         return  {

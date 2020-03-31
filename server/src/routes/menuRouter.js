@@ -17,14 +17,14 @@ menuRouter
   .get(
     Authenticate.isUser,
     validator.query(querySchemas, { joi }),
-    MenuController.select(menuController, "getMenu")
+    menuController.getMenu
   )
   .post(
     Authenticate.isUser,
     Authenticate.isAdmin,
     validator.query(querySchemas, { joi }),
     validator.body(menuSchemas, { joi }),
-    MenuController.select(menuController, "postMenu")
+    menuController.postMenu
   );
 
 // Return menuRouter

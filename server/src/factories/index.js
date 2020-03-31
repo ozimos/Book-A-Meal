@@ -1,7 +1,6 @@
 const faker = require("faker/locale/en");
 const bcrypt = require("bcryptjs");
 
-
 const salt = bcrypt.genSaltSync(10);
 const hashPassword = bcrypt.hashSync(faker.internet.password(), salt);
 const imageUrls = [
@@ -57,10 +56,23 @@ const orderFactory = (user, defaults) => ({
   ...defaults
 });
 
+const mealMenuFactory = (menu, meals, min) => {
+  const max = meals.length;
+  const length = min ? getRandomInt(min, max) : max;
+  return Array.from({ length }, (v, k) => ({
+    mealId: meals[k].id,
+    menuId: menu.id,
+    userId: menu.userId,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }));
+};
+
 module.exports = {
   userFactory,
   mealFactory,
   menuFactory,
   orderFactory,
-  getRandomInt
+  getRandomInt,
+  mealMenuFactory
 };

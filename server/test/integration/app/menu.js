@@ -3,39 +3,63 @@ import {
   expect,
   request,
   rootURL,
-  menuMeal,
-  tovieyeCatererToken,
-  templateTest
-} from '../../../testHelpers/appHelper';
+  userFactory,
+  mealFactory,
+  menuFactory,
+  mealMenuFactory
+} from "../../../testHelpers/appHelper";
 
-import app from '../../../src/app';
+import app from "../../../src/app";
+import mealSchemas from "../../../src/middleware/schemas/mealSchemas";
 
-const menuUrl = `${rootURL}/menu`;
-const getMenuUrl = `${rootURL}/menu?offset=0&limit=8`;
+const defaultCaterer = userFactory();
+const catererToken = tokenGenerator(defaultCaterer);
+const meals = Array.from({ length: 4 }, () => mealFactory(defaultCaterer));
+const mealsId = meals.map(meal => meal.id);
 
-context('menu integration test', () => {
+const menu = menuFactory(defaultCaterer);
+const mealMenus = mealMenuFactory(menu, meals);
+
+context.only("menu integration test", () => {
+  before("set up menu db", async () => {
+    await db.Meal.truncate();
+    await db.User.truncate();
+    await db.User.create(defaultCaterer);
+    await db.Meal.bulkCreate(meals);
+  });
+
+  beforeEach("remove previous menu", async () => {
+    await db.Menu.truncate();
+  });
 
   // Post Menu
-  describe('POST /menu', () => {
+  describe("POST /menu", () => {
     const newMenu = {
-      meals: [menuMeal.id]
+      meals: mealsId
     };
 
-    templateTest('Add Menu', 'post', menuUrl, newMenu, 'rows', 'object', '201');
+    it("should create a menu for today", () =>
+      request(app)
+        .post(`${rootURL}/menu`)
+        .set("authorization", `Bearer ${catererToken}`)
+        .send(newMenu)
+        .then(res => {
+          expect(res.body.data.rows[0].Meals[0].id).to.equal(menuMeal.id);
+        }));
   });
 
   // Get  Menu
-  describe('GET /menu', () => {
-
-    it('should return the menu for today', () =>
+  describe("GET /menu", () => {
+    before("set up menu meals", async () => {
+      await db.Menu.create(menu);
+      await db.Menu.bulkCreate(mealMenus);
+    });
+    it("should return the menu for today", () =>
       request(app)
-        .get(getMenuUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
-        .then((res) => {
+        .get(`${rootURL}/menu?offset=0&limit=8`)
+        .set("authorization", `Bearer ${catererToken}`)
+        .then(res => {
           expect(res.body.data.rows[0].Meals[0].id).to.equal(menuMeal.id);
         }));
-
-    templateTest('Get Menu', 'get', getMenuUrl, null, 'rows', 'object');
   });
-
 });

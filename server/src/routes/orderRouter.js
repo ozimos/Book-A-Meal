@@ -20,14 +20,14 @@ orderRouter
   .get(
     Authenticate.isUser,
     validator.query(querySchemas, { joi }),
-    OrderController.select(orderController, "getOrdersWithMealLinks")
+    orderController.getOrdersWithMealLinks
   )
   .post(
     Authenticate.isUser,
     validator.query(querySchemas, { joi }),
     validator.body(orderSchema, { joi }),
     OrderController.orderClose,
-    OrderController.select(orderController, "postOrder")
+    orderController.postOrder
   );
 
 orderRouter
@@ -35,7 +35,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     validator.params(paramSchemas, { joi }),
-    OrderController.select(orderController, "getOrdersWithMealLinksByDate")
+    orderController.getOrdersWithMealLinksByDate
   );
 
 orderRouter
@@ -43,7 +43,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     validator.query(querySchemas, { joi }),
-    OrderController.select(orderController, "getTotalDaySales")
+    orderController.getTotalDaySales
   );
 
 orderRouter
@@ -51,7 +51,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     validator.params(paramSchemas, { joi }),
-    OrderController.select(orderController, "getTotalOrderSales")
+    orderController.getTotalOrderSales
   );
 
 orderRouter
@@ -60,7 +60,7 @@ orderRouter
     Authenticate.isUser,
     validator.params(paramSchemas, { joi }),
     OrderController.orderClose,
-    OrderController.select(orderController, "getSingleOrder")
+    orderController.getSingleOrder
   )
   .put(
     Authenticate.isUser,
@@ -68,14 +68,14 @@ orderRouter
     validator.query(querySchemas, { joi }),
     validator.body(orderSchema, { joi }),
     OrderController.orderClose,
-    OrderController.select(orderController, "updateOrder")
+    orderController.updateOrder
   )
   .delete(
     Authenticate.isUser,
     validator.params(paramSchemas, { joi }),
     validator.body(orderSchema, { joi }),
     OrderController.orderClose,
-    OrderController.select(orderController, "deleteOrder")
+    orderController.deleteOrder
   );
 
 orderRouter
@@ -84,7 +84,7 @@ orderRouter
     Authenticate.isUser,
     validator.params(paramSchemas, { joi }),
     validator.query(querySchemas, { joi }),
-    OrderController.select(orderController, "getMealsInOrder")
+    orderController.getMealsInOrder
   );
 
 export default orderRouter;

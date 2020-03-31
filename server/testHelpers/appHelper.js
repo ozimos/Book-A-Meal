@@ -22,7 +22,8 @@ export {
   userFactory,
   mealFactory,
   menuFactory,
-  orderFactory
+  orderFactory,
+  mealMenuFactory
 } from "../src/factories";
 import { mealFactory } from "../src/factories";
 

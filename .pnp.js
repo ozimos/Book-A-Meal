@@ -18838,7 +18838,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["timemachine", "npm:0.3.1"],
             ["typescript", "patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=270b6c"],
             ["uuid", "npm:7.0.2"],
-            ["uuidv4", "npm:6.0.6"],
             ["webpack", "npm:4.42.1"],
             ["webpack-dev-middleware", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.7.2"],
             ["webpack-hot-middleware", "npm:2.25.0"]
@@ -21038,16 +21037,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:7.0.2", {
           "packageLocation": "./.yarn/cache/uuid-npm-7.0.2-fe7c365529-2.zip/node_modules/uuid/",
           "packageDependencies": [
-            ["uuid", "npm:7.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["uuidv4", [
-        ["npm:6.0.6", {
-          "packageLocation": "./.yarn/cache/uuidv4-npm-6.0.6-0b724426f2-2.zip/node_modules/uuidv4/",
-          "packageDependencies": [
-            ["uuidv4", "npm:6.0.6"],
             ["uuid", "npm:7.0.2"]
           ],
           "linkType": "HARD",

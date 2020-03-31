@@ -6,13 +6,16 @@ const {
   mealFactory,
   menuFactory,
   orderFactory,
+  mealMenuFactory,
   getRandomInt
 } = require("../factories");
 const seedPassword = "Thisisatestpassword";
 const salt = bcrypt.genSaltSync(10);
 const hashPassword = bcrypt.hashSync(seedPassword, salt);
 
-const seedCaterers = Array.from({ length: 4 }, () => userFactory({password: hashPassword,}));
+const seedCaterers = Array.from({ length: 4 }, () =>
+  userFactory({ password: hashPassword })
+);
 
 const seedUsers = Array.from({ length: 8 }, () =>
   userFactory({ isCaterer: false })
@@ -30,13 +33,7 @@ const seedMeals = flattenDeep(seedMealsNested);
 const seedMenus = seedCaterers.map(caterer => menuFactory(caterer));
 
 const seedMealMenusNested = seedMenus.map((menu, index) =>
-  Array.from({ length: getRandomInt(2, 6) }, (v, k) => ({
-    mealId: seedMealsNested[index][k].id,
-    menuId: menu.id,
-    userId: menu.userId,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }))
+  mealMenuFactory(menu, seedMealsNested[index], 2)
 );
 
 const seedMealMenus = flattenDeep(seedMealMenusNested);
@@ -45,7 +42,7 @@ const seedOrders = Array.from({ length: 4 }, () =>
   orderFactory(faker.random.arrayElement(seedUsers))
 );
 
-const seedMealOrdersNested = seedOrders.map((order) =>
+const seedMealOrdersNested = seedOrders.map(order =>
   Array.from({ length: getRandomInt(1, 3) }, () => ({
     orderId: order.id,
     mealId: faker.random.arrayElement(seedMealMenus).mealId,
@@ -71,5 +68,5 @@ module.exports = {
   seedMenus,
   seedMealMenus,
   seedOrders,
-  seedMealOrders,
+  seedMealOrders
 };

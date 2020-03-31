@@ -16781,7 +16781,6 @@ resolve@^1.15.1:
     timemachine: ^0.3.1
     typescript: ^3.8.3
     uuid: ^7.0.2
-    uuidv4: ^6.0.6
     webpack: ^4.42.1
     webpack-dev-middleware: ^3.7.2
     webpack-hot-middleware: ^2.25.0
@@ -18750,15 +18749,6 @@ typescript@^3.8.3:
   languageName: node
   linkType: hard
 
-"uuid@npm:7.0.2, uuid@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "uuid@npm:7.0.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 2/25137594ba74b0ca8bcf582f8c7c2e7556efe621d5cf2459d0c713755cb67c8546768b2d05c62d65a890a44e213551010f169cfa7c6ace4adcdd1bdfab22a627
-  languageName: node
-  linkType: hard
-
 "uuid@npm:^3.0.1, uuid@npm:^3.3.2":
   version: 3.3.3
   resolution: "uuid@npm:3.3.3"
@@ -18777,12 +18767,12 @@ typescript@^3.8.3:
   languageName: node
   linkType: hard
 
-"uuidv4@npm:^6.0.6":
-  version: 6.0.6
-  resolution: "uuidv4@npm:6.0.6"
-  dependencies:
-    uuid: 7.0.2
-  checksum: 2/310d2be67a3c757525618820ad42a873d17543303d69ba4929a2ed0e7b26e4d7e0117ba399a61a527ead306cdaf0fb6b63f03a029041ce41403bf327c7f653da
+"uuid@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "uuid@npm:7.0.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 2/25137594ba74b0ca8bcf582f8c7c2e7556efe621d5cf2459d0c713755cb67c8546768b2d05c62d65a890a44e213551010f169cfa7c6ace4adcdd1bdfab22a627
   languageName: node
   linkType: hard
 

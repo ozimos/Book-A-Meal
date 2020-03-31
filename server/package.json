@@ -1,6 +1,7 @@
 {
     "name": "server",
     "version": "1.0.0",
+    "engines": {"node": ">=13.7.0"},
     "scripts": {
         "start:dev": "dotenv -e .env -e .dev.env -- nodemon --inspect . -r esm ./src/app.js",
         "start:prod": "dotenv -e .env -e .prod.env -- nodemon --watch . -r esm ./src/app.js",
@@ -59,8 +60,7 @@
         "sinon-express-mock": "^2.2.1",
         "testdouble": "^3.13.1",
         "timemachine": "^0.3.1",
-        "typescript": "^3.8.3",
-        "uuidv4": "^6.0.6"
+        "typescript": "^3.8.3"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.1",

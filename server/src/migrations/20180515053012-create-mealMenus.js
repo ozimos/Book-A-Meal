@@ -1,37 +1,37 @@
 module.exports = {
-  up: (queryInterface, Sequelize) =>
-    queryInterface.createTable("MealMenus", {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("MealMenus", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        defaultValue: Sequelize.UUIDV4
+      },
       mealId: {
         type: Sequelize.UUID,
-        allowNull: true,
-        references: {
-          model: "Meals",
-          key: "id"
-        }
+        allowNull: false
       },
       menuId: {
         type: Sequelize.UUID,
-        allowNull: true,
-        references: {
-          model: "Menus",
-          key: "id"
-        }
+        allowNull: false
       },
       userId: {
         type: Sequelize.UUID,
         allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW")
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW")
       }
-    }),
+    });
+    await queryInterface.addConstraint("MealMenus", ["mealId", "menuId"], {
+      type: "unique",
+      name: "mealMenu"
+    });
+    await queryInterface.sequelize.query(`ALTER TABLE IF EXISTS MealMenus
+    ADD CONSTRAINT "MealMenus_Meals_fkey"
+    FOREIGN KEY (mealId, userId)
+    REFERENCES Meals(id, userId) ON DELETE CASCADE`);
+    await queryInterface.sequelize.query(`ALTER TABLE IF EXISTS MealMenus
+    ADD CONSTRAINT "MealMenus_Menus_fkey"
+    FOREIGN KEY (menuId, userId)
+    REFERENCES Menus(id, userId) ON DELETE CASCADE`);
+  },
 
   down: queryInterface => queryInterface.dropTable("MealMenus")
 };

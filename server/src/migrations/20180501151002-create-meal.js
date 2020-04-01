@@ -12,13 +12,17 @@ module.exports = {
           model: "Users",
           key: "id",
           as: "userId",
-          onDelete: "CASCADE"
+          onDelete: "cascade"
         }
       },
       title: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: "title"
+      },
+      tags: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true
       },
       description: {
         type: Sequelize.STRING,
@@ -49,12 +53,16 @@ module.exports = {
     });
     await queryInterface.addConstraint(
       "Meals",
-      ["title", "userId", "deletedAt"],
+      ["title", "deletedAt", "userId"],
       {
         type: "unique",
         name: "userTitle"
       }
     );
+    await queryInterface.addConstraint("Meals", ["userId", "id"], {
+      type: "unique",
+      name: "mealUser"
+    });
   },
 
   down: queryInterface => queryInterface.dropTable("Meals")

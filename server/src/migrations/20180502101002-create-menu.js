@@ -1,6 +1,6 @@
 module.exports = {
-  up: (queryInterface, Sequelize) =>
-    queryInterface.createTable("Menus", {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("Menus", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -12,7 +12,7 @@ module.exports = {
           model: "Users",
           key: "id",
           as: "userId",
-          onDelete: "CASCADE"
+          onDelete: "cascade"
         }
       },
       menuDate: {
@@ -30,7 +30,13 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("NOW")
       }
-    }),
+    });
+    
+    await queryInterface.addConstraint("Menus", ["userId", "id"], {
+      type: "unique",
+      name: "menuUser"
+    });
+  },
 
   down: queryInterface => queryInterface.dropTable("Menus")
 };

@@ -17,6 +17,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    tags: {
+      type: DataTypes.ARRAY(Sequelize.STRING),
+      allowNull: true,
+    },
     price: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -26,23 +30,26 @@ export default (sequelize, DataTypes) => {
     paranoid: true,
     indexes: [{
       unique: true,
-      fields: ['title', 'userId', 'deletedAt']
+      fields: ['title', 'deletedAt', 'userId'q]
     }],
   });
 
-  // Relations
   Meal.associate = (models) => {
     Meal.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
+    Meal.hasMany(models.MealMenu, {
+      foreignKey: 'mealId',
+      onDelete: 'CASCADE'
+    });
     Meal.belongsToMany(models.Menu, {
-      through: 'MealMenus',
+      through: 'MealMenu',
       foreignKey: 'mealId',
       as: 'Menus',
     });
     Meal.belongsToMany(models.Order, {
-      through: 'MealOrders',
+      through: 'MealOrder',
       foreignKey: 'mealId',
       as: 'Orders',
     });

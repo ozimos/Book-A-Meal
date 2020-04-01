@@ -10,7 +10,11 @@ class Controller {
    * @memberof Controller
    */
   constructor(Model) {
+    this.statusCode = 200;
+    this.message = "";
     this.Model = Model;
+    this.scope = "defaultScope";
+    this.options = {};
     this.postRecord = this.postRecord.bind(this);
     this.getSingleRecord = this.getSingleRecord.bind(this);
     this.getAllRecords = this.getAllRecords.bind(this);
@@ -18,6 +22,16 @@ class Controller {
     this.deleteRecord = this.deleteRecord.bind(this);
   }
 
+  /**
+   *
+   *
+   * @param {any} row
+   * @returns {obj} 
+   * @memberof Controller
+   */
+  transformer(row) {
+    return row
+  }
   /**
    *
    *
@@ -45,31 +59,20 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getAllRecords(
-    req,
-    res,
-    options = {},
-    scope = "defaultScope",
-    {
-      message = "no records available",
-      acceptCallback = () => true,
-      raw = false,
-      statusCode = 200
-    } = {}
-  ) {
+  getAllRecords(req, res) {
     let { offset = 0, limit = 8 } = req.query;
 
-    return this.Model.scope(scope)
-      .findAndCountAll({ ...options, limit, offset })
+    return this.Model.scope(this.scope)
+      .findAndCountAll({ ...this.options, limit, offset })
       .then(result => {
         const { count, rows } = result;
         const pages = Math.ceil(count / limit);
-        if (raw) return { limit, offset, pages, count, rows };
-        if ((rows && rows.length) || acceptCallback(rows)) {
-          return res.status(statusCode).json({
+        if (rows.length) {
+          return res.status(this.statusCode).json({
             data: { limit, offset, pages, count, rows }
           });
         }
+        const message = this.message || "no records available"
         return res.status(404).json({ message });
       })
       .catch(error => res.status(400).json({ message: error.message }));
@@ -83,11 +86,12 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getSingleRecord(req, res, options = {}) {
-    return this.Model.findByPk(req.params.id, options)
+  getSingleRecord(req, res) {
+    return this.Model.findByPk(req.params.id, this.options)
       .then(data => {
         if (!data) {
-          return res.status(404).json("no records available");
+        const message = this.message || "no records available"
+        return res.status(404).json({ message });
         }
         return res.status(200).json({ data });
       })
@@ -113,7 +117,8 @@ class Controller {
         if (count > 0) {
           return res.status(200).json({ data });
         }
-        return res.status(404).json("no records available");
+        const message = this.message || "no records available"
+        return res.status(404).json({message});
       })
       .catch(error => res.status(422).json({ message: error.message }));
   }
@@ -126,9 +131,9 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  deleteRecord(req, res, options = {}) {
+  deleteRecord(req, res) {
     return this.Model.destroy({
-      ...options,
+      ...this.options,
       where: { id: req.params.id }
     })
       .then(result => {

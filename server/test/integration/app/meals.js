@@ -22,8 +22,8 @@ const mealIdUrl = `${mealsUrl}/${defaultMeal.id}`;
 const meals = [defaultMeal, deletedMeal];
 context("meals integration test", () => {
   before("set up meals", async () => {
-    await db.Meal.truncate();
-    await db.User.truncate();
+    await db.Meal.truncate({cascade: true});
+    await db.User.truncate({cascade: true});
     await db.User.create(defaultCaterer);
     await db.Meal.bulkCreate(meals);
   });

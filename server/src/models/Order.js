@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     });
     Order.belongsToMany(models.Meal, {
-      through: 'MealOrders',
+      through: 'MealOrder',
       foreignKey: 'orderId',
       as: 'Meals',
     });

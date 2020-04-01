@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
     menuDate: {
       allowNull: false,
       type: DataTypes.DATEONLY,
-      defaultValue: new Date().setHours(0, 0, 0, 0, 0)
+      defaultValue: new Date()
     }
   });
 
@@ -24,6 +24,10 @@ export default (sequelize, DataTypes) => {
     Menu.belongsTo(models.User, {
       foreignKey: 'userId',
       unique: 'userTitle',
+      onDelete: 'CASCADE'
+    });
+    Menu.hasMany(models.MealMenu, {
+      foreignKey: 'menuId',
       onDelete: 'CASCADE'
     });
   };

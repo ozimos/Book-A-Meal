@@ -13,55 +13,43 @@ export default class MenuController extends Controller {
     super(Model);
     this.getMenu = this.getMenu.bind(this);
     this.postMenu = this.postMenu.bind(this);
-  }
-
-  /**
-   * get the menu
-   * @param {obj} req express request object
-   * @param {string} msg message
-   * @param {number} statusCode response status
-   * @returns {obj}
-   *
-   */
-
-  getMenuBase(req, res, msg, statusCode = 200) {
-  
-    const options = {
+    this.baseOptions = {
       subQuery: false,
       distinct: false,
       include: [
         {
           association: "Meals",
           required: true,
+          rejectOnError: true,
           through: {
             attributes: ["userId"]
           }
         }
       ]
     };
-   
+  }
 
-    return this.getAllRecords(req, res, options, scope, { raw: true })
-      .then(({ ...rest, rows }) => {
-        const newRows = [
-          {
-            Meals: []
-          }
-        ];
-        if (rows && rows.length) {
-          rows.forEach(row => {
-            newRows[0].Meals = [...newRows[0].Meals, ...row.dataValues.Meals];
-          });
-        }
-        if (!newRows[0].Meals.length && req?.body?.meals?.length) {
-          throw new Error('cannot build menu')
-        }
+  /**
+   *
+   *
+   * @param {any} row
+   * @returns {obj}
+   * @memberof MenuController
+   */
+  transformer(rows) {
+    const newRows = [
+      {
+        Meals: []
+      }
+    ];
+    if (rows.length) {
+      rows.forEach(row => newRows[0].Meals.push(row.dataValues.Meals));
+    }
+    if (!newRows[0].Meals.length) {
+      throw new Error("cannot build menu");
+    }
 
-        return  {
-            ...rest,
-            rows: newRows
-          };
-      })
+    return newRows;
   }
 
   /**
@@ -73,72 +61,23 @@ export default class MenuController extends Controller {
    *
    */
 
-  getMenu(req, res, msg, statusCode = 200) {
-    let scope;
-    const date = (req.query && req.query.date) || today;
-    const nextDate = addDays(date, 1);
+  getMenu(req, res) {
     const { userId, isCaterer } = req.decoded;
 
-    const options = {
-      subQuery: false,
-      distinct: false,
-      include: [
-        {
-          association: "Meals",
-          required: true,
-          where: isCaterer && { userId },
-          through: {
-            attributes: ["userId"]
-          }
-        }
-      ]
+    const date = (req.query && req.query.date) || today;
+    const nextDate = addDays(date, 1);
+    let where = {
+      menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
     };
-    let whereOptions;
-    // getMenu method is used by postMenu method
-    // postMenu inserts id into req body
-    if (req.body && req.body.id) {
-      whereOptions = { id: req.body.id };
-    } else {
-      whereOptions = {
-        menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
-      };
-    }
 
     if (isCaterer) {
-      whereOptions = { ...whereOptions, userId };
+      where.userId = userId;
     }
-    options.where = whereOptions;
-    const message = msg || "menu for the day has not been set";
-
-    return this.getAllRecords(req, res, options, scope, { raw: true })
-      .then(({ limit, offset, pages, count, rows }) => {
-        const newRows = [
-          {
-            Meals: []
-          }
-        ];
-        if (rows && rows.length) {
-          rows.forEach(row => {
-            newRows[0].Meals = [...newRows[0].Meals, ...row.dataValues.Meals];
-          });
-        }
-        const isEmptyMenu =
-          req.body && req.body.meals && !req.body.meals.length;
-        if (!newRows[0].Meals.length && !isEmptyMenu) {
-          return res.status(404).json({message});
-        }
-
-        return res.status(statusCode).json({
-          data: {
-            limit,
-            offset,
-            pages,
-            count,
-            rows: newRows
-          }
-        });
-      })
-      .catch(error => res.status(400).json({message: error.message}));
+    this.message = "menu for the day has not been set";
+    this.options = { ...this.baseOptions, where };
+    return this.getAllRecords(req, res).catch(error =>
+      res.status(400).json({ message: error.message })
+    );
   }
 
   /**
@@ -163,20 +102,21 @@ export default class MenuController extends Controller {
       }
     })
       .then(async ([menu]) => {
-        const req2 = { ...req };
-        req2.body.id = menu.id;
+        console.dir(menu.toJSON())
+
         try {
           await menu.setMeals(req.body.meals, { through: { userId } });
-          return req2;
         } catch (err) {
           throw new Error(err);
         }
+        return menu;
       })
-      .then(req2 => {
-        process.env.ORDER_START_HOUR = new Date().getHours();
-        process.env.ORDER_START_MINS = new Date().getMinutes();
-        return this.getMenu(req2, "Menu was not posted. Try again", 201);
+
+      .then((menu) => {
+        this.options = { ...this.baseOptions, where: { id: menu.id } };
+        this.statusCode = 201;
+        return this.getAllRecords(req, res);
       })
-      .catch(err => res.status(400).json({message: err.message}));
+      .catch(err => res.status(400).json({ message: err.message }));
   }
 }

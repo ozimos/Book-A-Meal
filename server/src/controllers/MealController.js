@@ -19,11 +19,11 @@ export default class MealController extends Controller {
    *
    */
   getMeals(req, res) {
-    const options = {
+    this.options = {
       where: { userId: req.decoded.userId },
       order: [["createdAt", "DESC"]]
     };
-    return this.getAllRecords(req, res, options).catch(error =>
+    return this.getAllRecords(req, res).catch(error =>
       res.status(400).json({ message: error.message })
     );
   }

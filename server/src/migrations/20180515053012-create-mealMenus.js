@@ -13,24 +13,38 @@ module.exports = {
       menuId: {
         type: Sequelize.UUID,
         allowNull: false
-      },
-      userId: {
-        type: Sequelize.UUID,
-        allowNull: false
       }
     });
     await queryInterface.addConstraint("MealMenus", ["mealId", "menuId"], {
       type: "unique",
       name: "mealMenu"
     });
-    await queryInterface.sequelize.query(`ALTER TABLE IF EXISTS MealMenus
-    ADD CONSTRAINT "MealMenus_Meals_fkey"
-    FOREIGN KEY (mealId, userId)
-    REFERENCES Meals(id, userId) ON DELETE CASCADE`);
-    await queryInterface.sequelize.query(`ALTER TABLE IF EXISTS MealMenus
-    ADD CONSTRAINT "MealMenus_Menus_fkey"
-    FOREIGN KEY (menuId, userId)
-    REFERENCES Menus(id, userId) ON DELETE CASCADE`);
+    await queryInterface.sequelize.query(`CREATE OR REPLACE FUNCTION mealmenufunc() RETURNS TRIGGER AS 
+    $logic$
+    BEGIN
+       SELECT userId AS menuUserId, menuDate FROM Menus WHERE id = NEW.menuId;
+       SELECT userId AS mealUserId FROM Meals WHERE id = NEW.menuId;
+       IF (menuUserId=mealUserId)  THEN
+            RAISE EXCEPTION "A caterer's meals cannot be added to a different caterer's menu";
+      END IF;
+      RETURN NEW;
+    END;
+    $logic$ 
+    LANGUAGE plpgsql;
+    CREATE OR REPLACE FUNCTION mealmenustatement() RETURNS TRIGGER AS 
+    $logic$
+    BEGIN
+      UPDATE Menus SET updatedAt = CURRENT_TIMESTAMP WHERE id = ;
+      RETURN NULL;
+    END;
+    $logic$ 
+    LANGUAGE plpgsql;
+    CREATE TRIGGER every_menu_meals 
+    BEFORE INSERT OR UPDATE OR DELETE OR TRUNCATE
+    ON MealMenus 
+    FOR EACH ROW EXECUTE PROCEDURE mealmenufunc();
+    CREATE TRIGGER menu_meals 
+    `);
   },
 
   down: queryInterface => queryInterface.dropTable("MealMenus")

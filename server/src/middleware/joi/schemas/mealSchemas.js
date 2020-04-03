@@ -11,6 +11,6 @@ const mealSchemas = Joi.object({
   description: defaultString,
   imageUrl: defaultString.uri(),
   price: Joi.number()
-});
+}).min(1);
 
 export default mealSchemas;

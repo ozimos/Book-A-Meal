@@ -1,8 +1,6 @@
 /* eslint import/no-extraneous-dependencies: off */
 import { expect } from "chai";
-import Joi from "@hapi/joi";
-import { joi } from "../../../src/middleware/joi";
-import { orderSchemas } from "../../../src/middleware/joi/schemas";
+import { orderValidator } from "../../../src/middleware/joi";
 
 context.only("orderSchemas validation", () => {
   const order = {
@@ -31,8 +29,9 @@ context.only("orderSchemas validation", () => {
 
   it("fails when meals field not in order", () => {
     const { meals, ...modified } = order;
-    const validation = () => Joi.attempt(modified, orderSchemas, joi);
-    expect(validation).to.throw('"meals" is required');
+    orderValidator({ body: modified }, {}, err => {
+      expect(err.error.name).to.equal("ValidationError");
+    });
   });
   const test = [
     {
@@ -72,22 +71,22 @@ context.only("orderSchemas validation", () => {
           }
         ]
       };
-      const validation = () =>
-        Joi.attempt(modified, orderSchemas, { ...joi, abortEarly: false });
-      expect(validation).to.throw();
+      orderValidator({ body: modified }, {}, err => {
+        expect(err.error.name).to.equal("ValidationError");
+      });
     });
   });
 
   it("fails for empty meals in order", () => {
     const modified = { meals: [] };
-    const validation = () => Joi.attempt(modified, orderSchemas, joi);
-    expect(validation).to.throw();
+    orderValidator({ body: modified }, {}, err => {
+      expect(err.error.name).to.equal("ValidationError");
+    });
   });
 
   it("succeeds with correct input", () => {
-    const modified = { ...order, volume: "high" };
-    expect(orderSchemas.validate(modified, joi)).to.deep.equal({
-      value: validatedOrder
-    });
+    const req = { body: { ...order, volume: "high" } };
+    orderValidator(req, {}, () => "done");
+    expect(req.body).to.deep.equal(validatedOrder);
   });
 });

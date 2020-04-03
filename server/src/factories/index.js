@@ -23,7 +23,7 @@ const userFactory = defaults => ({
   id: faker.random.uuid(),
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
-  email: faker.internet.email(),
+  email: faker.internet.email().toLowerCase(),
   password: hashPassword,
   isCaterer: true,
   ...defaults

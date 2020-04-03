@@ -1,62 +1,64 @@
 /* eslint import/no-extraneous-dependencies: off */
-import { assert } from "chai";
-import { userSchemas } from "../../../src/middleware/joi/schemas";
+import { expect } from "chai";
+import { userLoginValidator, userSignupValidator } from "../../../src/middleware/joi";
 
-describe("for POST requests on /api/v1/auth/signup, validation", () => {
-  // sample request body data
-  const postUserData = {
-    firstName: "Tovieye",
-    lastName: "Ozi",
-    email: "ad.min@gmail.com",
+import { userFactory } from "../../../testHelpers/appHelper";
+
+context.only("userSchemas validation", () => {
+
+  const { id, ...validatedUserData } = userFactory({
     password: "abc123",
+  });
+
+  const userData = {
+    ...validatedUserData,
     confirmPassword: "abc123",
-    isCaterer: true
+    email: validatedUserData.email.toUpperCase(),
+    extraKey: "yes"
   };
 
-  it("throws error when some required fields are not in request body", () => {
-    const modified = { ...postUserData };
-    delete modified.firstName;
-    const result = userSchemas.signup.validate(modified);
-
-    assert.notEqual(result.error, null, `Joi output: ${result.error}`);
+  const test = [
+    {
+      message: 'no firstName',
+      get user(){
+        const {firstName, ...rest} = userData
+        return rest
+      }
+    },
+    {
+      message: 'no email',
+      get user(){
+        const {email, ...rest} = userData
+        return rest
+      }
+    },
+    {
+      message: 'passwords not matching',
+      get user(){
+        return {...userData, password: 'wrong'}
+      }
+    },
+  ];
+  
+  test.forEach(elem => {
+    it(`fails test because ${elem.message}`, () => {
+      
+      userSignupValidator({ body: elem.user }, {}, err => {
+        expect(err.error.name).to.equal("ValidationError");
+      });
+    });
   });
 
-  it("throws error when unknown fields are in request body", () => {
-    const modified = { ...postUserData };
-    modified.volume = "high";
-    const result = userSchemas.signup.validate(modified);
-
-    assert.notEqual(result.error, null, `Joi output: ${result.error}`);
+  it("login succeeds with correct input", () => {
+    const req = { body: userData };
+    const {email, password} = validatedUserData
+    userLoginValidator(req, {}, () => "done");
+    expect(req.body).to.deep.equal({email, password});
   });
 
-  it("throws error for non matching passwords", () => {
-    const modified = { ...postUserData };
-    modified.password = "high";
-    const result = userSchemas.signup.validate(modified);
-
-    assert.equal(
-      `${result.error}`,
-      'ValidationError: child "password" fails because [passwords do not match]'
-    );
+  it("signup succeeds with correct input", () => {
+    const req = { body: userData };
+    userSignupValidator(req, {}, () => "done");
+    expect(req.body).to.deep.equal(validatedUserData);
   });
-
-  it("converts email to lowercase", () => {
-    const modified = { ...postUserData };
-    modified.email = "AD.MIN@gMaIL.com";
-    const result = userSchemas.signup.validate(modified);
-
-    assert.deepEqual(
-      result.value.email,
-      postUserData.email,
-      `Joi output: ${result.error}`
-    );
-  });
-  it(
-    "does not throw error when all required fields " + "are in request body",
-    () => {
-      const result = userSchemas.signup.validate(postUserData);
-
-      assert.equal(result.error, null, `Joi output: ${result.error}`);
-    }
-  );
 });

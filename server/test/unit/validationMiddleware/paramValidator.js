@@ -14,29 +14,30 @@ context("paramSchemas validation", () => {
       id: 3.5
     }
   ];
-  const item = {
+  const initParams = {
     id: "c848bf5c-27ab-4882-9e43-ffe178c82602"
   };
 
-  test.forEach(elem => {
-    it(`throws error for non-uuid ${typeof elem.id} parameter: ${
-      elem.id
+  test.forEach(params => {
+    it(`throws error for non-uuid ${typeof params.id} parameter: ${
+      params.id
     }`, () => {
-      const validation = () => Joi.attempt(elem, paramSchemas);
-      expect(validation).to.throw();
+      paramValidator({ params }, {}, err => {
+        expect(err.error.name).to.equal("ValidationError");
+      });
     });
   });
 
   it("throws error for unknown parameter ", () => {
-    const modified = { ...item, volume: "high" };
-
-    const validation = () => Joi.attempt(modified, paramSchemas);
-    expect(validation).to.throw();
+    const params = { ...initParams, volume: "high" };
+    paramValidator({ params }, {}, err => {
+      expect(err.error.name).to.equal("ValidationError");
+    });
   });
 
   it("does not throw error for uuid string parameter ", () => {
-    expect(paramSchemas.validate(item)).to.deep.equal({
-      value: item
-    });
+    const params = initParams;
+    paramValidator({ params }, {}, () => "done");
+    expect(params).to.deep.equal(initParams);
   });
 });

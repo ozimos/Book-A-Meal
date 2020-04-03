@@ -59,10 +59,6 @@ module.exports = {
         name: "userTitle"
       }
     );
-    await queryInterface.addConstraint("Meals", ["userId", "id"], {
-      type: "unique",
-      name: "mealUser"
-    });
   },
 
   down: queryInterface => queryInterface.dropTable("Meals")

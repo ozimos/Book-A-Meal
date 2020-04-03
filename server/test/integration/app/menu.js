@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   expect,
   tokenGenerator,
@@ -14,26 +13,32 @@ import app from "../../../src/app";
 import db from "../../../../server/src/models";
 
 const defaultCaterer = userFactory();
+const anotherCaterer = userFactory();
 const catererToken = tokenGenerator(defaultCaterer);
 const meals = Array.from({ length: 4 }, () => mealFactory(defaultCaterer));
+const otherMeals = Array.from({ length: 4 }, () => mealFactory(anotherCaterer));
 const mealsId = meals.map(meal => meal.id);
-
+const otherMealsId = otherMeals.map(meal => meal.id);
+const limit = 8;
+const offset = 0;
+const menuUrl = `${rootURL}/menu?offset=${offset}&limit=${limit}`;
 const menu = menuFactory(defaultCaterer);
-const mealMenus = mealMenuFactory(menu, meals);
+const mealMenu = mealMenuFactory(menu, meals);
 
 context.only("menu integration test", () => {
   before("set up menu db", async () => {
-    await db.MealMenus.truncate({cascade: true});
-    await db.Menu.truncate({cascade: true});
-    await db.Meal.truncate({cascade: true});
-    await db.User.truncate({cascade: true});
-    await db.User.create(defaultCaterer);
+    await db.MealMenu.truncate({ cascade: true });
+    await db.Menu.truncate({ cascade: true });
+    await db.Meal.truncate({ cascade: true });
+    await db.User.truncate({ cascade: true });
+    await db.User.bulkCreate([defaultCaterer, anotherCaterer]);
     await db.Meal.bulkCreate(meals);
+    await db.Meal.bulkCreate(otherMeals);
   });
 
   beforeEach("remove previous menu", async () => {
-    await db.MealMenus.truncate({cascade: true});
-    await db.Menu.truncate({cascade: true});
+    await db.MealMenu.truncate({ cascade: true });
+    await db.Menu.truncate({ cascade: true });
   });
 
   // Post Menu
@@ -42,14 +47,33 @@ context.only("menu integration test", () => {
       meals: mealsId
     };
 
-    it.only("should create a menu for today", () =>
+    it("should create a menu for today", () =>
       request(app)
-        .post(`${rootURL}/menu`)
+        .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
         .send(newMenu)
         .then(res => {
+          expect(res).to.have.status(201);
+          expect(res.body.data.rows[0]).to.have.property("id");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            pages: 1,
+            count: 4,
+            rows: [{ Meals: meals }]
+          });
+        }));
 
-          expect(res.body.data.rows[0].Meals[0].id).to.equal(menuMeal.id);
+    it("should not create a menu with another caterer's meals", () =>
+      request(app)
+        .post(menuUrl)
+        .set("authorization", `Bearer ${catererToken}`)
+        .send({
+          meals: otherMealsId
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("userId fields on meal and menu do not match");
         }));
   });
 
@@ -57,14 +81,22 @@ context.only("menu integration test", () => {
   describe("GET /menu", () => {
     beforeEach("set up menu meals", async () => {
       await db.Menu.create(menu);
-      await db.MealMenus.bulkCreate(mealMenus);
+      await db.MealMenu.bulkCreate(mealMenu);
     });
     it("should return the menu for today", () =>
       request(app)
-        .get(`${rootURL}/menu?offset=0&limit=8`)
+        .get(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
         .then(res => {
-          expect(res.body.data.rows[0].Meals).to.containSubset(meals);
+          expect(res).to.have.status(200);
+          expect(res.body.data.rows[0]).to.have.property("id");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            pages: 1,
+            count: 4,
+            rows: [{ Meals: meals }]
+          });
         }));
   });
 });

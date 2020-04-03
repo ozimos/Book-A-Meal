@@ -60,11 +60,9 @@ const mealMenuFactory = (menu, meals, min) => {
   const max = meals.length;
   const length = min ? getRandomInt(min, max) : max;
   return Array.from({ length }, (v, k) => ({
+    id: faker.random.uuid(),
     mealId: meals[k].id,
-    menuId: menu.id,
-    userId: menu.userId,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    menuId: menu.id
   }));
 };
 

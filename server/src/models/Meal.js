@@ -18,7 +18,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     tags: {
-      type: DataTypes.ARRAY(Sequelize.STRING),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
     price: {
@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
     paranoid: true,
     indexes: [{
       unique: true,
-      fields: ['title', 'deletedAt', 'userId'q]
+      fields: ['title', 'deletedAt', 'userId']
     }],
   });
 

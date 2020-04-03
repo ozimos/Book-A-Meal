@@ -39,12 +39,4 @@ describe('Integration Controller Meal AddMeal', () => {
     expect(response.data.price).to.equal(newBody.price);
 
   });
-
-  it('does create new meal', async () => {
-    const response = await mealController.addMeal({ decoded, body });
-
-    expect(response.data.title).to.equal(body.title);
-    expect(response.data.description).to.equal(body.description);
-    expect(response.data.price).to.equal(body.price);
-  });
 });

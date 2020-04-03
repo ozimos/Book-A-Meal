@@ -1,20 +1,18 @@
 // Dependencies
 import express from "express";
-import { createValidator } from "express-joi-validation";
 
 import MealController from "../controllers/MealController";
 import {
-  paramSchemas,
-  querySchemas,
-  mealSchemas
-} from "../middleware/joi/schemas";
-import { passError, joi } from "../middleware/joi/validationSettings";
+  paramValidator,
+  queryValidator,
+  updateMealValidator,
+  createMealValidator
+} from "../middleware/joi";
 
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
 const mealRouter = express.Router();
-const validator = createValidator({ passError });
 const mealController = new MealController(db.Meal);
 
 mealRouter
@@ -22,19 +20,14 @@ mealRouter
   .get(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.query(querySchemas, { joi }),
+    queryValidator,
     mealController.getMeals
   )
   .post(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.query(querySchemas, { joi }),
-    validator.body(mealSchemas, {
-      joi: {
-        presence: "required",
-        ...joi
-      }
-    }),
+    queryValidator,
+    createMealValidator,
     mealController.addMeal
   );
 
@@ -43,23 +36,23 @@ mealRouter
   .get(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchemas, { joi }),
-    validator.query(querySchemas, { joi }),
+    paramValidator,
+    queryValidator,
     mealController.getSingleRecord
   )
   .put(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchemas, { joi }),
-    validator.query(querySchemas, { joi }),
-    validator.body(mealSchemas, { joi }),
+    paramValidator,
+    queryValidator,
+    updateMealValidator,
     mealController.updateRecord
   )
   .delete(
     Authenticate.isUser,
     Authenticate.isAdmin,
-    validator.params(paramSchemas, { joi }),
-    validator.query(querySchemas, { joi }),
+    paramValidator,
+    queryValidator,
     mealController.deleteRecord
   );
 

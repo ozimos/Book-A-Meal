@@ -13,20 +13,6 @@ describe('Integration Controller Post Menu', () => {
     meals: [defaultMeal3.id, defaultMeal4.id]
   };
 
-  it('postMenu returns error message if meal is not in db', async () => {
-    const phantomMealId = '91bf8437-b2f3-4e2b-a8ac-d86fd643dfb7';
-
-    const req = {
-      body: {
-        meals: [phantomMealId]
-      },
-      decoded: { userId: defaultUser.id }
-    };
-    const response = await menuController.postMenu(req);
-
-    expect(response.message).to.be.a('string');
-    expect(response.statusCode).to.equal(400);
-  });
   it('postMenu sets the environment variables', async () => {
 
     const hour = new Date().getHours();

@@ -62,7 +62,7 @@ export default class MenuController extends Controller {
   getMenu(req, res) {
     const { userId, isCaterer } = req.decoded;
 
-    const date = (req.query && req.query.date) || today;
+    const date = (req.body && req.body.menuDate) || today;
     const nextDate = addDays(date, 1);
     let where = {
       menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
@@ -88,7 +88,7 @@ export default class MenuController extends Controller {
 
   postMenu(req, res) {
     const { userId } = req.decoded;
-    const date = (req.query && req.query.date) || today;
+    const date = (req.body && req.body.menuDate) || today;
     const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {

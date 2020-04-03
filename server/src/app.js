@@ -2,16 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
-import {
-  config
-} from 'dotenv';
-
 import swaggerDocument from './swagger.json';
 import routers from './routes';
 import validationErrors from './middleware/validationErrors';
 
 
-config();
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());

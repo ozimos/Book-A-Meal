@@ -8,10 +8,9 @@ export function isBeforeCutoff(menuDate) {
     0,
     0
   );
-
   if (menuCutOffTime - new Date() < 0) {
     throw new Error(
-      `Menu cannot be set after ${menuCutOffHour}:${menuCutOffMinute} Hours`
+      `Menu for today cannot be set after ${menuCutOffHour}:${menuCutOffMinute} Hours`
     );
   }
 }

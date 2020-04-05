@@ -10,20 +10,20 @@ import {
 
 const validator = createValidator({ passError: true });
 
-export const joi = {
+export const options = {
   joi: {
     stripUnknown: true,
     allowUnknown: true,
     abortEarly: false
   }
 };
-export const queryValidator = validator.query(querySchemas, joi);
+export const queryValidator = validator.query(querySchemas, options);
 export const paramValidator = validator.params(paramSchemas);
-export const orderValidator = validator.body(orderSchemas, joi);
-export const menuValidator = validator.body(menuSchemas, joi);
-export const updateMealValidator = validator.body(mealSchemas, joi);
+export const orderValidator = validator.body(orderSchemas, options);
+export const menuValidator = validator.body(menuSchemas, options);
+export const updateMealValidator = validator.body(mealSchemas, options);
 export const createMealValidator = validator.body(mealSchemas, {
-  joi: { presence: "required", ...joi.joi }
+  joi: { presence: "required", ...options.joi }
 });
-export const userLoginValidator = validator.body(userSchemas.login, joi);
-export const userSignupValidator = validator.body(userSchemas.signup, joi);
+export const userLoginValidator = validator.body(userSchemas.login, options);
+export const userSignupValidator = validator.body(userSchemas.signup, options);

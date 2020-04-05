@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import path from "path";
 import addDays from "date-fns/addDays";
+import formatISO from "date-fns/formatISO";
 
 import {
   expect,
@@ -27,6 +28,9 @@ const offset = 0;
 const menuUrl = `${rootURL}/menu?offset=${offset}&limit=${limit}`;
 const menu = menuFactory(defaultCaterer);
 const mealMenu = mealMenuFactory(menu, meals);
+const today = new Date().setHours(0, 0, 0, 0, 0);
+const menuDate = formatISO(addDays(today, 1));
+const menuDateURI = encodeURIComponent(menuDate)
 
 context("menu integration test", () => {
   before("set up menu db", async () => {
@@ -80,6 +84,46 @@ context("menu integration test", () => {
             "userId fields on meal and menu do not match"
           );
         }));
+
+    it("should not create a menu with empty meals", () =>
+      request(app)
+        .post(menuUrl)
+        .set("authorization", `Bearer ${catererToken}`)
+        .send({
+          meals: []
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.deep.equal(
+            {meals:  "\"meals\" does not contain 1 required value(s)"}
+          );
+        }));
+
+    it("should not create a menu without meals", () =>
+      request(app)
+        .post(menuUrl)
+        .set("authorization", `Bearer ${catererToken}`)
+        .send({})
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.deep.equal(
+            {meals: "\"meals\" is required"}
+          );
+        }));
+
+    it("should not create a menu with wrong meal ids", () =>
+      request(app)
+        .post(menuUrl)
+        .set("authorization", `Bearer ${catererToken}`)
+        .send({
+          meals: [mealsId[0], mealsId[0], 'wrong']
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.deep.equal(
+            {meals: "\"meals[1]\" contains a duplicate value"}
+          );
+        }));
   });
 
   describe("POST /menu timing", () => {
@@ -94,10 +138,6 @@ context("menu integration test", () => {
       config({ path: path.resolve(process.cwd(), ".env.test") });
     });
 
-    const today = new Date().setHours(0, 0, 0, 0, 0);
-
-    const menuDate = addDays(today, 1);
-
     it("should not create a menu for current day after the cutoff time", () =>
       request(app)
         .post(menuUrl)
@@ -106,15 +146,15 @@ context("menu integration test", () => {
         .then(res => {
           expect(res).to.have.status(400);
           expect(res.body.message).to.equal(
-            "Validation error: Menu cannot be set after 0:0 Hours"
+            "Validation error: Menu for today cannot be set after 0:0 Hours"
           );
         }));
 
-    it("should create a menu for a subsequent day after the cutoff time", () =>
-      request(app)
-        .post(menuUrl)
+    it("should create a menu for any subsequent days regardless of the cutoff time", () => {
+      return request(app)
+        .post(`${menuUrl}&date=${menuDateURI}`)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({ menuDate, meals: mealsId })
+        .send({ meals: mealsId })
         .then(res => {
           expect(res).to.have.status(201);
           expect(res.body.data.rows[0]).to.have.property("id");
@@ -125,14 +165,17 @@ context("menu integration test", () => {
             count: 4,
             rows: [{ Meals: meals }]
           });
-        }));
+        });
+    });
   });
 
   // Get  Menu
   describe("GET /menu", () => {
+    const tomorrowMenu = menuFactory(defaultCaterer, {menuDate});
+    const tomorrowMealMenu = mealMenuFactory(tomorrowMenu, meals);
     beforeEach("set up menu meals", async () => {
-      await db.Menu.create(menu);
-      await db.MealMenu.bulkCreate(mealMenu);
+      await db.Menu.bulkCreate([menu, tomorrowMenu]);
+      await db.MealMenu.bulkCreate(mealMenu.concat(tomorrowMealMenu));
     });
     it("should return the menu for today", () =>
       request(app)
@@ -140,7 +183,20 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.data.rows[0]).to.have.property("id");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            pages: 1,
+            count: 4,
+            rows: [{ Meals: meals }]
+          });
+        }));
+    it("should return the menu for tomorrow", () =>
+      request(app)
+        .get(`${menuUrl}&date=${menuDateURI}`)
+        .set("authorization", `Bearer ${catererToken}`)
+        .then(res => {
+          expect(res).to.have.status(200);
           expect(res.body.data).to.containSubset({
             limit,
             offset,

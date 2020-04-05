@@ -1,11 +1,18 @@
+import { ValidationError } from "sequelize";
 const validationErrors = (err, req, res, next) => {
   if (err.error && err.error.isJoi) {
     const message = {};
     err.error.details.forEach(elem => {
-      message[elem.path[0]] = elem.message;
+      const key = elem.path[0] || 'error'
+      message[key] = elem.message;
     });
-    res.status(400).json({
+    return res.status(400).json({
       message
+    });
+  } else if (err instanceof ValidationError) {
+    const error = err.original || err.parent || err;
+    return res.status(422).json({
+      message: error.message
     });
   } else next(err);
 };

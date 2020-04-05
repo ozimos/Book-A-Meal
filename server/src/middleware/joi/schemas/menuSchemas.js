@@ -11,7 +11,6 @@ const menuSchemas = Joi.object({
         .required()
     )
     .required(),
-  menuDate: Joi.date().iso()
 });
 
 export default menuSchemas;

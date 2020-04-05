@@ -59,10 +59,10 @@ export default class MenuController extends Controller {
    *
    */
 
-  getMenu(req, res) {
+  getMenu(req, res, next) {
     const { userId, isCaterer } = req.decoded;
 
-    const date = (req.body && req.body.menuDate) || today;
+    const date = (req.query && req.query.date) || today;
     const nextDate = addDays(date, 1);
     let where = {
       menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
@@ -74,7 +74,7 @@ export default class MenuController extends Controller {
     this.statusCode = 200;
     this.message = "menu for the day has not been set";
     this.options = { ...this.baseOptions, where };
-    return this.getAllRecords(req, res).catch(error =>
+    return this.getAllRecords(req, res, next).catch(error =>
       res.status(400).json({ message: error.message })
     );
   }
@@ -86,9 +86,9 @@ export default class MenuController extends Controller {
    *
    */
 
-  postMenu(req, res) {
+  postMenu(req, res, next) {
     const { userId } = req.decoded;
-    const date = (req.body && req.body.menuDate) || today;
+    const date = (req.query && req.query.date) || today;
     const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {
@@ -107,7 +107,7 @@ export default class MenuController extends Controller {
       .then(menu => {
         this.options = { ...this.baseOptions, where: { id: menu.id } };
         this.statusCode = 201;
-        return this.getAllRecords(req, res);
+        return this.getAllRecords(req, res, next);
       })
       .catch(err => res.status(400).json({ message: err.message }));
   }

@@ -51,14 +51,11 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint(
-      "Meals",
-      ["title", "deletedAt", "userId"],
-      {
-        type: "unique",
-        name: "userTitle"
-      }
-    );
+   await queryInterface.sequelize.query(
+      `CREATE UNIQUE INDEX "userTitle3" ON "Meals" ("title", "deletedAt", "userId")
+        WHERE "deletedAt" IS NOT NULL;
+      CREATE UNIQUE INDEX "userTitle2" ON "Meals" ("title", "userId")
+      WHERE "deletedAt" IS NULL;`);
   },
 
   down: queryInterface => queryInterface.dropTable("Meals")

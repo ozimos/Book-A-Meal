@@ -17,7 +17,7 @@ const newUser = userFactory({
 });
 const defaultUser = userFactory({ password });
 
-describe.only("Routes Users", () => {
+describe("Routes Users", () => {
   before("set up users", async () => {
     await db.User.truncate({ cascade: true });
     await db.User.create(defaultUser);
@@ -73,7 +73,7 @@ describe.only("Routes Users", () => {
     });
   });
 
-  describe.only("POST /auth/login", () => {
+  describe("POST /auth/login", () => {
     const logInUrl = `${rootURL}/auth/login`;
 
     const credentials = {

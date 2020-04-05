@@ -18,12 +18,12 @@ export default class MealController extends Controller {
    * @returns {obj}
    *
    */
-  getMeals(req, res) {
+  getMeals(req, res, next) {
     this.options = {
       where: { userId: req.decoded.userId },
       order: [["createdAt", "DESC"]]
     };
-    return this.getAllRecords(req, res).catch(error =>
+    return this.getAllRecords(req, res, next).catch(error =>
       res.status(400).json({ message: error.message })
     );
   }
@@ -34,10 +34,9 @@ export default class MealController extends Controller {
    * @returns {obj}
    *
    */
-  addMeal(req, res) {
+  addMeal(req, res, next) {
     req.body.userId = req.decoded.userId;
-    req.body.deletedAt = new Date(2100, 0);
-    return this.postRecord(req, res).catch(error =>
+    return this.postRecord(req, res, next).catch(error =>
       res.status(400).json({ message: error.message })
     );
   }

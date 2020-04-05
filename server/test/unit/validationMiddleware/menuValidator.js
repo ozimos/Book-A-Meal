@@ -8,7 +8,6 @@ context("menuSchemas validation", () => {
       "db5e4fa9-d4df-4352-a2e4-bc57f6b68e9b",
       "974f67bd-6e3d-4338-a916-fd837ce1a753"
     ],
-    menuDate: new Date()
   };
 
   it("fails when meals field not in menu", () => {

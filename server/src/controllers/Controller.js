@@ -26,11 +26,11 @@ class Controller {
    *
    *
    * @param {any} row
-   * @returns {obj} 
+   * @returns {obj}
    * @memberof Controller
    */
   transformer(row) {
-    return row
+    return row;
   }
   /**
    *
@@ -40,10 +40,10 @@ class Controller {
    * @returns {obj} HTTP Response
    * @memberof Controller
    */
-  postRecord(req, res) {
+  postRecord(req, res, next) {
     return this.Model.create(req.body)
       .then(data => res.status(201).json({ data }))
-      .catch(error => res.status(400).json({ message: error.message }));
+      .catch(error => next(error));
   }
 
   /**
@@ -59,7 +59,7 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getAllRecords(req, res) {
+  getAllRecords(req, res, next) {
     let { offset = 0, limit = 8 } = req.query;
 
     return this.Model.scope(this.scope)
@@ -72,10 +72,10 @@ class Controller {
             data: { limit, offset, pages, count, rows }
           });
         }
-        const message = this.message || "no records available"
+        const message = this.message || "no records available";
         return res.status(404).json({ message });
       })
-      .catch(error => res.status(400).json({ message: error.message }));
+      .catch(error => next(error));
   }
 
   /**
@@ -86,16 +86,16 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getSingleRecord(req, res) {
+  getSingleRecord(req, res, next) {
     return this.Model.findByPk(req.params.id, this.options)
       .then(data => {
         if (!data) {
-        const message = this.message || "no records available"
-        return res.status(404).json({ message });
+          const message = this.message || "no records available";
+          return res.status(404).json({ message });
         }
         return res.status(200).json({ data });
       })
-      .catch(error => res.status(400).json({ message: error.message }));
+      .catch(error => next(error));
   }
 
   /**
@@ -106,7 +106,7 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  updateRecord(req, res) {
+  updateRecord(req, res, next) {
     return this.Model.update(req.body, {
       where: {
         id: req.params.id
@@ -117,10 +117,10 @@ class Controller {
         if (count > 0) {
           return res.status(200).json({ data });
         }
-        const message = this.message || "no records available"
-        return res.status(404).json({message});
+        const message = this.message || "no records available";
+        return res.status(404).json({ message });
       })
-      .catch(error => res.status(422).json({ message: error.message }));
+      .catch(error => next(error));
   }
 
   /**
@@ -131,7 +131,7 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  deleteRecord(req, res) {
+  deleteRecord(req, res, next) {
     return this.Model.destroy({
       ...this.options,
       where: { id: req.params.id }
@@ -142,7 +142,7 @@ class Controller {
         }
         return res.status(404).json({ message: "record was not deleted" });
       })
-      .catch(error => res.status(400).json({ message: error.message }));
+      .catch(error => next(error));
   }
 }
 

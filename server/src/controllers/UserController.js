@@ -17,6 +17,7 @@ class UserController extends Controller {
     super(Model);
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
+    this.sendResponseWithToken = this.sendResponseWithToken.bind(this);
   }
 
   /**
@@ -37,23 +38,23 @@ class UserController extends Controller {
       .then(response => {
         if (!response) {
           return res.status(404).json({
-            data: {
-              password: "Incorrect email or password"
+            message: {
+              login: "Incorrect email or password"
             }
           });
         }
-        // check if password is correct
         const isCorrectPassword = bcrypt.compareSync(
           req.body.password,
           response.password
         );
 
         if (isCorrectPassword) {
-          return UserController.sendResponseWithToken(res, response);
+          this.message = "Login Successful";
+          return this.sendResponseWithToken(res, response.toJSON());
         }
         return res.status(400).json({
-          data: {
-            password: "Incorrect email or password"
+          message: {
+            login: "Incorrect email or password"
           }
         });
       })
@@ -69,7 +70,6 @@ class UserController extends Controller {
    */
   signUp(req, res) {
     const { email, ...rest } = req.body;
-    // check if email is available
     return this.Model.findOrCreate({
       where: {
         email
@@ -83,12 +83,9 @@ class UserController extends Controller {
             email: "Email is not available"
           });
         }
-        return UserController.sendResponseWithToken(
-          res,
-          data,
-          "Signup Successful, ",
-          201
-        );
+        this.message = "Signup Successful";
+        this.statusCode = 201;
+        return this.sendResponseWithToken(res, data.toJSON());
       })
       .catch(error => res.status(400).json(error.message));
   }
@@ -101,20 +98,19 @@ class UserController extends Controller {
    * @returns {obj} HTTP Response
    * @memberof UserController
    */
-  static sendResponseWithToken(res, user, extraMessage = "", code = 200) {
-    const userData = user.dataValues ? { ...user.dataValues } : user;
+   sendResponseWithToken(res, user) {
+    const { isCaterer, userId, firstName } = user;
     const payload = {
-      isCaterer: data.isCaterer,
-      userId: data.id,
-      firstName: data.firstName
+      isCaterer,
+      userId,
+      firstName
     };
-    const { password, ...data } = userData;
+    const { password, ...data } = user;
     const token = jwt.sign(payload, process.env.TOKEN_PASSWORD, {
-      expiresIn: "6h"
+      expiresIn: process.env.TOKEN_EXPIRY || "6h"
     });
     if (token) {
-      const message = `${extraMessage}Login Successful`;
-      return res.status(code).json({ data, message, token });
+      return res.status(this.statusCode).json({ data, message: this.message, token });
     }
   }
 }

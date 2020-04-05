@@ -1,4 +1,4 @@
-import Joi, {ValidationError} from "@hapi/joi";
+import Joi, { ValidationError } from "@hapi/joi";
 
 const defaultString = Joi.string()
   .trim()
@@ -17,10 +17,13 @@ const signup = Joi.object({
   firstName: defaultString.required(),
   lastName: defaultString.required(),
   email,
-  password: Joi.any()
-    .valid(Joi.ref("confirmPassword"))
-    .error(new ValidationError("passwords do not match")),
-  confirmPassword: defaultString.strip().required(),
+  password: defaultString.required(),
+  confirmPassword: Joi.any().strip()
+    .valid(Joi.ref("password"))
+    .required()
+    .messages({'any.only': "passwords do not match"}),
+    // .error(new ValidationError("passwords do not match"))
+  
   isCaterer: Joi.boolean().default(false)
 });
 

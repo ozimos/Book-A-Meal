@@ -1,7 +1,7 @@
 /* eslint import/no-extraneous-dependencies: off */
 import chai from "chai";
 import chaiHttp from "chai-http";
-import chaiSubset from "chai-subset"
+import chaiSubset from "chai-subset";
 import jwt from "jsonwebtoken";
 
 import app from "../src/app";
@@ -87,6 +87,20 @@ export const douglasCatererToken = jwt.sign(
     expiresIn: "1h"
   }
 );
+
+export function getUserInfo(user, extraProp) {
+  const { firstName, lastName, isCaterer, email } = user;
+  const value = {
+    firstName,
+    lastName,
+    isCaterer,
+    email
+  };
+  if (extraProp && user[extraProp]) {
+    value[extraProp] = user[extraProp];
+  }
+  return value;
+}
 
 export const customerToken = jwt.sign(
   payloadCustomer,

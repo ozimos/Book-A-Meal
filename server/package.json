@@ -5,7 +5,7 @@
         "node": ">=13.7.0"
     },
     "scripts": {
-        "start:dev": "dotenv -e .env -e .env.dev -- nodemon --inspect . -r esm --harmony ./src/app.js",
+        "start:dev": "dotenv -e .env -e .env.dev -- nodemon -r esm --harmony ./src/app.js",
         "start:prod": "yarn node -r esm --harmony ./src/app.js",
         "start:babel": "dotenv nodemon --watch . --exec babel-node ./src/app.js",
         "build:.": "babel ./src -d ./lib --copy-files",

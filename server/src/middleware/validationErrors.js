@@ -1,9 +1,11 @@
 const validationErrors = (err, req, res, next) => {
-
   if (err.error && err.error.isJoi) {
-    const key = err.error.details[0].path[0];
+    const message = {};
+    err.error.details.forEach(elem => {
+      message[elem.path[0]] = elem.message;
+    });
     res.status(400).json({
-      message: { [key]: err.error.details[0].message }
+      message
     });
   } else next(err);
 };

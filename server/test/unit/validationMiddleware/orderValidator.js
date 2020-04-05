@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import { orderValidator } from "../../../src/middleware/joi";
 
-context.only("orderSchemas validation", () => {
+context("orderSchemas validation", () => {
   const order = {
     meals: [
       {

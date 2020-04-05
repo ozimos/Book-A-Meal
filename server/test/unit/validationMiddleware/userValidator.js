@@ -4,7 +4,7 @@ import { userLoginValidator, userSignupValidator } from "../../../src/middleware
 
 import { userFactory } from "../../../testHelpers/appHelper";
 
-context.only("userSchemas validation", () => {
+context("userSchemas validation", () => {
 
   const { id, ...validatedUserData } = userFactory({
     password: "abc123",

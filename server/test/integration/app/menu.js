@@ -30,9 +30,9 @@ const menu = menuFactory(defaultCaterer);
 const mealMenu = mealMenuFactory(menu, meals);
 const today = new Date().setHours(0, 0, 0, 0, 0);
 const menuDate = formatISO(addDays(today, 1));
-const menuDateURI = encodeURIComponent(menuDate)
+const menuDateURI = encodeURIComponent(menuDate);
 
-context("menu integration test", () => {
+context.only("menu integration test", () => {
   before("set up menu db", async () => {
     await db.MealMenu.truncate({ cascade: true });
     await db.Menu.truncate({ cascade: true });
@@ -58,7 +58,7 @@ context("menu integration test", () => {
       request(app)
         .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
-        .send(newMenu)
+        .send(mealsId)
         .then(res => {
           expect(res).to.have.status(201);
           expect(res.body.data.rows[0]).to.have.property("id");
@@ -75,9 +75,7 @@ context("menu integration test", () => {
       request(app)
         .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({
-          meals: otherMealsId
-        })
+        .send(otherMealsId)
         .then(res => {
           expect(res).to.have.status(400);
           expect(res.body.message).to.equal(
@@ -85,44 +83,29 @@ context("menu integration test", () => {
           );
         }));
 
-    it("should not create a menu with empty meals", () =>
-      request(app)
-        .post(menuUrl)
-        .set("authorization", `Bearer ${catererToken}`)
-        .send({
-          meals: []
-        })
-        .then(res => {
-          expect(res).to.have.status(400);
-          expect(res.body.message).to.deep.equal(
-            {meals:  "\"meals\" does not contain 1 required value(s)"}
-          );
-        }));
-
     it("should not create a menu without meals", () =>
       request(app)
         .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({})
+        .send([])
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res.body.message).to.deep.equal(
-            {meals: "\"meals\" is required"}
-          );
+          expect(res.body.message).to.deep.equal({
+            error: '"value" does not contain 1 required value(s)'
+          });
         }));
 
     it("should not create a menu with wrong meal ids", () =>
       request(app)
         .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({
-          meals: [mealsId[0], mealsId[0], 'wrong']
-        })
+        .send([mealsId[0], mealsId[0], "wrong"])
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res.body.message).to.deep.equal(
-            {meals: "\"meals[1]\" contains a duplicate value"}
-          );
+          expect(res.body.message).to.deep.equal({
+            "1": '"[1]" contains a duplicate value',
+            "2": '"[2]" must be a valid GUID'
+          });
         }));
   });
 
@@ -142,7 +125,7 @@ context("menu integration test", () => {
       request(app)
         .post(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({ meals: mealsId })
+        .send(mealsId)
         .then(res => {
           expect(res).to.have.status(400);
           expect(res.body.message).to.equal(
@@ -154,7 +137,7 @@ context("menu integration test", () => {
       return request(app)
         .post(`${menuUrl}&date=${menuDateURI}`)
         .set("authorization", `Bearer ${catererToken}`)
-        .send({ meals: mealsId })
+        .send(mealsId)
         .then(res => {
           expect(res).to.have.status(201);
           expect(res.body.data.rows[0]).to.have.property("id");
@@ -171,7 +154,7 @@ context("menu integration test", () => {
 
   // Get  Menu
   describe("GET /menu", () => {
-    const tomorrowMenu = menuFactory(defaultCaterer, {menuDate});
+    const tomorrowMenu = menuFactory(defaultCaterer, { menuDate });
     const tomorrowMealMenu = mealMenuFactory(tomorrowMenu, meals);
     beforeEach("set up menu meals", async () => {
       await db.Menu.bulkCreate([menu, tomorrowMenu]);

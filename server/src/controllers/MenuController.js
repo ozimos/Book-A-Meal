@@ -101,7 +101,7 @@ export default class MenuController extends Controller {
       }
     })
       .then(async ([menu]) => {
-        await menu.setMeals(req.body.meals);
+        await menu.setMeals(req.body);
         return menu;
       })
       .then(menu => {

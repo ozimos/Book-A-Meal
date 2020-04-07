@@ -99,7 +99,7 @@ class UserController extends Controller {
    * @memberof UserController
    */
    sendResponseWithToken(res, user) {
-    const { isCaterer, userId, firstName } = user;
+    const { isCaterer, id: userId, firstName, email } = user;
     const payload = {
       isCaterer,
       userId,

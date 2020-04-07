@@ -33,7 +33,9 @@ export default class OrderController extends Controller {
       include: [
         {
           association: "Meals",
-          duplicating: false,
+          // right: true,
+          required: true,
+          where: {},
           paranoid: false,
           attributes: [
             [
@@ -50,7 +52,6 @@ export default class OrderController extends Controller {
           },
         },
         {
-          duplicating: false,
           association: "User",
           attributes: ["firstName", "lastName", "email"],
         },
@@ -172,7 +173,8 @@ export default class OrderController extends Controller {
   getOrdersWithLinks(req, res, next) {
     const { userId, isCaterer } = req.decoded;
     if (isCaterer && req.query.caterer) {
-      this.options.include[0].where.userId = userId;
+      // this.options.include[0].where.userId = userId;
+      this.options.where['$Meals.userId$'] = userId
     } else {
       this.options.where.userId = userId;
     }

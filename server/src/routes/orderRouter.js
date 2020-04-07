@@ -16,7 +16,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     queryValidator,
-    orderController.getOrdersWithMealLinks
+    orderController.getOrdersWithLinksByDate
   )
   .post(
     Authenticate.isUser,
@@ -27,15 +27,7 @@ orderRouter
   );
 
 orderRouter
-  .route("/date/:date?")
-  .get(
-    Authenticate.isUser,
-    paramValidator,
-    orderController.getOrdersWithMealLinksByDate
-  );
-
-orderRouter
-  .route("/total/date")
+  .route("/total")
   .get(Authenticate.isUser, queryValidator, orderController.getTotalDaySales);
 
 orderRouter
@@ -47,8 +39,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     paramValidator,
-    OrderController.orderClose,
-    orderController.getSingleOrder
+    orderController.getOrderWithLinks
   )
   .put(
     Authenticate.isUser,
@@ -66,13 +57,5 @@ orderRouter
     orderController.deleteOrder
   );
 
-orderRouter
-  .route("/:id/meals")
-  .get(
-    Authenticate.isUser,
-    paramValidator,
-    queryValidator,
-    orderController.getMealsInOrder
-  );
 
 export default orderRouter;

@@ -7,7 +7,9 @@ const querySchemas = Joi.object({
   offset: Joi.number()
     .integer()
     .min(0),
-  date: Joi.date().iso()
+  date: [Joi.date().iso(), Joi.any().valid('all')],
+  end: Joi.date().iso(),
+  caterer: Joi.boolean()
 });
 
 export default querySchemas;

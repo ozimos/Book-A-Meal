@@ -25,12 +25,12 @@ class Controller {
   /**
    *
    *
-   * @param {any} row
+   * @param {any} response
    * @returns {obj}
    * @memberof Controller
    */
-  transformer(row) {
-    return row;
+  transformer(response) {
+    return response;
   }
   /**
    *
@@ -67,9 +67,9 @@ class Controller {
       .then(result => {
         const { count, rows } = result;
         const pages = Math.ceil(count / limit);
-        if (rows.length) {
+        if (rows && rows.length) {
           return res.status(this.statusCode).json({
-            data: { limit, offset, pages, count, rows }
+            data: this.transformer({ limit, offset, pages, count, rows })
           });
         }
         const message = this.message || "no records available";

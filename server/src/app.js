@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 
 app.use('/api/v1/meals', routers.mealRouter);
 app.use('/api/v1/menu', routers.menuRouter);
-// app.use('/api/v1/orders', routers.orderRouter);
+app.use('/api/v1/orders', routers.orderRouter);
 app.use('/api/v1/auth', routers.authRouter);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

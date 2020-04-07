@@ -1,199 +1,163 @@
-
 import {
   expect,
   request,
   rootURL,
-  tovieyeCatererToken,
-  defaultMeal,
-  defaultOrders,
-  defaultMealOrders
-} from '../../../testHelpers/appHelper';
-import app from '../../../src/app';
-import db from '../../../src/models';
+  tokenGenerator,
+  userFactory,
+  mealFactory,
+  getRandomInt,
+  orderFactory,
+  mealOrderFactory,
+} from "../../../testHelpers/appHelper";
+import app from "../../../src/app";
+import db from "../../../src/models";
 
+const limit = 5;
+const offset = 0;
 const ordersUrl = `${rootURL}/orders`;
-const getOrdersUrl = `${rootURL}/orders?offset=0&limit=5`;
-
-describe('orders integration test', () => {
-
-  const newOrder = {
-    meals: [{
-      id: defaultMeal.id,
-      quantity: 2
-    }]
-  };
-
-  // Get All Orders
-  describe('GET /orders', () => {
-
-    it(
-      'should return error message if no orders',
-      () => request(app).get(getOrdersUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
-        .then((res) => {
-          expect(res).to.have.status(404);
-          expect(res.body.message).to.equal('no records available');
-        })
-    );
+const getOrdersUrl = `${rootURL}/orders?offset=${offset}&limit=${limit}`;
+const defaultCaterer = userFactory();
+const anotherCaterer = userFactory();
+const notCaterer = userFactory({ isCaterer: false });
+const catererToken = tokenGenerator(defaultCaterer);
+const meals = Array.from({ length: 4 }, () => mealFactory(defaultCaterer));
+const otherMeals = Array.from({ length: 4 }, () => mealFactory(anotherCaterer));
+const order = orderFactory(notCaterer);
+const mealOrders = mealOrderFactory(order, meals.concat(otherMeals), 4);
+describe.only("orders integration test", () => {
+  before("before set up order db", async () => {
+    await db.Meal.truncate({ cascade: true });
+    await db.User.truncate({ cascade: true });
+    await db.User.bulkCreate([defaultCaterer, anotherCaterer, notCaterer]);
+    await db.Meal.bulkCreate(meals.concat(otherMeals));
   });
-
-  // Get All Orders for current user by date
-  describe('GET /orders/date/:date', () => {
-
-    it(
-      'should return error message if no orders',
-      () => request(app).get(`${ordersUrl}/date`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
+  beforeEach("set up order db", async () => {
+    await db.MealOrder.truncate({ cascade: true });
+    await db.Order.truncate({ cascade: true });
+  });
+  describe("GET should return error message if no orders", () => {
+    it("/orders", () =>
+      request(app)
+        .get(getOrdersUrl)
+        .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
           expect(res).to.have.status(404);
-          expect(res.body.message).to.equal('no records available');
-        })
-    );
+          expect(res.body.message).to.equal("no records available");
+        }));
+    it("/orders?date=all", () =>
+      request(app)
+        .get(`${getOrdersUrl}?date=all`)
+        .set("authorization", `JWT ${catererToken}`)
+        .then((res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.message).to.equal("no records available");
+        }));
   });
 
   // Create An Order
-  describe('POST /orders', () => {
-
-    it('should create an order', () => request(app).post(ordersUrl)
-      .set('authorization', `JWT ${tovieyeCatererToken}`).send(newOrder)
-      .then((res) => {
-        expect(res).to.have.status(201);
-      }));
+  describe("POST /orders", () => {
+    const newOrder = mealOrders.map(({ mealId, quantity }) => ({
+      mealId,
+      quantity,
+    }));
+    it("should create an order", () =>
+      request(app)
+        .post(ordersUrl)
+        .set("authorization", `JWT ${catererToken}`)
+        .send(newOrder)
+        .then((res) => {
+          expect(res).to.have.status(201);
+        }));
   });
 
   // Get All Orders
-  describe('GET /orders', () => {
-
-    it('should return all orders', () => request(app).get(getOrdersUrl)
-      .set('authorization', `JWT ${tovieyeCatererToken}`)
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.data.rows[0].id).to.be.a('string');
-      }));
-  });
-
-  // Get Total Amount for a day's Orders
-  describe('GET /orders/total/date', () => {
-
-    it(
-      'should return the total amount for the day',
-      () => request(app).get(`${ordersUrl}/total/date`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
-        .then((res) => {
-          expect(res).to.have.status(200);
-          expect(res.body.data.revenue).to.be.a('number');
-        })
-    );
-  });
-
-  // Get Total Amount for an Order
-  describe('GET /orders/total/date', () => {
-
-    let orderId;
-    before('create an order', async () => {
-      const response = await request(app).post(ordersUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`).send(newOrder);
-
-      orderId = response.body.data.rows[0].id;
+  describe("GET", () => {
+    beforeEach("seed orders in db", async () => {
+      await db.Order.bulkCreate([order]);
+      await db.MealOrder.bulkCreate(mealOrders);
     });
-
-    it(
-      'should return the total amount for the day',
-      () => request(app).get(`${ordersUrl}/total/${orderId}`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
+    it(" /orders should return all orders", () =>
+      request(app)
+        .get(getOrdersUrl)
+        .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body.data.revenue).to.be.a('number');
-        })
-    );
-  });
+          expect(res.body.data.rows[0].id).to.be.a("string");
+        }));
 
-  // Get All Orders for current user by date
-  describe('GET /orders/date/:date', () => {
-
-    it('should return all orders', () => request(app).get(`${ordersUrl}/date`)
-      .set('authorization', `JWT ${tovieyeCatererToken}`)
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.data.rows[0].id).to.be.a('string');
-      }));
-  });
-
-  // Get All meals in an order
-  describe('GET /orders/:id/meals', () => {
-    let orderId;
-    before('create an order', async () => {
-      const response = await request(app).post(ordersUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`).send(newOrder);
-
-      orderId = response.body.data.rows[0].id;
-    });
-
-    it(
-      'should return all orders',
-      () => request(app).get(`${ordersUrl}/${orderId}/meals?offset=0&limit=5`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
+    it("/orders/total/date should return the total amount for the day", () =>
+      request(app)
+        .get(`${ordersUrl}/total/date`)
+        .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body.data.rows[0].id).to.be.a('string');
-          expect(res.body.data.rows[0].Meals).to.be.an('array');
-        })
-    );
+          expect(res.body.data.revenue).to.be.a("number");
+        }));
+
+    it("/orders/total/date should return the total amount for the day", () =>
+      request(app)
+        .get(`${ordersUrl}/total/${order.id}`)
+        .set("authorization", `JWT ${catererToken}`)
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.data.revenue).to.be.a("number");
+        }));
+
+    it("/orders/date/:date should return all orders", () =>
+      request(app)
+        .get(`${ordersUrl}/date`)
+        .set("authorization", `JWT ${catererToken}`)
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.data.rows[0].id).to.be.a("string");
+        }));
+
+    it("/orders/:id/meals should return all orders", () =>
+      request(app)
+        .get(`${ordersUrl}/${order.id}/meals?offset=0&limit=5`)
+        .set("authorization", `JWT ${catererToken}`)
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.data.rows[0].id).to.be.a("string");
+          expect(res.body.data.rows[0].Meals).to.be.an("array");
+        }));
   });
 
   // Update An Order
-  describe('PUT /orders/:id', () => {
-
+  describe("PUT /orders/:id", () => {
     let orderId;
-    before('create an order', async () => {
-      const response = await request(app).post(ordersUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`).send(newOrder);
-
-      orderId = response.body.data.rows[0].id;
+    beforeEach("seed orders in db", async () => {
+      await db.Order.bulkCreate([order]);
+      await db.MealOrder.bulkCreate(mealOrders);
     });
+    const updatedOrder = mealOrders.map(({ mealId }) => ({
+      mealId,
+      quantity: getRandomInt(1, 10),
+    }));
 
-    const updatedOrder = {
-      meals: [{
-        id: defaultMeal.id,
-        quantity: 4
-      }
-      ]
-    };
-
-    it(
-      'should update an order',
-      () => request(app).put(`${rootURL}/orders/${orderId}`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
+    it("should update an order", () =>
+      request(app)
+        .put(`${rootURL}/orders/${order.id}`)
+        .set("authorization", `JWT ${catererToken}`)
         .send(updatedOrder)
         .then((res) => {
           expect(res).to.have.status(200);
-        })
-    );
+        }));
   });
-
 
   // Delete An Order
-  describe('DELETE /orders/:id', () => {
-    before('add orders to db', async () => {
-      await db.Order.bulkCreate(defaultOrders);
-      await db.MealOrders.bulkCreate(defaultMealOrders);
-    });
-    let orderId;
-    before('create an order', async () => {
-      const response = await request(app).post(ordersUrl)
-        .set('authorization', `JWT ${tovieyeCatererToken}`).send(newOrder);
-
-      orderId = response.body.data.rows[0].id;
+  describe("DELETE /orders/:id", () => {
+    beforeEach("seed orders in db", async () => {
+      await db.Order.bulkCreate([order]);
+      await db.MealOrder.bulkCreate(mealOrders);
     });
 
-    it(
-      'should update an order',
-      () => request(app).delete(`${rootURL}/orders/${orderId}`)
-        .set('authorization', `JWT ${tovieyeCatererToken}`)
+    it("should delete an order", () =>
+      request(app)
+        .delete(`${rootURL}/orders/${order.id}`)
+        .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
           expect(res).to.have.status(200);
-        })
-    );
+        }));
   });
-
 });

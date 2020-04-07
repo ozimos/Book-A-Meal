@@ -28,11 +28,11 @@ const offset = 0;
 const menuUrl = `${rootURL}/menu?offset=${offset}&limit=${limit}`;
 const menu = menuFactory(defaultCaterer);
 const mealMenu = mealMenuFactory(menu, meals);
-const today = new Date().setHours(0, 0, 0, 0, 0);
+const today = new Date().setHours(0, 0, 0, 0);
 const menuDate = formatISO(addDays(today, 1));
 const menuDateURI = encodeURIComponent(menuDate);
 
-context.only("menu integration test", () => {
+context("menu integration test", () => {
   before("set up menu db", async () => {
     await db.MealMenu.truncate({ cascade: true });
     await db.Menu.truncate({ cascade: true });

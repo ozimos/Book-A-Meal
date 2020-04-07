@@ -11,19 +11,21 @@ import {
   seedMeals,
   seedPassword,
   seedOrders,
-  seedMealOrders
+  seedMealOrders,
 } from "../src/seedFiles";
 export {
   catererTovieye,
   catererDouglas,
-  customerDienebi
+  customerDienebi,
 } from "../src/seedFiles";
 export {
   userFactory,
   mealFactory,
   menuFactory,
   orderFactory,
-  mealMenuFactory
+  getRandomInt,
+  mealMenuFactory,
+  mealOrderFactory,
 } from "../src/factories";
 import { mealFactory } from "../src/factories";
 
@@ -44,39 +46,39 @@ export const payloadTovieye = {
   isCaterer: catererTovieye.isCaterer,
   userId: catererTovieye.id,
   firstName: catererTovieye.firstName,
-  email: catererTovieye.email
+  email: catererTovieye.email,
 };
 export const payloadDouglas = {
   isCaterer: catererTovieye.isCaterer,
   userId: catererTovieye.id,
   firstName: catererTovieye.firstName,
-  email: catererTovieye.email
+  email: catererTovieye.email,
 };
 
 const payloadCustomer = {
   isCaterer: customerDienebi.isCaterer,
   userId: customerDienebi.id,
   firstName: customerDienebi.firstName,
-  email: customerDienebi.email
+  email: customerDienebi.email,
 };
-export const tokenGenerator = user =>
+export const tokenGenerator = (user) =>
   jwt.sign(
     {
       isCaterer: user.isCaterer,
       userId: user.id,
       firstName: user.firstName,
-      email: user.email
+      email: user.email,
     },
     process.env.TOKEN_PASSWORD,
     {
-      expiresIn: "1h"
+      expiresIn: "1h",
     }
   );
 export const tovieyeCatererToken = jwt.sign(
   payloadTovieye,
   process.env.TOKEN_PASSWORD,
   {
-    expiresIn: "1h"
+    expiresIn: "1h",
   }
 );
 
@@ -84,7 +86,7 @@ export const douglasCatererToken = jwt.sign(
   payloadDouglas,
   process.env.TOKEN_PASSWORD,
   {
-    expiresIn: "1h"
+    expiresIn: "1h",
   }
 );
 
@@ -94,7 +96,7 @@ export function getUserInfo(user, extraProp) {
     firstName,
     lastName,
     isCaterer,
-    email
+    email,
   };
   if (extraProp && user[extraProp]) {
     value[extraProp] = user[extraProp];
@@ -106,7 +108,7 @@ export const customerToken = jwt.sign(
   payloadCustomer,
   process.env.TOKEN_PASSWORD,
   {
-    expiresIn: "1h"
+    expiresIn: "1h",
   }
 );
 

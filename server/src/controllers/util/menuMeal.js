@@ -5,7 +5,6 @@ export function isBeforeCutoff(menuDate) {
     menuCutOffHour,
     menuCutOffMinute,
     0,
-    0,
     0
   );
   if (menuCutOffTime - new Date() < 0) {

@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import addDays from "date-fns/addDays";
 import Controller from "./Controller";
 
-const today = new Date().setHours(0, 0, 0, 0, 0);
+const today = new Date().setHours(0, 0, 0, 0);
 export default class MenuController extends Controller {
   /**
    * Creates an instance of MenuController.
@@ -27,28 +27,6 @@ export default class MenuController extends Controller {
     };
   }
 
-  /**
-   *
-   *
-   * @param {any} row
-   * @returns {obj}
-   * @memberof MenuController
-   */
-  transformer(rows) {
-    const newRows = [
-      {
-        Meals: []
-      }
-    ];
-    if (rows.length) {
-      rows.forEach(row => newRows[0].Meals.push(row.dataValues.Meals));
-    }
-    if (!newRows[0].Meals.length) {
-      throw new Error("cannot build menu");
-    }
-
-    return newRows;
-  }
 
   /**
    * get the menu

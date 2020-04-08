@@ -1,5 +1,5 @@
 const subTotal = meals => (meals ? meals
-  .reduce((accum, meal) => (accum + meal.dataValues.subTotal), 0)
+  .reduce((accum, meal) => (accum + meal.subTotal), 0)
   : 0);
 
 export { subTotal };

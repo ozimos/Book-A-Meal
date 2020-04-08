@@ -1,6 +1,6 @@
-export default (orders) => {
-  const userId = orders.map(order => order.userId);
+export default (rows) => {
+  const id = rows.map(row => row.userId);
 
-  return new Set(userId).size;
+  return new Set(id).size;
 };
 

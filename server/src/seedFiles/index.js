@@ -7,7 +7,7 @@ const {
   menuFactory,
   orderFactory,
   mealMenuFactory,
-  getRandomInt
+  mealOrderFactory,
 } = require("../factories");
 const seedPassword = "Thisisatestpassword";
 const salt = bcrypt.genSaltSync(10);
@@ -25,12 +25,12 @@ const catererTovieye = seedCaterers[0];
 const catererDouglas = seedCaterers[1];
 const customerDienebi = seedUsers[2];
 
-const seedMealsNested = seedCaterers.map(caterer =>
+const seedMealsNested = seedCaterers.map((caterer) =>
   Array.from({ length: 6 }, () => mealFactory(caterer))
 );
 const seedMeals = flattenDeep(seedMealsNested);
 
-const seedMenus = seedCaterers.map(caterer => menuFactory(caterer));
+const seedMenus = seedCaterers.map((caterer) => menuFactory(caterer));
 
 const seedMealMenusNested = seedMenus.map((menu, index) =>
   mealMenuFactory(menu, seedMealsNested[index], 2)
@@ -42,14 +42,8 @@ const seedOrders = Array.from({ length: 4 }, () =>
   orderFactory(faker.random.arrayElement(seedUsers))
 );
 
-const seedMealOrdersNested = seedOrders.map(order =>
-  Array.from({ length: getRandomInt(1, 3) }, () => ({
-    orderId: order.id,
-    mealId: faker.random.arrayElement(seedMealMenus).mealId,
-    quantity: getRandomInt(1, 3),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }))
+const seedMealOrdersNested = seedOrders.map((order, index) =>
+  mealOrderFactory(order, seedMealsNested[index], 3)
 );
 
 const seedMealOrders = flattenDeep(seedMealOrdersNested);
@@ -68,5 +62,5 @@ module.exports = {
   seedMenus,
   seedMealMenus,
   seedOrders,
-  seedMealOrders
+  seedMealOrders,
 };

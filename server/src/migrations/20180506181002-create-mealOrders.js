@@ -1,6 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable("MealOrders", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        defaultValue: Sequelize.UUIDV4
+      },
       mealId: {
         type: Sequelize.UUID,
         references: {
@@ -24,16 +29,6 @@ module.exports = {
           isInt: true,
           min: 1
         }
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW")
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW")
       }
     }),
 

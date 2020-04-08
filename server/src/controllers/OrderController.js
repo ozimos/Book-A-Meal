@@ -27,20 +27,17 @@ export default class OrderController extends Controller {
     this.setDateOptions = this.setDateOptions.bind(this);
     this.options = {
       where: {},
-      attributes: ["userId", "updatedAt"],
-      distinct: true,
+      attributes: ["id", "userId", "updatedAt"],
       order: [["updatedAt", "DESC"]],
       include: [
         {
           association: "Meals",
-          // right: true,
-          required: true,
           where: {},
           paranoid: false,
           attributes: [
             [
               Sequelize.literal(
-                '"Meals"."price" * "Meals->MealOrders"."quantity"'
+                '"Meals"."price" * "Meals->MealOrder"."quantity"'
               ),
               "subTotal",
             ],
@@ -173,8 +170,7 @@ export default class OrderController extends Controller {
   getOrdersWithLinks(req, res, next) {
     const { userId, isCaterer } = req.decoded;
     if (isCaterer && req.query.caterer) {
-      // this.options.include[0].where.userId = userId;
-      this.options.where['$Meals.userId$'] = userId
+      this.options.include[0].where.userId = userId;
     } else {
       this.options.where.userId = userId;
     }
@@ -184,12 +180,13 @@ export default class OrderController extends Controller {
   }
 
   transformer(response) {
-    const rows = response.rows.toJSON().map((row) => {
-      row.MealsURL = `/api/v1/orders/${row.id}`;
-      return row;
+    const rows = response.rows.map((row) => {
+      const newRow = row.toJSON();
+      newRow.MealsURL = `/api/v1/orders/${newRow.id}`;
+      return newRow;
     });
-    const revenue = cashTotal(response);
-    const users = uniqueUsers(response);
+    const revenue = cashTotal(rows);
+    const users = uniqueUsers(rows);
     return { ...response, rows, revenue, users };
   }
   /**
@@ -221,7 +218,6 @@ export default class OrderController extends Controller {
 
     const mealIncludeOptions = {
       association: "Meals",
-      duplicating: false,
       paranoid: false,
       attributes: [
         "id",
@@ -231,7 +227,7 @@ export default class OrderController extends Controller {
         "price",
         "updatedAt",
         [
-          Sequelize.literal('"Meals"."price" * "Meals->MealOrders"."quantity"'),
+          Sequelize.literal('"Meals"."price" * "Meals->MealOrder"."quantity"'),
           "subTotal",
         ],
       ],
@@ -325,10 +321,10 @@ export default class OrderController extends Controller {
     })
       .then((result) => {
         if (result) {
-          return this.getOrdersWithLinks(req);
+          return res.status(200).json({ message: "record was deleted" });
         }
-        return res.status(400).json({ message: "order was not deleted" });
+        return res.status(404).json({ message: "record was not deleted" });
       })
-      .catch((error) => res.status(400).json({ message: error.message }));
+      .catch((error) => next(error));
   }
 }

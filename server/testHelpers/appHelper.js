@@ -71,7 +71,7 @@ export const tokenGenerator = (user) =>
     },
     process.env.TOKEN_PASSWORD,
     {
-      expiresIn: "1h",
+      expiresIn: "30d",
     }
   );
 export const tovieyeCatererToken = jwt.sign(

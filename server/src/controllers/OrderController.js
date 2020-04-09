@@ -29,6 +29,8 @@ export default class OrderController extends Controller {
       where: {},
       attributes: ["id", "userId", "updatedAt"],
       order: [["updatedAt", "DESC"]],
+      rejectOnEmpty: true,
+      distinct: true,
       include: [
         {
           association: "Meals",
@@ -174,9 +176,7 @@ export default class OrderController extends Controller {
     } else {
       this.options.where.userId = userId;
     }
-    return this.getAllRecords(req, res, next).catch((error) =>
-      res.status(400).json({ message: error.message })
-    );
+    return this.getAllRecords(req, res, next).catch((error) => next(error));
   }
 
   transformer(response) {
@@ -200,7 +200,7 @@ export default class OrderController extends Controller {
   getOrdersWithLinksByDate(req, res, next) {
     this.setDateOptions(req);
     return this.getOrdersWithLinks(req, res, next).catch((error) =>
-      res.status(400).json({ message: error.message })
+      next(error)
     );
   }
 
@@ -244,7 +244,7 @@ export default class OrderController extends Controller {
     this.options.where.id = req.params.id;
     this.options.include[0] = mealIncludeOptions;
     return this.getOrdersWithLinks(req, res, next).catch((error) =>
-      res.status(400).json({ message: error.message })
+      next(error)
     );
   }
 
@@ -261,7 +261,7 @@ export default class OrderController extends Controller {
       userId,
     })
       .then((order) => this.processOrder(order, req))
-      .catch((error) => res.status(400).json({ message: error.message }));
+      .catch((error) => next(error));
   }
 
   /**
@@ -271,9 +271,13 @@ export default class OrderController extends Controller {
    */
 
   updateOrder(req, res, next) {
+    const { userId } = req.decoded;
     let orderRef;
 
-    return this.Model.findByPk(req.params.id)
+    return this.Model.findByPk(req.params.id, {
+      rejectOnEmpty: true,
+      where: userId,
+    })
       .then(async (order) => {
         orderRef = order;
         if (OrderController.isOrderEditable(order.createdAt)) {
@@ -283,7 +287,7 @@ export default class OrderController extends Controller {
       })
       .then(() => orderRef.reload())
       .then((reloadedOrder) => this.processOrder(reloadedOrder, req, res, next))
-      .catch((error) => res.status(400).json({ message: error.message }));
+      .catch((error) => next(error));
   }
 
   /**
@@ -299,11 +303,13 @@ export default class OrderController extends Controller {
       );
 
       await Promise.all(promise);
-      req.query = { limit: 10 };
+      if (!req.query.limit) {
+        req.query.limit = 10;
+      }
       this.message = "Order was not processed. Try again";
       return this.getOrderWithLinks(req, res, next);
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      return next(error);
     }
   }
 
@@ -314,9 +320,12 @@ export default class OrderController extends Controller {
    *
    */
   deleteOrder(req, res, next) {
+    const { userId } = req.decoded;
     return this.Model.destroy({
+      rejectOnEmpty: true,
       where: {
         id: req.params.id,
+        userId,
       },
     })
       .then((result) => {

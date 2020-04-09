@@ -1,5 +1,5 @@
-import { ValidationError } from "sequelize";
-const validationErrors = (err, req, res, next) => {
+import { BaseError } from "sequelize";
+const validationErrors = (err, req, res) => {
   if (err.error && err.error.isJoi) {
     const message = {};
     err.error.details.forEach(elem => {
@@ -9,12 +9,14 @@ const validationErrors = (err, req, res, next) => {
     return res.status(400).json({
       message
     });
-  } else if (err instanceof ValidationError) {
+  }
+   if (err instanceof BaseError) {
     const error = err.original || err.parent || err;
     return res.status(422).json({
       message: error.message
     });
-  } else next(err);
+  } 
+  return res.status(400).json({ message: err.message })
 };
 
 export default validationErrors;

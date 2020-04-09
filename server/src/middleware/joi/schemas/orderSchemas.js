@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 
 export default Joi.array()
-  .unique("id")
+  .unique("mealId")
   .items(
     Joi.object({
       mealId: Joi.string()

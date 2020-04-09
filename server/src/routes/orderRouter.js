@@ -52,7 +52,6 @@ orderRouter
   .delete(
     Authenticate.isUser,
     paramValidator,
-    orderValidator,
     OrderController.orderClose,
     orderController.deleteOrder
   );

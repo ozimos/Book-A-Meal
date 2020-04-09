@@ -21,12 +21,11 @@ export default class MenuController extends Controller {
           association: "Meals",
           attributes: { exclude: ["createdAt", "deletedAt", "updatedAt"] },
           required: true,
-          through: { attributes: [] }
-        }
-      ]
+          through: { attributes: [] },
+        },
+      ],
     };
   }
-
 
   /**
    * get the menu
@@ -43,7 +42,7 @@ export default class MenuController extends Controller {
     const date = (req.query && req.query.date) || today;
     const nextDate = addDays(date, 1);
     let where = {
-      menuDate: { [Op.gte]: date, [Op.lt]: nextDate }
+      menuDate: { [Op.gte]: date, [Op.lt]: nextDate },
     };
 
     if (isCaterer) {
@@ -52,7 +51,7 @@ export default class MenuController extends Controller {
     this.statusCode = 200;
     this.message = "menu for the day has not been set";
     this.options = { ...this.baseOptions, where };
-    return this.getAllRecords(req, res, next).catch(error =>
+    return this.getAllRecords(req, res, next).catch((error) =>
       res.status(400).json({ message: error.message })
     );
   }
@@ -71,22 +70,22 @@ export default class MenuController extends Controller {
     return this.Model.findOrCreate({
       where: {
         menuDate: { [Op.gte]: date, [Op.lt]: nextDate },
-        userId
+        userId,
       },
       defaults: {
         menuDate: date,
-        userId
-      }
+        userId,
+      },
     })
       .then(async ([menu]) => {
         await menu.setMeals(req.body);
         return menu;
       })
-      .then(menu => {
+      .then((menu) => {
         this.options = { ...this.baseOptions, where: { id: menu.id } };
         this.statusCode = 201;
         return this.getAllRecords(req, res, next);
       })
-      .catch(err => res.status(400).json({ message: err.message }));
+      .catch((err) => next(error));
   }
 }

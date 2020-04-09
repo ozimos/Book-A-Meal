@@ -1,3 +1,4 @@
+import { EmptyResultError } from "sequelize";
 /**
  *
  *
@@ -20,6 +21,7 @@ class Controller {
     this.getAllRecords = this.getAllRecords.bind(this);
     this.updateRecord = this.updateRecord.bind(this);
     this.deleteRecord = this.deleteRecord.bind(this);
+    this.transformer = this.transformer.bind(this);
   }
 
   /**
@@ -40,10 +42,10 @@ class Controller {
    * @returns {obj} HTTP Response
    * @memberof Controller
    */
-  postRecord(req, res, next) {
+  postRecord(req, res, next, scope) {
     return this.Model.create(req.body)
-      .then(data => res.status(201).json({ data }))
-      .catch(error => next(error));
+      .then((data) => res.status(201).json({ data }))
+      .catch((error) => next(error));
   }
 
   /**
@@ -59,23 +61,25 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getAllRecords(req, res, next) {
+  getAllRecords(req, res, next, scope) {
     let { offset = 0, limit = 8 } = req.query;
 
-    return this.Model.scope(this.scope)
+    return this.Model.scope(scope)
       .findAndCountAll({ ...this.options, limit, offset })
-      .then(result => {
+      .then((result) => {
         const { count, rows } = result;
         const pages = Math.ceil(count / limit);
-        if (rows && rows.length) {
-          return res.status(this.statusCode).json({
-            data: this.transformer({ limit, offset, pages, count, rows })
-          });
-        }
-        const message = this.message || "no records available";
-        return res.status(404).json({ message });
+        return res.status(this.statusCode).json({
+          data: this.transformer({ limit, offset, pages, count, rows }),
+        });
       })
-      .catch(error => next(error));
+      .catch((error) => {
+        if (error instanceof EmptyResultError) {
+          const message = this.message || "no records available";
+          return res.status(404).json({ message });
+        }
+        next(err);
+      });
   }
 
   /**
@@ -86,16 +90,16 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  getSingleRecord(req, res, next) {
-    return this.Model.findByPk(req.params.id, this.options)
-      .then(data => {
+  getSingleRecord(req, res, next, scope) {
+    return this.Model.scope(scope).findByPk(req.params.id, this.options)
+      .then((data) => {
         if (!data) {
           const message = this.message || "no records available";
           return res.status(404).json({ message });
         }
         return res.status(200).json({ data });
       })
-      .catch(error => next(error));
+      .catch((error) => next(error));
   }
 
   /**
@@ -106,12 +110,12 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  updateRecord(req, res, next) {
-    return this.Model.update(req.body, {
+  updateRecord(req, res, next, scope) {
+    return this.Model.scope(scope).update(req.body, {
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
-      returning: true
+      returning: true,
     })
       .then(([count, [data]]) => {
         if (count > 0) {
@@ -120,7 +124,7 @@ class Controller {
         const message = this.message || "no records available";
         return res.status(404).json({ message });
       })
-      .catch(error => next(error));
+      .catch((error) => next(error));
   }
 
   /**
@@ -131,18 +135,18 @@ class Controller {
    * @returns {obj} Model
    * @memberof Controller
    */
-  deleteRecord(req, res, next) {
-    return this.Model.destroy({
+  deleteRecord(req, res, next, scope) {
+    return this.Model.scope(scope).destroy({
       ...this.options,
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-      .then(result => {
+      .then((result) => {
         if (result) {
           return res.status(200).json({ message: "record was deleted" });
         }
         return res.status(404).json({ message: "record was not deleted" });
       })
-      .catch(error => next(error));
+      .catch((error) => next(error));
   }
 }
 

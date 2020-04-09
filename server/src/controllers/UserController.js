@@ -31,16 +31,16 @@ class UserController extends Controller {
     // get user details from db
     return this.Model.findOne({
       where: {
-        email: req.body.email
+        email: req.body.email,
       },
-      attributes: { exclude: ["createdAt", "updatedAt"] }
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     })
-      .then(response => {
+      .then((response) => {
         if (!response) {
           return res.status(404).json({
             message: {
-              login: "Incorrect email or password"
-            }
+              login: "Incorrect email or password",
+            },
           });
         }
         const isCorrectPassword = bcrypt.compareSync(
@@ -54,11 +54,11 @@ class UserController extends Controller {
         }
         return res.status(400).json({
           message: {
-            login: "Incorrect email or password"
-          }
+            login: "Incorrect email or password",
+          },
         });
       })
-      .catch(error => res.status(400).json(error.message));
+      .catch((error) => next(error));
   }
 
   /**
@@ -72,22 +72,22 @@ class UserController extends Controller {
     const { email, ...rest } = req.body;
     return this.Model.findOrCreate({
       where: {
-        email
+        email,
       },
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      defaults: rest
+      defaults: rest,
     })
       .then(([data, created]) => {
         if (!created) {
           return res.status(400).json({
-            email: "Email is not available"
+            email: "Email is not available",
           });
         }
         this.message = "Signup Successful";
         this.statusCode = 201;
         return this.sendResponseWithToken(res, data.toJSON());
       })
-      .catch(error => res.status(400).json(error.message));
+      .catch((error) => next(error));
   }
 
   /**
@@ -98,19 +98,21 @@ class UserController extends Controller {
    * @returns {obj} HTTP Response
    * @memberof UserController
    */
-   sendResponseWithToken(res, user) {
+  sendResponseWithToken(res, user) {
     const { isCaterer, id: userId, firstName, email } = user;
     const payload = {
       isCaterer,
       userId,
-      firstName
+      firstName,
     };
     const { password, ...data } = user;
     const token = jwt.sign(payload, process.env.TOKEN_PASSWORD, {
-      expiresIn: process.env.TOKEN_EXPIRY || "6h"
+      expiresIn: process.env.TOKEN_EXPIRY || "6h",
     });
     if (token) {
-      return res.status(this.statusCode).json({ data, message: this.message, token });
+      return res
+        .status(this.statusCode)
+        .json({ data, message: this.message, token });
     }
   }
 }

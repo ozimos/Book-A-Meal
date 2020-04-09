@@ -21,10 +21,6 @@ const seedUsers = Array.from({ length: 8 }, () =>
   userFactory({ isCaterer: false })
 );
 
-const catererTovieye = seedCaterers[0];
-const catererDouglas = seedCaterers[1];
-const customerDienebi = seedUsers[2];
-
 const seedMealsNested = seedCaterers.map((caterer) =>
   Array.from({ length: 6 }, () => mealFactory(caterer))
 );
@@ -55,9 +51,6 @@ module.exports = {
   seedUsers,
   seedCaterers,
   allSeedUsers,
-  catererTovieye,
-  catererDouglas,
-  customerDienebi,
   seedMeals,
   seedMenus,
   seedMealMenus,

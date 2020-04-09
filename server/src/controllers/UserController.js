@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import Controller from "./Controller";
+import tokenGenerator from "./util/tokenGenerator"
 
 /**
  *
@@ -49,8 +49,8 @@ class UserController extends Controller {
         );
 
         if (isCorrectPassword) {
-          this.message = "Login Successful";
-          return this.sendResponseWithToken(res, response.toJSON());
+          const options = {message : "Login Successful"}
+          return this.sendResponseWithToken(res, response.toJSON(), options);
         }
         return res.status(400).json({
           message: {
@@ -74,7 +74,7 @@ class UserController extends Controller {
       where: {
         email,
       },
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: ["createdAt", "updatedAt", "password"] },
       defaults: rest,
     })
       .then(([data, created]) => {
@@ -83,36 +83,28 @@ class UserController extends Controller {
             email: "Email is not available",
           });
         }
-        this.message = "Signup Successful";
-        this.statusCode = 201;
-        return this.sendResponseWithToken(res, data.toJSON());
+        const options = {message : "Signup Successful",
+        statusCode : 201,}
+        return this.sendResponseWithToken(res, data.toJSON(), options);
       })
       .catch((error) => next(error));
   }
 
   /**
    *
-   *
+   * @param {any} res
    * @param {Sequelize<Model<Instance>>} user
-   * @param {String} extraMessage
+   * @param {obj} options
    * @returns {obj} HTTP Response
    * @memberof UserController
    */
-  sendResponseWithToken(res, user) {
-    const { isCaterer, id: userId, firstName, email } = user;
-    const payload = {
-      isCaterer,
-      userId,
-      firstName,
-    };
+  sendResponseWithToken(res, user, {statusCode=200, message}) {
     const { password, ...data } = user;
-    const token = jwt.sign(payload, process.env.TOKEN_PASSWORD, {
-      expiresIn: process.env.TOKEN_EXPIRY || "6h",
-    });
+    const token = tokenGenerator(user)
     if (token) {
       return res
-        .status(this.statusCode)
-        .json({ data, message: this.message, token });
+        .status(statusCode)
+        .json({ data, message: message, token });
     }
   }
 }

@@ -2,7 +2,6 @@ import { Op } from "sequelize";
 import addDays from "date-fns/addDays";
 import Controller from "./Controller";
 
-const today = new Date().setHours(0, 0, 0, 0);
 export default class MenuController extends Controller {
   /**
    * Creates an instance of MenuController.
@@ -13,18 +12,6 @@ export default class MenuController extends Controller {
     super(Model);
     this.getMenu = this.getMenu.bind(this);
     this.postMenu = this.postMenu.bind(this);
-    this.baseOptions = {
-      rejectOnEmpty: true,
-      attributes: ["id", "menuDate"],
-      include: [
-        {
-          association: "Meals",
-          attributes: { exclude: ["createdAt", "deletedAt", "updatedAt"] },
-          required: true,
-          through: { attributes: [] },
-        },
-      ],
-    };
   }
 
   /**
@@ -37,23 +24,14 @@ export default class MenuController extends Controller {
    */
 
   getMenu(req, res, next) {
-    const { userId, isCaterer } = req.decoded;
-
-    const date = (req.query && req.query.date) || today;
-    const nextDate = addDays(date, 1);
-    let where = {
-      menuDate: { [Op.gte]: date, [Op.lt]: nextDate },
+    const extraConfig = this.cloneResetConfig();
+    this.config = {
+      scopes: ["basic", this.setAccessMode(req), this.setDiscrimDate(req)],
+      options: { rejectOnEmpty: true },
+      message: "menu for the day has not been set",
     };
-
-    if (isCaterer) {
-      where.userId = userId;
-    }
-    this.statusCode = 200;
-    this.message = "menu for the day has not been set";
-    this.options = { ...this.baseOptions, where };
-    return this.getAllRecords(req, res, next).catch((error) =>
-      res.status(400).json({ message: error.message })
-    );
+    this.mergeOptions(this.config, extraConfig);
+    return this.getAllRecords(req, res, next).catch((error) => next(error));
   }
 
   /**
@@ -65,7 +43,7 @@ export default class MenuController extends Controller {
 
   postMenu(req, res, next) {
     const { userId } = req.decoded;
-    const date = (req.query && req.query.date) || today;
+    const date = (req.query && req.query.date) || new Date().setHours(0, 0, 0, 0);
     const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {
@@ -82,10 +60,14 @@ export default class MenuController extends Controller {
         return menu;
       })
       .then((menu) => {
-        this.options = { ...this.baseOptions, where: { id: menu.id } };
-        this.statusCode = 201;
-        return this.getAllRecords(req, res, next);
+        req.query.caterer = true
+        this.config = {
+          scopes: [{ method: ["forId", menu.id] }],
+          message: "menu for the day was set but cannot fetch created menu",
+          statusCode: 201,
+        };
+        return this.getMenu(req, res, next);
       })
-      .catch((err) => next(error));
+      .catch((error) => next(error));
   }
 }

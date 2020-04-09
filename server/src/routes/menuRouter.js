@@ -20,5 +20,4 @@ menuRouter
     menuController.postMenu
   );
 
-// Return menuRouter
 export default menuRouter;

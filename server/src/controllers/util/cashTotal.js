@@ -5,4 +5,4 @@ const subTotal = meals => (meals ? meals
 export { subTotal };
 
 export default orders => (orders ? orders
-  .reduce((accum, order) => (accum + subTotal(order.Meals)), 0) : 0);
+  .reduce((accum, order) => (accum + subTotal(order.toJSON().Meals)), 0) : 0);

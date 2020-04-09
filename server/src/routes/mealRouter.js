@@ -35,7 +35,6 @@ mealRouter
   .route("/:id")
   .get(
     Authenticate.isUser,
-    Authenticate.isAdmin,
     paramValidator,
     queryValidator,
     mealController.getSingleRecord
@@ -52,7 +51,6 @@ mealRouter
     Authenticate.isUser,
     Authenticate.isAdmin,
     paramValidator,
-    queryValidator,
     mealController.deleteRecord
   );
 

@@ -1,3 +1,5 @@
+import Sequelize, { Op } from "sequelize";
+
 export default (sequelize, DataTypes) => {
   const Order = sequelize.define(
     "Order",
@@ -9,37 +11,6 @@ export default (sequelize, DataTypes) => {
       },
     },
     {
-      defaultScope: {
-        where: {},
-        attributes: ["id", "userId", "updatedAt"],
-        order: [["updatedAt", "DESC"]],
-        rejectOnEmpty: true,
-        include: [
-          {
-            association: "Meals",
-            where: {},
-            distinct: true,
-            paranoid: false,
-            attributes: [
-              [
-                sequelize.literal(
-                  '"Meals"."price" * "Meals->MealOrder"."quantity"'
-                ),
-                "subTotal",
-              ],
-              "price",
-              "id",
-            ],
-            through: {
-              attributes: ["quantity"],
-            },
-          },
-          {
-            association: "User",
-            attributes: ["firstName", "lastName", "email"],
-          },
-        ],
-      },
       scopes: {
         accessMode(asCaterer, userId) {
           return asCaterer
@@ -53,8 +24,59 @@ export default (sequelize, DataTypes) => {
               }
             : { where: { userId } };
         },
-        updatedAt(start, end) {
-          return { where: { updatedAt: { [Op.between]: [start, end] } } };
+        discriminatingDate(hasDateRange, start, end) {
+          return hasDateRange
+            ? { where: { updatedAt: { [Op.between]: [start, end] } } }
+            : {};
+        },
+        forId(id) {
+          return { where: { id } };
+        },
+        basic: {
+          attributes: [],
+          include: [
+            {
+              association: "Meals",
+              paranoid: false,
+              attributes: [
+                [
+                  Sequelize.literal(
+                    '"Meals"."price" * "Meals->MealOrder"."quantity"'
+                  ),
+                  "subTotal",
+                ],
+              ],
+              through: {
+                attributes: [],
+              },
+            },
+          ],
+        },
+        allWithCount: {
+          attributes: ["id", "userId", "updatedAt"],
+          order: [["updatedAt", "DESC"]],
+          include: [
+            {
+              association: "Meals",
+              distinct: true,
+              attributes: ["price", "id"],
+              through: {
+                attributes: ["quantity"],
+              },
+            },
+          ],
+        },
+        orderDetail: {
+          include: [
+            {
+              association: "Meals",
+              attributes: ["userId", "title", "description", "updatedAt"],
+            },
+            {
+              association: "User",
+              attributes: ["firstName", "lastName", "email"],
+            },
+          ],
         },
       },
     }

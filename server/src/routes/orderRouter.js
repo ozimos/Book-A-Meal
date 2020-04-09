@@ -3,7 +3,7 @@ import OrderController from "../controllers/OrderController";
 import {
   paramValidator,
   queryValidator,
-  orderValidator
+  orderValidator,
 } from "../middleware/joi";
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
@@ -39,7 +39,7 @@ orderRouter
   .get(
     Authenticate.isUser,
     paramValidator,
-    orderController.getOrderWithLinks
+    orderController.getSingleOrderWithLinks
   )
   .put(
     Authenticate.isUser,
@@ -55,6 +55,5 @@ orderRouter
     OrderController.orderClose,
     orderController.deleteOrder
   );
-
 
 export default orderRouter;

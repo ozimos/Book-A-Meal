@@ -8,8 +8,8 @@ const querySchemas = Joi.object({
     .integer()
     .min(0),
   date: [Joi.date().iso(), Joi.any().valid('all')],
-  end: Joi.date().iso(),
+  end: Joi.date().greater(Joi.ref('date')).iso(),
   caterer: Joi.boolean()
-});
+}).with('end', 'date');
 
 export default querySchemas;

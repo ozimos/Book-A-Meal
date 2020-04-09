@@ -32,11 +32,11 @@ describe.only("orders integration test", () => {
     await db.User.bulkCreate([defaultCaterer, anotherCaterer, notCaterer]);
     await db.Meal.bulkCreate(meals.concat(otherMeals));
   });
-  beforeEach("set up order db", async () => {
+  describe("GET should return error message if no orders", () => {
+  before("set up order db", async () => {
     await db.MealOrder.truncate({ cascade: true });
     await db.Order.truncate({ cascade: true });
   });
-  describe("GET should return error message if no orders", () => {
     it("/orders?caterer=true", () =>
       request(app)
         .get(getOrdersUrl + "&caterer=true")
@@ -63,18 +63,32 @@ describe.only("orders integration test", () => {
     }));
     it("should create an order", () =>
       request(app)
-        .post(ordersUrl)
+        .post(getOrdersUrl)
         .set("authorization", `JWT ${catererToken}`)
         .send(newOrder)
         .then((res) => {
-          console.log(res.body);
+          const { id, password, isCaterer, ...User } = defaultCaterer;
+          expect(res.body.data)
+            .to.be.an("object")
+            .that.includes.all.keys("pages", "count", "rows");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            count: mealOrders.length,
+          });
+          expect(res.body.data.rows[0]).to.containSubset({
+            userId: defaultCaterer.id,
+            User,
+          });
           expect(res).to.have.status(201);
         }));
   });
 
   // Get All Orders
-  describe.only("GET", () => {
-    beforeEach("seed orders in db", async () => {
+  describe("GET", () => {
+    before("seed orders in db", async () => {
+      await db.MealOrder.truncate({ cascade: true });
+      await db.Order.truncate({ cascade: true });
       await db.Order.bulkCreate([order]);
       await db.MealOrder.bulkCreate(mealOrders);
     });
@@ -83,24 +97,20 @@ describe.only("orders integration test", () => {
         .get(getOrdersUrl)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          const { id, password, isCaterer, ...User } = notCaterer;
           expect(res.body.data)
             .to.be.an("object")
-            .that.includes.all.keys(
-              "pages",
-              "count",
-              "rows",
-              "revenue",
-              "users"
-            );
-          expect(res.body.data).to.containSubset({ limit, offset, count: mealOrders.length });
+            .that.includes.all.keys("pages", "count", "rows");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            count: mealOrders.length,
+          });
           expect(res.body.data.rows[0].MealsURL)
             .to.be.a("string")
             .that.includes(order.id);
           expect(res.body.data.rows[0]).to.containSubset({
             id: order.id,
             userId: notCaterer.id,
-            User,
           });
           expect(res).to.have.status(200);
         }));
@@ -109,25 +119,28 @@ describe.only("orders integration test", () => {
         .get(getOrdersUrl)
         .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
-          expect(res.body.message).to.equal('no records available');
+          expect(res.body.message).to.equal("no records available");
           expect(res).to.have.status(404);
         }));
-        it(" /orders should return orders not belonging to a user only when the user is acting as a caterer", () =>
-        request(app)
-          .get(getOrdersUrl + '&caterer=true')
-          .set("authorization", `JWT ${catererToken}`)
-          .then((res) => {
-            console.log(res.body)
-            expect(res.body.data).to.containSubset({ limit, offset, count: meals.length });
-            expect(res).to.have.status(200);
-          }));
+    it(" /orders should return orders not belonging to a user only when the user is acting as a caterer", () =>
+      request(app)
+        .get(getOrdersUrl + "&caterer=true")
+        .set("authorization", `JWT ${catererToken}`)
+        .then((res) => {
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            count: meals.length,
+          });
+          expect(res).to.have.status(200);
+        }));
     it("/orders/total should return the total amount for the day", () =>
       request(app)
         .get(`${ordersUrl}/total`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          console.log(res.body);
           expect(res.body.data.revenue).to.be.a("number");
+          expect(res.body.data).to.containSubset({orders: 1, users: 1});
           expect(res).to.have.status(200);
         }));
 
@@ -136,24 +149,32 @@ describe.only("orders integration test", () => {
         .get(`${ordersUrl}/total/${order.id}`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          console.log(res.body);
+          expect(res.body.data).to.containSubset({orders: 1, users: 1});
           expect(res.body.data.revenue).to.be.a("number");
           expect(res).to.have.status(200);
         }));
 
     it("/orders?date=date should return all orders for a given date", () =>
       request(app)
-        .get(`${ordersUrl}?date=${new Date()}`)
+        .get(`${getOrdersUrl}&date=${encodeURIComponent(new Date().toISOString())}`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          console.log(res.body);
-          expect(res.body.data.rows[0].id).to.be.a("string");
+          expect(res.body.data).to.containSubset({
+            limit,
+            offset,
+            count: mealOrders.length,
+          });
+          expect(res.body.data.rows[0]).to.containSubset({
+            id: order.id,
+            userId: notCaterer.id,
+          });
           expect(res).to.have.status(200);
         }));
 
     it("/orders/:id should return all meals for an order", () =>
       request(app)
-        .get(`${ordersUrl}/${order.id}/meals?offset=0&limit=5`)
+        .get(`${ordersUrl}/${order.id}`)
+        // .get(`${ordersUrl}/${order.id}?offset=${offset}&limit=${limit}`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
           console.log(res.body);
@@ -166,6 +187,8 @@ describe.only("orders integration test", () => {
   // Update An Order
   describe("PUT /orders/:id", () => {
     beforeEach("seed orders in db", async () => {
+      await db.MealOrder.truncate({ cascade: true });
+      await db.Order.truncate({ cascade: true });
       await db.Order.bulkCreate([order]);
       await db.MealOrder.bulkCreate(mealOrders);
     });
@@ -173,10 +196,9 @@ describe.only("orders integration test", () => {
       mealId,
       quantity: getRandomInt(1, 10),
     }));
-    console.dir(updatedOrder);
     it("should update an order", () =>
       request(app)
-        .put(`${rootURL}/orders/${order.id}`)
+        .put(`${ordersUrl}/${order.id}`)
         .set("authorization", `JWT ${catererToken}`)
         .send(updatedOrder)
         .then((res) => {
@@ -189,13 +211,15 @@ describe.only("orders integration test", () => {
   // Delete An Order
   describe("DELETE /orders/:id", () => {
     beforeEach("seed orders in db", async () => {
+      await db.MealOrder.truncate({ cascade: true });
+      await db.Order.truncate({ cascade: true });
       await db.Order.bulkCreate([order]);
       await db.MealOrder.bulkCreate(mealOrders);
     });
 
     it("should delete an order", () =>
       request(app)
-        .delete(`${rootURL}/orders/${order.id}`)
+        .delete(`${ordersUrl}/${order.id}`)
         .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
           console.log(res.body);

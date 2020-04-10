@@ -51,14 +51,16 @@ context("meals integration test except GET", () => {
   const strangeMeal = mealFactory(anotherCaterer);
   const meals = [defaultMeal, deletedMeal, secondMeal, strangeMeal];
 
+  // Create A Meal
+  describe("POST /meals", () => {
+    
   before("set up meals", async () => {
     await db.Meal.truncate({ cascade: true });
     await db.User.truncate({ cascade: true });
     await db.User.bulkCreate([defaultCaterer, anotherCaterer]);
     await db.Meal.bulkCreate(meals);
   });
-  // Create A Meal
-  describe("POST /meals", () => {
+
     const meal = mealFactory(defaultCaterer);
     const { id, ...newMeal } = meal;
     it("should create a meal", () =>
@@ -95,7 +97,7 @@ context("meals integration test except GET", () => {
             'duplicate key value violates unique constraint "userTitle2"'
           );
         }));
-    it("a caterer's meal title can be the same as another caterer", () => {
+    it("a caterer can create a meal with the same title as another caterer", () => {
       const copyMeal = { ...newMeal, title: strangeMeal.title };
       request(app)
         .post(mealsUrl)
@@ -110,6 +112,14 @@ context("meals integration test except GET", () => {
 
   // Update A Meal
   describe("PUT /meals/:id", () => {
+    
+  before("set up meals", async () => {
+    await db.Meal.truncate({ cascade: true });
+    await db.User.truncate({ cascade: true });
+    await db.User.bulkCreate([defaultCaterer, anotherCaterer]);
+    await db.Meal.bulkCreate(meals);
+  });
+
     const updatedMeal = {
       title: "Updated meal",
       price: 1500
@@ -163,6 +173,14 @@ context("meals integration test except GET", () => {
   });
   // Delete A Meal
   describe("DELETE /meals/:id", () => {
+    
+  before("set up meals", async () => {
+    await db.Meal.truncate({ cascade: true });
+    await db.User.truncate({ cascade: true });
+    await db.User.bulkCreate([defaultCaterer, anotherCaterer]);
+    await db.Meal.bulkCreate(meals);
+  });
+  
     it("should delete a meal", () =>
       request(app)
         .delete(`${mealsUrl}/${deletedMeal.id}`)

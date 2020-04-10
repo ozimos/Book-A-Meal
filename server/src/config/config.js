@@ -16,8 +16,8 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: "postgres",
-    dialectModule: pg
-    // logging: false
+    dialectModule: pg,
+    logging: false
   },
   production: {
     use_env_variable: "DATABASE_URL",

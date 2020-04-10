@@ -8,9 +8,9 @@ import {
   getRandomInt,
   orderFactory,
   mealOrderFactory,
-} from "../../../testHelpers/appHelper";
-import app from "../../../src/app";
-import db from "../../../src/models";
+} from "../appHelper";
+import app from "../../src/app";
+import db from "../../src/models";
 
 const limit = 5;
 const offset = 0;
@@ -25,7 +25,7 @@ const meals = Array.from({ length: 4 }, () => mealFactory(defaultCaterer));
 const otherMeals = Array.from({ length: 4 }, () => mealFactory(anotherCaterer));
 const order = orderFactory(notCaterer);
 const mealOrders = mealOrderFactory(order, meals.concat(otherMeals), 4);
-describe.only("orders integration test", () => {
+describe("orders integration test", () => {
   before("before set up order db", async () => {
     await db.Meal.truncate({ cascade: true });
     await db.User.truncate({ cascade: true });
@@ -33,10 +33,10 @@ describe.only("orders integration test", () => {
     await db.Meal.bulkCreate(meals.concat(otherMeals));
   });
   describe("GET should return error message if no orders", () => {
-  before("set up order db", async () => {
-    await db.MealOrder.truncate({ cascade: true });
-    await db.Order.truncate({ cascade: true });
-  });
+    before("set up order db", async () => {
+      await db.MealOrder.truncate({ cascade: true });
+      await db.Order.truncate({ cascade: true });
+    });
     it("/orders?caterer=true", () =>
       request(app)
         .get(getOrdersUrl + "&caterer=true")
@@ -112,6 +112,7 @@ describe.only("orders integration test", () => {
             id: order.id,
             userId: notCaterer.id,
           });
+          expect(res.body.data.rows[0].Meals).to.be.an("array");
           expect(res).to.have.status(200);
         }));
     it(" /orders should not return orders that do not belong to user", () =>
@@ -140,23 +141,25 @@ describe.only("orders integration test", () => {
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
           expect(res.body.data.revenue).to.be.a("number");
-          expect(res.body.data).to.containSubset({orders: 1, users: 1});
+          expect(res.body.data).to.containSubset({ orders: 1, users: 1 });
           expect(res).to.have.status(200);
         }));
 
-    it("/orders/total/:id should return the total amount for an order", () =>
+    it("/orders/:id/total should return the total amount for an order", () =>
       request(app)
-        .get(`${ordersUrl}/total/${order.id}`)
+        .get(`${ordersUrl}/${order.id}/total`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          expect(res.body.data).to.containSubset({orders: 1, users: 1});
+          expect(res.body.data).to.containSubset({ orders: 1, users: 1 });
           expect(res.body.data.revenue).to.be.a("number");
           expect(res).to.have.status(200);
         }));
 
     it("/orders?date=date should return all orders for a given date", () =>
       request(app)
-        .get(`${getOrdersUrl}&date=${encodeURIComponent(new Date().toISOString())}`)
+        .get(
+          `${getOrdersUrl}&date=${encodeURIComponent(new Date().toISOString())}`
+        )
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
           expect(res.body.data).to.containSubset({
@@ -173,12 +176,16 @@ describe.only("orders integration test", () => {
 
     it("/orders/:id should return all meals for an order", () =>
       request(app)
-        .get(`${ordersUrl}/${order.id}`)
-        // .get(`${ordersUrl}/${order.id}?offset=${offset}&limit=${limit}`)
+        .get(`${ordersUrl}/${order.id}?offset=${offset}&limit=${limit}`)
         .set("authorization", `JWT ${basicUserToken}`)
         .then((res) => {
-          console.log(res.body);
-          expect(res.body.data.rows[0].id).to.be.a("string");
+          expect(res.body.data).to.containSubset({
+            count: mealOrders.length,
+          });
+          expect(res.body.data.rows[0]).to.containSubset({
+            id: order.id,
+            userId: notCaterer.id,
+          });
           expect(res.body.data.rows[0].Meals).to.be.an("array");
           expect(res).to.have.status(200);
         }));
@@ -186,25 +193,40 @@ describe.only("orders integration test", () => {
 
   // Update An Order
   describe("PUT /orders/:id", () => {
-    beforeEach("seed orders in db", async () => {
+    before("seed orders in db", async () => {
       await db.MealOrder.truncate({ cascade: true });
       await db.Order.truncate({ cascade: true });
       await db.Order.bulkCreate([order]);
       await db.MealOrder.bulkCreate(mealOrders);
     });
-    const updatedOrder = meals.concat(otherMeals).map(({ id: mealId }) => ({
+    const availableMeals = meals.concat(otherMeals)
+    const updatedOrder = availableMeals.map(({ id: mealId }) => ({
       mealId,
       quantity: getRandomInt(1, 10),
     }));
     it("should update an order", () =>
       request(app)
         .put(`${ordersUrl}/${order.id}`)
+        .set("authorization", `JWT ${basicUserToken}`)
+        .send(updatedOrder)
+        .then((res) => {
+          expect(res.body.data).to.containSubset({
+            count: availableMeals.length,
+          });
+          expect(res.body.data.rows[0]).to.containSubset({
+            id: order.id,
+            userId: notCaterer.id,
+          });
+          expect(res).to.have.status(200);
+        }));
+    it("should not update an order that does not belong to the current user", () =>
+      request(app)
+        .put(`${ordersUrl}/${order.id}`)
         .set("authorization", `JWT ${catererToken}`)
         .send(updatedOrder)
         .then((res) => {
-          console.log(res.body);
-
-          expect(res).to.have.status(200);
+          expect(res.body.message).to.equal('Order was not processed. Try again');
+          expect(res).to.have.status(404);
         }));
   });
 
@@ -220,11 +242,18 @@ describe.only("orders integration test", () => {
     it("should delete an order", () =>
       request(app)
         .delete(`${ordersUrl}/${order.id}`)
+        .set("authorization", `JWT ${basicUserToken}`)
+        .then((res) => {
+          expect(res).to.have.status(200);
+        }));
+
+    it("should not delete an order that does not belong to the current user", () =>
+      request(app)
+        .delete(`${ordersUrl}/${order.id}`)
         .set("authorization", `JWT ${catererToken}`)
         .then((res) => {
-          console.log(res.body);
-
-          expect(res).to.have.status(200);
+          expect(res.body.message).to.equal('record was not deleted');
+          expect(res).to.have.status(404);
         }));
   });
 });

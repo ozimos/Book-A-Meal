@@ -43,7 +43,8 @@ export default class MenuController extends Controller {
 
   postMenu(req, res, next) {
     const { userId } = req.decoded;
-    const date = (req.query && req.query.date) || new Date().setHours(0, 0, 0, 0);
+    const date =
+      (req.query && req.query.date) || new Date().setHours(0, 0, 0, 0);
     const nextDate = addDays(date, 1);
     return this.Model.findOrCreate({
       where: {
@@ -60,13 +61,13 @@ export default class MenuController extends Controller {
         return menu;
       })
       .then((menu) => {
-        req.query.caterer = true
+        req.query.caterer = true;
         this.config = {
-          scopes: [{ method: ["forId", menu.id] }],
+          scopes: ["basic", { method: ["forId", menu.id] }],
           message: "menu for the day was set but cannot fetch created menu",
           statusCode: 201,
         };
-        return this.getMenu(req, res, next);
+        return this.getAllRecords(req, res, next);
       })
       .catch((error) => next(error));
   }

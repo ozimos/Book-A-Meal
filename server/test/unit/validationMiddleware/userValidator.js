@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import { userLoginValidator, userSignupValidator } from "../../../src/middleware/joi";
 
-import { userFactory } from "../../../testHelpers/appHelper";
+import { userFactory } from "../../appHelper";
 
 context("userSchemas validation", () => {
 

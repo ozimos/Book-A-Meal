@@ -1,5 +1,5 @@
 import { BaseError } from "sequelize";
-const validationErrors = (err, req, res) => {
+const validationErrors = (err, req, res, next) => {
   if (err.error && err.error.isJoi) {
     const message = {};
     err.error.details.forEach(elem => {

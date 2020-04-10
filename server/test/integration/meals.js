@@ -8,9 +8,9 @@ import {
   tokenGenerator,
   userFactory,
   mealFactory
-} from "../../../testHelpers/appHelper";
-import app from "../../../src/app";
-import db from "../../../../server/src/models";
+} from "../appHelper";
+import app from "../../src/app";
+import db from "../../src/models";
 
 const defaultCaterer = userFactory();
 const defaultMeal = mealFactory(defaultCaterer);

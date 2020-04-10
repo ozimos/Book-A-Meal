@@ -1,7 +1,15 @@
 import bcrypt from "bcryptjs";
 import Controller from "./Controller";
-import tokenGenerator from "./util/tokenGenerator"
+import jwt from "jsonwebtoken";
 
+export function tokenGenerator({ isCaterer, id: userId, firstName }) {
+    return jwt.sign(
+      { isCaterer, userId, firstName },
+      process.env.TOKEN_PASSWORD,
+      { expiresIn: process.env.TOKEN_EXPIRY || "6h" }
+    );
+  }
+  
 /**
  *
  *

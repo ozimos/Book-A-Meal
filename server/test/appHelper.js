@@ -3,11 +3,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import chaiSubset from "chai-subset";
 
-import {
-  seedPassword,
-  seedOrders,
-  seedMealOrders,
-} from "../src/seedFiles";
+import { seedPassword, seedOrders, seedMealOrders } from "../src/seedFiles";
 export {
   userFactory,
   mealFactory,
@@ -17,7 +13,8 @@ export {
   mealMenuFactory,
   mealOrderFactory,
 } from "../src/factories";
-export {default as tokenGenerator} from "../src/controllers/util/tokenGenerator";
+
+export {tokenGenerator} from "../src/controllers/UserController";
 
 chai.use(chaiHttp);
 chai.use(chaiSubset);

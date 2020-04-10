@@ -11,8 +11,8 @@
         "build:.": "babel ./src -d ./lib --copy-files",
         "server:setup": "sequelize db:migrate:undo:all --env=production && sequelize db:migrate --env=production",
         "test": "run-s refresh:test test:server",
-        "debug": "dotenv -- nodemon -r esm --inspect  --harmony ./src/app.js",
-        "test:server": "dotenv -e .env.test -e .env -- nyc mocha ./test -t 40000 --exit --recursive -r esm --v8-harmony",
+        "debug": "dotenv -e .env.dev -e .env -- nodemon -r esm --inspect  --harmony ./src/app.js",
+        "test:server": "dotenv -e .env.test -e .env -- nyc mocha ./test",
         "test:babel": "dotenv -e .env.test -e .env -- nyc mocha ./test --exit --recursive",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "report": "nyc report --reporter=text-lcov",
@@ -88,5 +88,14 @@
         "webpack": "^4.42.1",
         "webpack-dev-middleware": "^3.7.2",
         "webpack-hot-middleware": "^2.25.0"
+    },
+    "mocha": {
+        "timeout": 2000,
+        "bail": true,
+        "exit": true,
+        "ignore": "appHelper.js",
+        "recursive": true,
+        "require": ["esm"],
+        "v8Harmony": true
     }
 }

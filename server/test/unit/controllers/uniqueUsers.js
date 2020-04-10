@@ -3,7 +3,7 @@
 import {
   expect
 } from 'chai';
-import uniqueUsers from '../../../src/controllers/util/uniqueUsers';
+import {uniqueUsers} from '../../../src/controllers/OrderController';
 
 const sampleOrder = [
   {

@@ -31,10 +31,6 @@ orderRouter
   .get(Authenticate.isUser, queryValidator, orderController.getTotalDaySales);
 
 orderRouter
-  .route("/total/:id")
-  .get(Authenticate.isUser, paramValidator, orderController.getTotalOrderSales);
-
-orderRouter
   .route("/:id")
   .get(
     Authenticate.isUser,
@@ -53,7 +49,11 @@ orderRouter
     Authenticate.isUser,
     paramValidator,
     OrderController.orderClose,
-    orderController.deleteOrder
+    orderController.deleteRecord
   );
+
+orderRouter
+  .route("/:id/total")
+  .get(Authenticate.isUser, paramValidator, orderController.getTotalOrderSales);
 
 export default orderRouter;

@@ -82,8 +82,8 @@ class Controller {
     if (hasDateRange) {
       const startDate = date ? new Date(date) : new Date();
       start = formatISO(startDate.setHours(0, 0, 0, 0));
-      const endDate = req.query.end ? new Date(req.query.end) : new Date();
-      end = formatISO(endDate.setHours(23, 59, 0, 0));
+      const endDate = req.query.end ? new Date(req.query.end) : new Date(start);
+      end = formatISO(endDate.setHours(24, 0, 0, 0));
     }
     return { method: ["discriminatingDate", hasDateRange, start, end] };
   }
@@ -97,7 +97,9 @@ class Controller {
    */
   setAccessMode(req) {
     const { userId, isCaterer } = req.decoded;
-    return { method: ["accessMode", isCaterer && req.query.caterer, userId] };
+    return {
+      method: ["accessMode", Boolean(isCaterer && req.query.caterer), userId],
+    };
   }
 
   /**
@@ -220,7 +222,15 @@ class Controller {
       options = {},
     } = this.cloneResetConfig();
     return this.Model.scope(scopes)
-      .destroy(this.mergeOptions({ where: { id: req.params.id } }, options))
+      .destroy(
+        this.mergeOptions(
+          {
+            rejectOnEmpty: true,
+            where: { id: req.params.id, userId: req.decoded.userId },
+          },
+          options
+        )
+      )
       .then((result) => {
         if (result) {
           return res

@@ -1,4 +1,5 @@
 import formatISO from "date-fns/formatISO";
+import { Op } from "sequelize";
 
 function isBeforeCutoff(menuDate) {
   const menuCutOffHour = process.env.MENU_CUTOFF_HOUR;
@@ -11,7 +12,9 @@ function isBeforeCutoff(menuDate) {
   );
   if (menuCutOffTime - new Date() < 0) {
     throw new Error(
-      `This menu can only be posted before ${formatISO(menuCutOffTime)} for the input menuDate`
+      `This menu can only be posted before ${formatISO(
+        menuCutOffTime
+      )} for the input menuDate`
     );
   }
 }

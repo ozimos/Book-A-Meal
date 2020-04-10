@@ -12,9 +12,9 @@ import {
   mealFactory,
   menuFactory,
   mealMenuFactory
-} from "../../../testHelpers/appHelper";
-import app from "../../../src/app";
-import db from "../../../../server/src/models";
+} from "../appHelper";
+import app from "../../src/app";
+import db from "../../src/models";
 
 const defaultCaterer = userFactory();
 const anotherCaterer = userFactory();
@@ -60,7 +60,6 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send(mealsId)
         .then(res => {
-          expect(res).to.have.status(201);
           expect(res.body.data.rows[0]).to.have.property("id");
           expect(res.body.data).to.containSubset({
             limit,
@@ -69,6 +68,7 @@ context("menu integration test", () => {
             count: 4,
             rows: [{ Meals: meals }]
           });
+          expect(res).to.have.status(201);
         }));
 
     it("should not create a menu with another caterer's meals", () =>
@@ -77,10 +77,10 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send(otherMealsId)
         .then(res => {
-          expect(res).to.have.status(400);
           expect(res.body.message).to.equal(
             "userId fields on meal and menu do not match"
-          );
+            );
+            expect(res).to.have.status(422);
         }));
 
     it("should not create a menu without meals", () =>
@@ -89,10 +89,10 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send([])
         .then(res => {
-          expect(res).to.have.status(400);
           expect(res.body.message).to.deep.equal({
             error: '"value" does not contain 1 required value(s)'
           });
+          expect(res).to.have.status(400);
         }));
 
     it("should not create a menu with wrong meal ids", () =>
@@ -101,11 +101,11 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send([mealsId[0], mealsId[0], "wrong"])
         .then(res => {
-          expect(res).to.have.status(400);
           expect(res.body.message).to.deep.equal({
             "1": '"[1]" contains a duplicate value',
             "2": '"[2]" must be a valid GUID'
           });
+          expect(res).to.have.status(400);
         }));
   });
 
@@ -127,10 +127,10 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send(mealsId)
         .then(res => {
-          expect(res).to.have.status(400);
-          expect(res.body.message).to.equal(
-            "Validation error: Menu for today cannot be set after 0:0 Hours"
-          );
+          expect(res.body.message).to.contain(
+            "Validation error: This menu can only be posted before"
+            );
+            expect(res).to.have.status(422);
         }));
 
     it("should create a menu for any subsequent days regardless of the cutoff time", () => {
@@ -139,7 +139,6 @@ context("menu integration test", () => {
         .set("authorization", `Bearer ${catererToken}`)
         .send(mealsId)
         .then(res => {
-          expect(res).to.have.status(201);
           expect(res.body.data.rows[0]).to.have.property("id");
           expect(res.body.data).to.containSubset({
             limit,
@@ -148,6 +147,7 @@ context("menu integration test", () => {
             count: 4,
             rows: [{ Meals: meals }]
           });
+          expect(res).to.have.status(201);
         });
     });
   });
@@ -165,7 +165,6 @@ context("menu integration test", () => {
         .get(menuUrl)
         .set("authorization", `Bearer ${catererToken}`)
         .then(res => {
-          expect(res).to.have.status(200);
           expect(res.body.data).to.containSubset({
             limit,
             offset,
@@ -173,13 +172,13 @@ context("menu integration test", () => {
             count: 4,
             rows: [{ Meals: meals }]
           });
+          expect(res).to.have.status(200);
         }));
     it("should return the menu for tomorrow", () =>
       request(app)
         .get(`${menuUrl}&date=${menuDateURI}`)
         .set("authorization", `Bearer ${catererToken}`)
         .then(res => {
-          expect(res).to.have.status(200);
           expect(res.body.data).to.containSubset({
             limit,
             offset,
@@ -187,6 +186,7 @@ context("menu integration test", () => {
             count: 4,
             rows: [{ Meals: meals }]
           });
+          expect(res).to.have.status(200);
         }));
   });
 });

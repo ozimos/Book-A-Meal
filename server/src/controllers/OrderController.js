@@ -1,9 +1,18 @@
 import isToday from "date-fns/isToday";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import Controller from "./Controller";
-import cashTotal from "./util/cashTotal";
-import uniqueUsers from "./util/uniqueUsers";
 
+export const subTotal = (meals) =>
+  meals ? meals.reduce((accum, meal) => accum + meal.subTotal, 0) : 0;
+
+export const cashTotal = (orders) =>
+  orders
+    ? orders.reduce((accum, order) => accum + subTotal(order.toJSON().Meals), 0)
+    : 0;
+
+export const uniqueUsers = (rows) =>
+  new Set(rows.map((row) => row.userId)).size;
+  
 export default class OrderController extends Controller {
   /**
    * Creates an instance of OrderController.
@@ -258,22 +267,5 @@ export default class OrderController extends Controller {
     } catch (error) {
       return next(error);
     }
-  }
-
-  /**
-   * delete an order from the database
-   * @param {obj} req express request object
-   * @returns {obj}
-   *
-   */
-  deleteOrder(req, res, next) {
-    const { userId } = req.decoded;
-    this.config = {
-      options: {
-        rejectOnEmpty: true,
-        where: { userId },
-      },
-    };
-    return this.deleteRecord(req, res, next).catch((error) => next(error));
   }
 }

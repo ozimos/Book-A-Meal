@@ -2,7 +2,7 @@
 import express from "express";
 
 import MenuController from "../controllers/MenuController";
-import { menuValidator, queryValidator } from "../middleware/joi";
+import { menuValidator, paramValidator, queryValidator } from "../middleware/joi";
 import Authenticate from "../middleware/Authenticate";
 import db from "../models";
 
@@ -20,4 +20,17 @@ menuRouter
     menuController.postMenu
   );
 
+  menuRouter
+  .route("/:id")
+  .get(
+    Authenticate.isUser,
+    paramValidator,
+    queryValidator,
+    menuController.getSingleRecord
+  )
+  .delete(
+    Authenticate.isUser,
+    paramValidator,
+    menuController.deleteRecord
+  );
 export default menuRouter;

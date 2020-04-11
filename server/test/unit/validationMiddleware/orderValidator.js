@@ -5,20 +5,20 @@ import { orderValidator } from "../../../src/middleware/joi";
 context("orderSchemas validation", () => {
   const order =  [
       {
-        mealId: "20a0dcc4-0a78-43f6-881b-884dd6f32861"
+        id: "20a0dcc4-0a78-43f6-881b-884dd6f32861"
       },
       {
-        mealId: "974f67bd-6e3d-4338-a916-fd837ce1a753",
+        id: "974f67bd-6e3d-4338-a916-fd837ce1a753",
         quantity: "2"
       }
     ]
   const validatedOrder =  [
       {
-        mealId: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
+        id: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
         quantity: 1
       },
       {
-        mealId: "974f67bd-6e3d-4338-a916-fd837ce1a753",
+        id: "974f67bd-6e3d-4338-a916-fd837ce1a753",
         quantity: 2
       }
     ]
@@ -35,22 +35,22 @@ context("orderSchemas validation", () => {
       message: "required"
     },
     {
-      mealId: "20a0dcc4-0a78-434f-881b-884dd6f32861",
+      id: "20a0dcc4-0a78-434f-881b-884dd6f32861",
       quantity: "yes",
       message: "number"
     },
     {
-      mealId: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
+      id: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
       quantity: 2,
       message: "duplicate"
     },
     {
-      mealId: "20a0dcc4-0a8-43f6-881b-884dd6f32861",
+      id: "20a0dcc4-0a8-43f6-881b-884dd6f32861",
       quantity: 2,
       message: "GUID"
     },
     {
-      mealId: "974f67bd-6e3d-4338-a916-fd837ce1a753",
+      id: "974f67bd-6e3d-4338-a916-fd837ce1a753",
       quantity: -2,
       message: "positive"
     }
@@ -61,7 +61,7 @@ context("orderSchemas validation", () => {
       const modified =  [
           elem,
           {
-            mealId: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
+            id: "20a0dcc4-0a78-43f6-881b-884dd6f32861",
             quantity: "3"
           }
         ]

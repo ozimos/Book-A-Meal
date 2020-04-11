@@ -1,6 +1,7 @@
 import isToday from "date-fns/isToday";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import Controller from "./Controller";
+import db from "../models";
 
 export const subTotal = (meals) =>
   meals ? meals.reduce((accum, meal) => accum + meal.subTotal, 0) : 0;
@@ -12,7 +13,7 @@ export const cashTotal = (orders) =>
 
 export const uniqueUsers = (rows) =>
   new Set(rows.map((row) => row.userId)).size;
-  
+
 export default class OrderController extends Controller {
   /**
    * Creates an instance of OrderController.
@@ -210,8 +211,14 @@ export default class OrderController extends Controller {
       userId,
     })
       .then((order) => {
-        const param = { order, req, res, next, options: { statusCode: 201 } };
-        return this.processOrder(param);
+        const processedObj = {
+          order,
+          req,
+          res,
+          next,
+          options: { statusCode: 201 },
+        };
+        return this.processOrder(processedObj);
       })
       .catch((error) => next(error));
   }
@@ -224,21 +231,17 @@ export default class OrderController extends Controller {
 
   updateOrder(req, res, next) {
     const { userId } = req.decoded;
-    let orderRef;
 
     return this.Model.findByPk(req.params.id, {
       rejectOnEmpty: true,
       where: { userId },
     })
-      .then(async (order) => {
-        orderRef = order;
-        if (OrderController.isOrderEditable(order.createdAt)) {
-          return order.setMeals([]);
+      .then((order) => {
+        if (!OrderController.isOrderEditable(order.createdAt)) {
+          return Promise.reject(new Error("Order edit period has expired"));
         }
-        return Promise.reject(new Error("Order edit period has expired"));
+        return this.processOrder({ order, req, res, next });
       })
-      .then(() => orderRef.reload())
-      .then((order) => this.processOrder({ order, req, res, next }))
       .catch((error) => next(error));
   }
 
@@ -250,11 +253,12 @@ export default class OrderController extends Controller {
 
   async processOrder({ order, req, res, next, options = {} }) {
     try {
-      const promise = req.body.map(({ mealId, quantity }) =>
-        order.addMeal(mealId, { through: { quantity } })
-      );
-
-      await Promise.all(promise);
+      const meals = req.body.map(({ id, quantity }) => {
+        const meal = db.Meal.build({ id }, { isNewRecord: false });
+        meal.MealOrder = { quantity };
+        return meal;
+      });
+      await order.setMeals(meals);
       if (!req.query.limit) {
         req.query.limit = 10;
       }

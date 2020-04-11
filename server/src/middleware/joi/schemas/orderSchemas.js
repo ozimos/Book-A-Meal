@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 
 const meals = Joi.object({
-  mealId: Joi.string()
+  id: Joi.string()
     .guid({
       version: ["uuidv4"],
     })
@@ -10,6 +10,6 @@ const meals = Joi.object({
 })
 
 export default Joi.array()
-  .unique("mealId")
+  .unique("id")
   .items(meals.required())
   .required();

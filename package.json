@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "client",
-    "server"
+    "packages/*"
   ],
   "description": "Book-A-Meal is an application that allows customers to make food orders and helps the food",
   "main": "index.js",

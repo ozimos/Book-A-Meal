@@ -4241,9 +4241,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client@workspace:client":
+"client@workspace:packages/client":
   version: 0.0.0-use.local
-  resolution: "client@workspace:client"
+  resolution: "client@workspace:packages/client"
   dependencies:
     "@material-ui/core": ^4.9.8
     ajv: ^6.12.0
@@ -16037,9 +16037,9 @@ resolve@^1.15.1:
   languageName: node
   linkType: hard
 
-"server@workspace:server":
+"server@workspace:packages/server":
   version: 0.0.0-use.local
-  resolution: "server@workspace:server"
+  resolution: "server@workspace:packages/server"
   dependencies:
     "@hapi/joi": ^17.1.1
     "@yarnpkg/pnpify": ^2.0.0-rc.20

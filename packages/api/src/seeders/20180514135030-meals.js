@@ -1,4 +1,4 @@
-const { seedMeals } = require("../../src/seedFiles");
+const { seedMeals } = require("../seedFiles");
 
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert("Meals", seedMeals),

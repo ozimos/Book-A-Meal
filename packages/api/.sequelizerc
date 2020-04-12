@@ -1,0 +1,13 @@
+require('dotenv').config({ debug: process.env.DEBUG });
+const path = require('path');
+
+basePath =  (process.env.NODE_ENV === 'production') ? './lib' : './src';
+
+module.exports = {
+   "config": path.resolve(basePath, 'config/config.js'),
+   "models-path": path.resolve(basePath, 'models'),
+   "seeders-path": path.resolve(basePath, 'seeders'),
+   "migrations-path": path.resolve(basePath, 'migrations')
+ };
+
+

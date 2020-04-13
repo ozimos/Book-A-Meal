@@ -63,7 +63,7 @@ jobs:
 
   test:
     executor: node-postgres
-    working_directory: ~/project/packages/<< parameters.package_name >>
+    working_directory: ~/project/packages/api
 
     steps:
       - run:
@@ -85,7 +85,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - packages/<< parameters.package_name >>
+            - packages/api
 
   deploy:
     parameters:
@@ -127,7 +127,6 @@ workflows:
           package_name: api
       - test:
           name: api-deploy
-          package_name: api
           requires:
             - api-build
 

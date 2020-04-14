@@ -92,6 +92,7 @@ do
 
     if [[ "$INCLUDED" == "0" ]]; then
       echo -e "\e[90m  [-] $PACKAGE \e[0m"
+       echo -e "\e[90m  [$LAST_COMPLETED_BUILD_SHA]  $CIRCLE_SHA1 $LATEST_COMMIT_SINCE_LAST_BUILD ${PACKAGE_PATH#/}"
     fi
   else
     PARAMETERS+=", \"$PACKAGE\":true"
@@ -110,6 +111,7 @@ echo "Changes detected in ${COUNT} package(s)."
 ############################################
 ## 3. CicleCI REST API call
 ############################################
+PARAMETERS+=", \"coverage\":true"
 DATA="{ \"branch\": \"$CIRCLE_BRANCH\", \"parameters\": { $PARAMETERS } }"
 echo "Triggering pipeline with data:"
 echo -e "  $DATA"

@@ -1,5 +1,5 @@
 {
-    "name": "client",
+    "name": "app",
     "version": "1.0.0",
     "scripts": {
         "start": "webpack-dev-server -r esm --config webpack.dev.js --open",

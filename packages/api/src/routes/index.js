@@ -4,8 +4,8 @@ import orderRouter from './orderRouter';
 import authRouter from './authRouter';
 
 export default {
-  mealRouter,
-  menuRouter,
-  orderRouter,
-  authRouter
+    mealRouter,
+    menuRouter,
+    orderRouter,
+    authRouter,
 };

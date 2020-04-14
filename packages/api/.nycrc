@@ -1,23 +1,10 @@
 {
-  "reporter": [
-    "lcov",
-    "text"
-  ],
-  "include": [
-    "server/**/*.js"
-  ],
+  "reporter": ["lcov"],
+  "include": ["src/**/*.js"],
+  "all": true,
+  "require": ["esm"],
   "exclude": [
-    "server/test/**/*.js"
-  ],
-  "require": [
-    "esm"
-  ],
-  "extension": [
-    ".js"
-  ],
-  "check-coverage": false,
-  "cache": true,
-  "sourceMap": true,
-  "instrument": true,
-  "report-dir": "./server-coverage"
+    "test/**/*.js",
+      "node_modules"
+    ]
 }

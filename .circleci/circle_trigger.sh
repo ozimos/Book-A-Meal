@@ -14,7 +14,7 @@ LAST_COMPLETED_BUILD_URL="${CIRCLE_API}/v1.1/project/${REPOSITORY_TYPE}/${CIRCLE
 curl -Ss -u ${CIRCLE_TOKEN}: ${LAST_COMPLETED_BUILD_URL} > circle.json
 LAST_COMPLETED_BUILD_SHA=`cat circle.json | jq -r 'map(select(.status == "success") | select(.workflows.workflow_name != "ci")) | .[0]["vcs_revision"]'`
 
-if  [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]]; then
+if  [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]] || [[ $(git cat-file -t $LAST_COMPLETED_BUILD_SHA) != "commit" ]]; then
   echo -e "\e[93mThere are no completed CI builds in branch ${CIRCLE_BRANCH}.\e[0m"
 
   # Adapted from https://gist.github.com/joechrysler/6073741
@@ -46,9 +46,10 @@ if  [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]]; then
     | .[0][\"vcs_revision\"]"`
 fi
 
-if [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]]; then
+if [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]] || [[ $(git cat-file -t $LAST_COMPLETED_BUILD_SHA) != "commit" ]]; then
   echo -e "\e[93mNo CI builds for branch ${PARENT_BRANCH}. Using develop.\e[0m"
-  LAST_COMPLETED_BUILD_SHA=develop
+  LAST_COMPLETED_BUILD_SHA=$(git rev-parse develop)
+  echo -e "\e[90m    $LAST_COMPLETED_BUILD_SHA\e[0m"
 fi
 
 ############################################
@@ -110,6 +111,7 @@ echo "Changes detected in ${COUNT} package(s)."
 ############################################
 ## 3. CicleCI REST API call
 ############################################
+PARAMETERS+=", \"coverage\":true"
 DATA="{ \"branch\": \"$CIRCLE_BRANCH\", \"parameters\": { $PARAMETERS } }"
 echo "Triggering pipeline with data:"
 echo -e "  $DATA"

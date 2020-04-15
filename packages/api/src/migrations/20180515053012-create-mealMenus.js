@@ -1,25 +1,26 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("MealMenus", {
-      id: {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        defaultValue: Sequelize.UUIDV4
-      },
-      mealId: {
-        type: Sequelize.UUID,
-        allowNull: false
-      },
-      menuId: {
-        type: Sequelize.UUID,
-        allowNull: false
-      }
-    });
-    await queryInterface.addConstraint("MealMenus", ["mealId", "menuId"], {
-      type: "unique",
-      name: "mealMenu"
-    });
-    await queryInterface.sequelize.query(`CREATE OR REPLACE FUNCTION mealmenufunc() RETURNS TRIGGER AS 
+    up: async (queryInterface, Sequelize) => {
+        await queryInterface.createTable('MealMenus', {
+            id: {
+                type: Sequelize.UUID,
+                primaryKey: true,
+                defaultValue: Sequelize.UUIDV4,
+            },
+            mealId: {
+                type: Sequelize.UUID,
+                allowNull: false,
+            },
+            menuId: {
+                type: Sequelize.UUID,
+                allowNull: false,
+            },
+        });
+        await queryInterface.addConstraint('MealMenus', ['mealId', 'menuId'], {
+            type: 'unique',
+            name: 'mealMenu',
+        });
+        await queryInterface.sequelize
+            .query(`CREATE OR REPLACE FUNCTION mealmenufunc() RETURNS TRIGGER AS 
     $logic$
     DECLARE
    "menuUserId" uuid;
@@ -39,7 +40,7 @@ module.exports = {
     ON "MealMenus" 
     FOR EACH ROW EXECUTE PROCEDURE mealmenufunc();
     `);
-  },
+    },
 
-  down: queryInterface => queryInterface.dropTable("MealMenus")
+    down: (queryInterface) => queryInterface.dropTable('MealMenus'),
 };

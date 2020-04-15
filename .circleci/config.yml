@@ -1,10 +1,16 @@
 version: 2.1
-
+orbs:
+  swissknife: roopakv/swissknife@0.29.0
+  codecov: codecov/codecov@1.0.2
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
     type: boolean
     default: true
+  coverage:
+    type: boolean
+    default: false
 
   # A parameter per package
   api:
@@ -39,10 +45,29 @@ jobs:
   trigger-workflows:
     executor: node
     steps:
-      - checkout
-      - run:
-          name: Trigger workflows
-          command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
+    - git-shallow-clone/checkout
+    - run:
+        name: Trigger workflows
+        command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
+
+  get-code-climate:
+    executor: node
+    working_directory: ~/project
+    steps:
+    - restore_cache:
+        keys:
+        - ccreporter
+    - run:
+        name: Setup Code Climate test-reporter
+        command: chmod +x .circleci/fetch_reporter.sh && .circleci/fetch_reporter.sh
+    - save_cache:
+        key: ccreporter
+        paths:
+          - tmp
+    - persist_to_workspace:
+        root: tmp
+        paths:
+          - cc-test-reporter
 
   build:
     parameters:
@@ -53,40 +78,69 @@ jobs:
     working_directory: ~/project/packages/<< parameters.package_name >>
 
     steps:
-      - checkout:
-          path: ~/project
-      - run: yarn set version berry
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - packages/<< parameters.package_name >>
+    - checkout:
+        path: ~/project
+    - run: yarn install --immutable --immutable-cache
+    
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - packages/<< parameters.package_name >>
 
   test:
     executor: node-postgres
-    working_directory: ~/project/packages/api
+    working_directory: ~/project
 
     steps:
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-12.2
-      - run:
-          name: Run Tests
-          command: |
-            ./cc-test-reporter before-build
-            yarn test
-            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - packages/api
+    - attach_workspace:
+        at: ~/project
+    - run:
+        name: Wait for db
+        command: dockerize -wait tcp://localhost:5432 -timeout 1m
+    - run: sudo apt-get update
+    - run: sudo apt-get install postgresql-client-12.2
+    - run:
+        name: Run Lint
+        command: |
+          yarn workspace api run lint --format junit --output-file ./reports/eslint/eslint.xml
+    - run:
+        name: Run Tests
+        command: |
+          yarn workspace api run test
+          yarn workspace api run test --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
+          ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.api.json coverage/lcov.info
+    - codecov/upload:
+        file: coverage/lcov.info
+        flags: api
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - packages/api
+    - store_test_results:
+        path: reports
 
+    - store_artifacts:
+        path: ./reports/mocha/test-results.xml
+
+    - store_artifacts:
+        path: ./reports/eslint/eslint.xml
+
+  upload-coverage:
+    executor: node
+    working_directory: ~/project
+
+    steps:
+    - swissknife/wait_for_workflow:
+        max-wait-time: '1800'
+        branch-to-consider: 'develop'
+        workflow-name: ^(api|app|auth|gateway)$
+    - attach_workspace:
+        at: ~/project/tmp
+    - run:
+        name: Upload coverage results to Code Climate
+        command: |
+          ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+          ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
   deploy:
     parameters:
       package_name:
@@ -96,15 +150,15 @@ jobs:
     working_directory: ~/project/packages/<< parameters.package_name >>
 
     steps:
-      - attach_workspace:
-          at: ~/project
-      # This step is added to show that files are available from the build job. 
-      - run:
-          name: Content to deploy
-          command: ls && cat build.txt
-      - deploy:
-          name: Deploy
-          command: echo "Deploying << parameters.package_name >> ..."
+    - attach_workspace:
+        at: ~/project
+    # This step is added to show that files are available from the build job. 
+    - run:
+        name: Content to deploy
+        command: ls && cat build.txt
+    - deploy:
+        name: Deploy
+        command: echo "Deploying << parameters.package_name >> ..."
 
 workflows:
   version: 2
@@ -125,10 +179,14 @@ workflows:
       - build:
           name: api-build
           package_name: api
-      - test:
-          name: api-deploy
+      - get-code-climate:
+          name: api-get-code-climate
           requires:
             - api-build
+      - test:
+          name: api-test
+          requires:
+            - api-get-code-climate
 
   app:
     when: << pipeline.parameters.app >>
@@ -136,11 +194,15 @@ workflows:
       - build:
           name: app-build
           package_name: app
+      - get-code-climate:
+          name: app-get-code-climate
+          requires:
+            - app-build
       - deploy:
           name: app-deploy
           package_name: app
           requires:
-            - app-build
+            - app-get-code-climate
 
   auth:
     when: << pipeline.parameters.auth >>
@@ -148,11 +210,15 @@ workflows:
       - build:
           name: auth-build
           package_name: auth
+      - get-code-climate:
+          name: auth-get-code-climate
+          requires:
+            - auth-build
       - deploy:
           name: auth-deploy
           package_name: auth
           requires:
-            - auth-build
+            - auth-get-code-climate
 
   gateway:
     when: << pipeline.parameters.gateway >>
@@ -160,8 +226,18 @@ workflows:
       - build:
           name: gateway-build
           package_name: gateway
+      - get-code-climate:
+          name: gateway-get-code-climate
+          requires:
+            - gateway-build
       - deploy:
           name: gateway-deploy
           package_name: gateway
           requires:
-            - gateway-build
+            - gateway-get-code-climate
+
+  finish:
+    when: << pipeline.parameters.coverage >>
+    jobs:
+      - upload-coverage:
+          name: finish-upload-coverage

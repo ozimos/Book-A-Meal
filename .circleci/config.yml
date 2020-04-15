@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   swissknife: roopakv/swissknife@0.29.0
   codecov: codecov/codecov@1.0.2
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
@@ -44,29 +45,29 @@ jobs:
   trigger-workflows:
     executor: node
     steps:
-      - checkout
-      - run:
-          name: Trigger workflows
-          command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
+    - git-shallow-clone/checkout
+    - run:
+        name: Trigger workflows
+        command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
   get-code-climate:
     executor: node
     working_directory: ~/project
     steps:
-      - restore_cache:
-          keys:
-          - ccreporter
-      - run:
-          name: Setup Code Climate test-reporter
-          command: chmod +x .circleci/fetch_reporter.sh && .circleci/fetch_reporter.sh
-      - save_cache:
-          key: ccreporter
-          paths:
-            - tmp
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - cc-test-reporter
+    - restore_cache:
+        keys:
+        - ccreporter
+    - run:
+        name: Setup Code Climate test-reporter
+        command: chmod +x .circleci/fetch_reporter.sh && .circleci/fetch_reporter.sh
+    - save_cache:
+        key: ccreporter
+        paths:
+          - tmp
+    - persist_to_workspace:
+        root: tmp
+        paths:
+          - cc-test-reporter
 
   build:
     parameters:
@@ -77,69 +78,69 @@ jobs:
     working_directory: ~/project/packages/<< parameters.package_name >>
 
     steps:
-      - checkout:
-          path: ~/project
-      - run: yarn install --immutable --immutable-cache
-      
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - packages/<< parameters.package_name >>
+    - checkout:
+        path: ~/project
+    - run: yarn install --immutable --immutable-cache
+    
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - packages/<< parameters.package_name >>
 
   test:
     executor: node-postgres
     working_directory: ~/project
 
     steps:
-      - attach_workspace:
-          at: ~/project
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-12.2
-      - run:
-          name: Run Lint
-          command: |
-            yarn workspace api run lint --format junit --output-file ./reports/eslint/eslint.xml
-      - run:
-          name: Run Tests
-          command: |
-            yarn workspace api run test
-            yarn workspace api run test --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
-            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.api.json coverage/lcov.info
-      - codecov/upload:
-          file: coverage/lcov.info
-          flags: api
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - packages/api
-      - store_test_results:
-          path: reports
+    - attach_workspace:
+        at: ~/project
+    - run:
+        name: Wait for db
+        command: dockerize -wait tcp://localhost:5432 -timeout 1m
+    - run: sudo apt-get update
+    - run: sudo apt-get install postgresql-client-12.2
+    - run:
+        name: Run Lint
+        command: |
+          yarn workspace api run lint --format junit --output-file ./reports/eslint/eslint.xml
+    - run:
+        name: Run Tests
+        command: |
+          yarn workspace api run test
+          yarn workspace api run test --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
+          ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.api.json coverage/lcov.info
+    - codecov/upload:
+        file: coverage/lcov.info
+        flags: api
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - packages/api
+    - store_test_results:
+        path: reports
 
-      - store_artifacts:
-          path: ./reports/mocha/test-results.xml
+    - store_artifacts:
+        path: ./reports/mocha/test-results.xml
 
-      - store_artifacts:
-          path: ./reports/eslint/eslint.xml
+    - store_artifacts:
+        path: ./reports/eslint/eslint.xml
 
   upload-coverage:
     executor: node
     working_directory: ~/project
 
     steps:
-      - swissknife/wait_for_workflow:
-          max-wait-time: '1800'
-          branch-to-consider: 'develop'
-          workflow-name: ^(api|app|auth|gateway)$
-      - attach_workspace:
-          at: ~/project/tmp
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
-            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+    - swissknife/wait_for_workflow:
+        max-wait-time: '1800'
+        branch-to-consider: 'develop'
+        workflow-name: ^(api|app|auth|gateway)$
+    - attach_workspace:
+        at: ~/project/tmp
+    - run:
+        name: Upload coverage results to Code Climate
+        command: |
+          ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+          ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
   deploy:
     parameters:
       package_name:
@@ -149,15 +150,15 @@ jobs:
     working_directory: ~/project/packages/<< parameters.package_name >>
 
     steps:
-      - attach_workspace:
-          at: ~/project
-      # This step is added to show that files are available from the build job. 
-      - run:
-          name: Content to deploy
-          command: ls && cat build.txt
-      - deploy:
-          name: Deploy
-          command: echo "Deploying << parameters.package_name >> ..."
+    - attach_workspace:
+        at: ~/project
+    # This step is added to show that files are available from the build job. 
+    - run:
+        name: Content to deploy
+        command: ls && cat build.txt
+    - deploy:
+        name: Deploy
+        command: echo "Deploying << parameters.package_name >> ..."
 
 workflows:
   version: 2

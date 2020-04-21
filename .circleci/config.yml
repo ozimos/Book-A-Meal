@@ -117,8 +117,7 @@ jobs:
           MENU_CUTOFF_HOUR: 10
           MENU_CUTOFF_MINUTE: 59
         command: |
-          yarn workspace api run refresh:test
-          yarn workspace api run test:server --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
+          yarn workspace api run test
           ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.api.json coverage/lcov.info
     - codecov/upload:
         file: coverage/lcov.info
@@ -129,10 +128,6 @@ jobs:
           - packages/api
     - store_test_results:
         path: reports
-
-    - store_artifacts:
-        path: ./reports/mocha/test-results.xml
-
     - store_artifacts:
         path: ./reports/eslint/eslint.xml
 
@@ -143,6 +138,7 @@ jobs:
     steps:
     - swissknife/wait_for_workflow:
         max-wait-time: '1800'
+        workflow-name: api|app|auth|gateway
         branch-to-consider: << pipeline.git.branch >>
     - attach_workspace:
         at: ~/project/tmp

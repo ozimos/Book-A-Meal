@@ -37,9 +37,11 @@ executors:
           DB_CONNECTION: pgsql
           DB_NAME: circle_test
           DB_USER: root
+          DB_PASS: password
       - image: circleci/postgres:12.2-postgis-ram
         environment:
             POSTGRES_USER: root
+            POSTGRES_PASSWORD: password
 
 jobs:
   trigger-workflows:
@@ -61,7 +63,10 @@ jobs:
         - ccreporter
     - run:
         name: Setup Code Climate test-reporter
-        command: chmod +x .circleci/fetch_reporter.sh && .circleci/fetch_reporter.sh
+        command: |
+          mkdir -p tmp/
+          [ ! -f "tmp/cc-test-reporter" ] && curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+          chmod +x ./tmp/cc-test-reporter
     - save_cache:
         key: ccreporter
         paths:
@@ -99,16 +104,21 @@ jobs:
         name: Wait for db
         command: dockerize -wait tcp://localhost:5432 -timeout 1m
     - run: sudo apt-get update
-    - run: sudo apt-get install postgresql-client-12.2
+    - run: sudo apt-get install postgresql-client-11
     - run:
         name: Run Lint
         command: |
           yarn workspace api run lint --format junit --output-file ./reports/eslint/eslint.xml
     - run:
         name: Run Tests
+        environment:
+          TOKEN_PASSWORD: verysecrettoken
+          TOKEN_EXPIRY: 6h
+          MENU_CUTOFF_HOUR: 10
+          MENU_CUTOFF_MINUTE: 59
         command: |
-          yarn workspace api run test
-          yarn workspace api run test --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
+          yarn workspace api run refresh:test
+          yarn workspace api run test:server --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
           ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.api.json coverage/lcov.info
     - codecov/upload:
         file: coverage/lcov.info
@@ -134,13 +144,12 @@ jobs:
     - swissknife/wait_for_workflow:
         max-wait-time: '1800'
         branch-to-consider: << pipeline.git.branch >>
-        workflow-name: ^(api|app|auth|gateway)$
     - attach_workspace:
         at: ~/project/tmp
     - run:
         name: Upload coverage results to Code Climate
         command: |
-          ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+          ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -o tmp/codeclimate.total.json
           ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
   deploy:
     parameters:
@@ -182,12 +191,11 @@ workflows:
           package_name: api
       - get-code-climate:
           name: api-get-code-climate
-          requires:
-            - api-build
       - test:
           name: api-test
           requires:
             - api-get-code-climate
+            - api-build
 
   app:
     when: << pipeline.parameters.app >>
@@ -197,13 +205,12 @@ workflows:
           package_name: app
       - get-code-climate:
           name: app-get-code-climate
-          requires:
-            - app-build
       - deploy:
           name: app-deploy
           package_name: app
           requires:
             - app-get-code-climate
+            - app-build
 
   auth:
     when: << pipeline.parameters.auth >>
@@ -213,13 +220,12 @@ workflows:
           package_name: auth
       - get-code-climate:
           name: auth-get-code-climate
-          requires:
-            - auth-build
       - deploy:
           name: auth-deploy
           package_name: auth
           requires:
             - auth-get-code-climate
+            - auth-build
 
   gateway:
     when: << pipeline.parameters.gateway >>
@@ -229,16 +235,19 @@ workflows:
           package_name: gateway
       - get-code-climate:
           name: gateway-get-code-climate
-          requires:
-            - gateway-build
       - deploy:
           name: gateway-deploy
           package_name: gateway
           requires:
+            - gateway-build
             - gateway-get-code-climate
 
   finish:
     when: << pipeline.parameters.coverage >>
     jobs:
+      - get-code-climate:
+          name: finish-get-code-climate
       - upload-coverage:
           name: finish-upload-coverage
+          requires:
+            - finish-get-code-climate

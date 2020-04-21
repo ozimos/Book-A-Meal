@@ -54,6 +54,8 @@ jobs:
     executor: node
     working_directory: ~/project
     steps:
+    - attach_workspace:
+        at: ~/project
     - restore_cache:
         keys:
         - ccreporter
@@ -75,17 +77,16 @@ jobs:
         type: string
 
     executor: node
-    working_directory: ~/project/packages/<< parameters.package_name >>
+    working_directory: ~/project
 
     steps:
-    - checkout:
-        path: ~/project
-    - run: yarn install --immutable --immutable-cache
+    - git-shallow-clone/checkout
+    - run: yarn workspace << parameters.package_name >> install --immutable --immutable-cache
     
     - persist_to_workspace:
         root: ~/project
         paths:
-          - packages/<< parameters.package_name >>
+          - ./
 
   test:
     executor: node-postgres
@@ -132,7 +133,7 @@ jobs:
     steps:
     - swissknife/wait_for_workflow:
         max-wait-time: '1800'
-        branch-to-consider: 'develop'
+        branch-to-consider: << pipeline.git.branch >>
         workflow-name: ^(api|app|auth|gateway)$
     - attach_workspace:
         at: ~/project/tmp

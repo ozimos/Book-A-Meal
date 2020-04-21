@@ -1,7 +1,5 @@
 # Book-A-Meal
 
-[![Build Status](https://travis-ci.org/ozimos/Book-A-Meal.svg?branch=develop)](https://travis-ci.org/ozimos/Book-A-Meal)
-[![Coverage Status](https://coveralls.io/repos/github/ozimos/Book-A-Meal/badge.svg?branch=develop)](https://coveralls.io/github/ozimos/Book-A-Meal?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/77dae76840f23281165a/maintainability)](https://codeclimate.com/github/ozimos/Book-A-Meal/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/77dae76840f23281165a/test_coverage)](https://codeclimate.com/github/ozimos/Book-A-Meal/test_coverage)
 [![codecov](https://codecov.io/gh/ozimos/Book-A-Meal/branch/develop/graph/badge.svg)](https://codecov.io/gh/ozimos/Book-A-Meal)

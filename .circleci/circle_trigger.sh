@@ -47,9 +47,8 @@ if  [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]] || [[ $(git cat-file -t $LAST_CO
 fi
 
 if [[ ${LAST_COMPLETED_BUILD_SHA} == "null" ]] || [[ $(git cat-file -t $LAST_COMPLETED_BUILD_SHA) != "commit" ]]; then
-  echo -e "\e[93mNo CI builds for branch ${PARENT_BRANCH}. Using develop.\e[0m"
-  LAST_COMPLETED_BUILD_SHA=$(git rev-parse develop)
-  echo -e "\e[90m    $LAST_COMPLETED_BUILD_SHA\e[0m"
+  LAST_COMPLETED_BUILD_SHA=$(git rev-parse origin/develop)
+  echo -e "\e[93mNo CI builds for branch ${PARENT_BRANCH}. Using develop [${LAST_COMPLETED_BUILD_SHA:0:7}].\e[0m"
 fi
 
 ############################################
@@ -76,7 +75,8 @@ echo "Workflows currently in failed status: (${FAILED_WORKFLOWS[@]})."
 for PACKAGE in ${PACKAGES[@]}
 do
   PACKAGE_PATH=${ROOT#.}/$PACKAGE
-  LATEST_COMMIT_SINCE_LAST_BUILD=$(git log -1 $LAST_COMPLETED_BUILD_SHA..$CIRCLE_SHA1 --format=format:%H --full-diff ${PACKAGE_PATH#/})
+  PACKAGE_PATH2=$ROOT/$PACKAGE
+  LATEST_COMMIT_SINCE_LAST_BUILD=$(git rev-list -1 $LAST_COMPLETED_BUILD_SHA..$CIRCLE_SHA1 -- ${PACKAGE_PATH#/})
 
   if [[ -z "$LATEST_COMMIT_SINCE_LAST_BUILD" ]]; then
     INCLUDED=0
